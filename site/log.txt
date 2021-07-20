@@ -1,0 +1,6 @@
+Возвращаемое значение send = 175
+HTTP/1.1 200 OK
+Server: my_webserverDate: Mon Jul 19 13:42:54 2021
+Content-Type Content-Length: 76#!/usr/local/bin/python3
+print("""Content-Type: text/plain
+Hello, world!""")
