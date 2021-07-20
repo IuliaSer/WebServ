@@ -9,11 +9,16 @@ std::string current_date(){
     return date;
 }
 
-int check_file_location(std::string const &get_file){
-    std::string path(ROOT);
-    path += get_file;
+
+void Response::find_root(Request zapros) {
+    _root = _hosts_and_root.find(zapros.getHost())->second;
+}
+
+int check_file_location(std::string const &file_path){
+    // std::string path(_root);
+    // path += get_file;
     struct stat fl_stat;
-    if (stat(path.c_str(), &fl_stat) != 0)
+    if (stat(file_path.c_str(), &fl_stat) != 0)
        return (404);
     //check permission
     return (0);
@@ -103,6 +108,16 @@ std::string content_type(std::string const &file_path) {
         return ("");
 }
 
+//!!!!!!!!!!!!!!!!!!!
+/* после появления парсера конфига это метод нужно переписать */
+void    Response::fill_hosts_and_root()
+{
+    std::pair<std::string, std::string> first_pair = std::make_pair("localhost", "/Users/iserzhan/WebServ/site");
+    std::pair<std::string, std::string> second_pair = std::make_pair("localhost:8000", "/Users/iserzhan/WebServ/second_site");
+    _hosts_and_root.insert(first_pair);
+    _hosts_and_root.insert(second_pair);
+}
+
 std::string	Response::getStatus(int code)
 {
 	if (_errors.find(code) != _errors.end())
@@ -133,13 +148,15 @@ void Response::make_headers(Request zapros)
             char buffer[1000];
             sprintf(buffer, "%d", length);
             std::string length_string(buffer);
-            _answer += "Server: my_webserver";
+            std::cout << "lenght - > " << length_string << std::endl;
+            _answer += "Server: my_webserver\r\n";
             _answer += current_date();
-            _answer += "Content-Type ";
+            _answer += "Content-Type: ";
             _answer += _content_type;
-            _answer += "\r\n";
+            // _answer += "\r\n";
             _answer += "Content-Length: ";
             _answer += length_string;
+            _answer += "\r\n";
             _answer += "\r\n";
             _answer += _answer_body;
         }
@@ -147,8 +164,11 @@ void Response::make_headers(Request zapros)
 
 void Response::setValues(Request zapros)
 {
-    _file_path = ROOT;
-    _file_path += zapros.getResourseName();
+    // _file_path = _root;
+    if (zapros.getResourseName() == "/")
+        _file_path = _root;
+    else
+        _file_path = _root + zapros.getResourseName();
     _content_type = content_type(_file_path);
     file_read(getFilePath(), _answer_body);
 }
@@ -160,19 +180,23 @@ void Response::resetValues(Request zapros)
 }
 
 void Response::make_get_response(Request zapros) {
-    _file_path = ROOT;
+    // _file_path = _root;
     _code = 200;
-    _file_path += zapros.getResourseName();
-    file_read(_file_path, _answer_body);
-    if (zapros.getResourseName() == "/")
-        file_read("/Users/iserzhan/WebServ/site/index.html", _answer_body);
+    // _file_path = _root + zapros.getResourseName();
+    
+    if (zapros.getResourseName() == "/") {
+        file_read(_root + "/index.html", _answer_body);
+        _content_type = content_type(_root + "/index.html");
+    }
     else
     {
-        if (check_file_location(zapros.getResourseName()) == -404)
+        if (check_file_location(_file_path) == -404)
         {
             _answer = error_404();
             _code = 404;
         }
+        else
+            file_read(_file_path, _answer_body);
     }
     make_headers(zapros);
 }
@@ -180,10 +204,9 @@ void Response::make_get_response(Request zapros) {
 void Response::make_delete_response(Request zapros)
 {
     _code = 200;
-    _file_path = ROOT;
-     if (check_file_location(zapros.getResourseName()) == 0)
+    // _file_path = _root + zapros.getResourseName();
+     if (check_file_location(_file_path) == 0)
      {
-         _file_path += zapros.getResourseName();
          if (!remove(_file_path.c_str()))
             _answer = error_403();
      }
@@ -216,6 +239,8 @@ std::string get_file_name(const char *buf){
 void Response::choose_method(Request zapros)
 {
     ErrorsValue();
+    find_root(zapros);
+    std::cout << "ROOT < " << _root << std::endl;
     setValues(zapros);
     if (zapros.getMethod() == "GET")
         make_get_response(zapros);

@@ -12,7 +12,11 @@ class Response
         int                         _code;
         std::map<int, std::string>	_errors;
         std::string                 _file_path;
+        std::string                 _root;
+        std::map<std::string, std::string> _hosts_and_root;
+        void    find_root(Request zapros);
     public:
+        void                        fill_hosts_and_root();
         void                        choose_method(Request zapros);
         void                        make_get_response(Request zapros);
         void                        make_delete_response(Request zapros);

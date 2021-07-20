@@ -22,6 +22,7 @@
 #include "Response.hpp"
 #include "Cgi.hpp"
 #include <vector>
+#include "Sockets.hpp"
 #define ROOT "/Users/iserzhan/WebServ/site/"
 
 #define PORT "8000"
