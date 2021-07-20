@@ -132,7 +132,7 @@ int Cgi::execute_cgi(Request zapros)
             //delete file_path;
             return 0;
         }
-        _answer = std::string(buf);
+        //_answer = std::string(buf);
         close(fd);
         //unlink(std::string(root + "/tmp.bla").c_str());
         //parseCGI(zapros);

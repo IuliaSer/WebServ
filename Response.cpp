@@ -99,13 +99,13 @@ std::string error_403(){
 
 std::string content_type(std::string const &file_path) {
     if (file_path.find(".html") != std::string::npos)
-        return ("text/html\n");
+        return ("text/html\r\n");
     else if (file_path.find(".jpg") != std::string::npos)
-        return ("image/jpeg\n");
+        return ("image/jpeg\r\n");
     else if (file_path.find(".css") != std::string::npos)
-        return ("text/css\n");
+        return ("text/css\r\n");
     else
-        return ("");
+        return ("\r\n");
 }
 
 //!!!!!!!!!!!!!!!!!!!
