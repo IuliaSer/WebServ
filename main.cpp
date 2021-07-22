@@ -44,9 +44,11 @@ int main() {
                         Request zapros;
                         Response resp;
                         zapros.clean_request();
-                        zapros.parse_request(buf);
-                        resp.fill_hosts_and_root();
-                        resp.choose_method(zapros);
+                        if(!zapros.parse_request(buf))
+                        {
+                            resp.fill_hosts_and_root();
+                            resp.choose_method(zapros);
+                        }
                         responses.insert(std::make_pair(i, resp));
                     }
                 }
@@ -56,7 +58,6 @@ int main() {
                 if (it != responses.end())
                 {
                     ssize_t res = send(i, it->second.getAnswer().c_str(), it->second.getAnswer().length(), 0);
-                    responses.erase(it);
                     /* Logging */
                     std::ofstream log("log.txt", std::ios_base::trunc);
                     log << "Возвращаемое значение send = " << res << std::endl;
@@ -68,7 +69,9 @@ int main() {
                         close(i);
                         FD_CLR(i, &master);
                     }
+                    responses.erase(it);
                 }
+                
             }
         }
     }

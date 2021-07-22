@@ -98,12 +98,20 @@ std::string error_403(){
 }
 
 std::string content_type(std::string const &file_path) {
+    int extentionOfScript = 0;
     if (file_path.find(".html") != std::string::npos)
         return ("text/html\r\n");
     else if (file_path.find(".jpg") != std::string::npos)
         return ("image/jpeg\r\n");
     else if (file_path.find(".css") != std::string::npos)
         return ("text/css\r\n");
+    else if (file_path.rfind(".py") != std::string::npos)
+		return("python");
+    else if (file_path.rfind(".cgi") != std::string::npos || file_path.rfind(".exe") != std::string::npos)
+    {
+        extentionOfScript = 1;
+        return("cgi");
+    }
     else
         return ("\r\n");
 }
@@ -139,7 +147,7 @@ void Response::ErrorsValue()
 	_errors[500] = "Internal Server Error";
 }
 
-void Response::make_headers(Request zapros)
+void Response::make_headers(Request & zapros)
 {
         if(_code == 200)
         {
@@ -153,7 +161,7 @@ void Response::make_headers(Request zapros)
             _answer += current_date();
             _answer += "Content-Type: ";
             _answer += _content_type;
-            // _answer += "\r\n";
+            _answer += "\r\n";
             _answer += "Content-Length: ";
             _answer += length_string;
             _answer += "\r\n";
@@ -170,10 +178,10 @@ void Response::setValues(Request zapros)
     else
         _file_path = _root + zapros.getResourseName();
     _content_type = content_type(_file_path);
-    file_read(getFilePath(), _answer_body);
+    // file_read(getFilePath(), _answer_body);
 }
 
-void Response::resetValues(Request zapros)
+void Response::resetValues(Request & zapros)
 {
     _content_type = zapros.getContentType();
     _answer_body = zapros.getAnswerBody();
@@ -194,6 +202,7 @@ void Response::make_get_response(Request zapros) {
         {
             _answer = error_404();
             _code = 404;
+            return;
         }
         else
             file_read(_file_path, _answer_body);
@@ -214,13 +223,20 @@ void Response::make_delete_response(Request zapros)
      {
          _answer = error_404();
             _code = 404;
+        return;
      }
      make_headers(zapros);
 }
 
-void Response::make_post_response(Request zapros)
+void Response::make_post_response(Request & zapros)
 {
     Cgi c;
+    if (check_file_location(_file_path) == -404)
+    {
+        _answer = error_404();
+        _code = 404;
+        return;
+    }
     c.execute_cgi(zapros);
     resetValues(zapros);
     make_headers(zapros);
@@ -236,7 +252,7 @@ std::string get_file_name(const char *buf){
     return file_name;
 }
 
-void Response::choose_method(Request zapros)
+void Response::choose_method(Request & zapros)
 {
     ErrorsValue();
     find_root(zapros);
@@ -247,5 +263,7 @@ void Response::choose_method(Request zapros)
     else if (zapros.getMethod() == "DELETE")
         make_delete_response(zapros);
     else if (zapros.getMethod() == "POST")
-        make_post_response(zapros);     
+        make_post_response(zapros);
+    else 
+        _answer = error_400();
 }

@@ -12,7 +12,7 @@ int Cgi::write_to_buf(int fd)
     return 0;
 }
 
-void Cgi::parseCGI(Request zapros)
+void Cgi::parseCGI(Request & zapros)
 {
     int i;
     int j = 0;
@@ -20,12 +20,13 @@ void Cgi::parseCGI(Request zapros)
     if (i == std::string::npos)
         i = 0;
     j = _answer.find("Status: ", 0);
-    if (j > 0)
+    if (j >= 0)
         zapros.setStatus(_answer.substr(j + 8, 3));
-    if ((j = _answer.find("Content type: ", 0)))
+    j = _answer.find("Content-Type: ", 0);
+    if (j >= 0)
         zapros.setContentType(_answer.substr(j + 14, _answer.find("\r\n", j)));
-    if (i > 0)
-        zapros.setAnswerBody(_answer.substr(i, _answer.size() - i));
+    if (i >= 0)
+        zapros.setAnswerBody(_answer.substr(i + 4, _answer.size() - i + 4));
 }  
 
 char	*ft_strjoin(char const *s1, char const *s2)
@@ -51,32 +52,20 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (nstr);
 }
 
-char	*ft_strdup(const char *s)
+void    Cgi::free_memory()
 {
-	char	*str;
-	size_t	size;
-	size_t	i;
-
-	i = 0;
-	size = strlen(s);
-	if (!(str = (char*)malloc(sizeof(char) * size + 1)))
-		return (NULL);
-	while (s[i])
-	{
-		str[i] = s[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
+    for(int i = 0; _env[i] != NULL; i++)
+        free(_env[i]);
+    delete(_env);
 }
 
 void Cgi::create2darray(Request zapros)
 {
     _env = new char *[5 + zapros.getHeaders().size()];
-    _env[0] = ft_strdup("AUTH_TYPE=Anonymous");
+    _env[0] = strdup("AUTH_TYPE=Anonymous");
     _env[1] = ft_strjoin("CONTENT_LENGTH", (zapros.getContentLength().c_str()));
     _env[2] = ft_strjoin("CONTENT_TYPE= ", (zapros.getContentType()).c_str());
-    _env[3] = ft_strdup("GATEWAY_INTERFACE=CGI/1.1");
+    _env[3] = strdup("GATEWAY_INTERFACE=CGI/1.1");
     // _env[4] = "PATH_INFO=/directory
     // _env[5] = "PATH_TRANSLATED="/Users/anatashi/goinfre/webServ/webServ/YoupiBanane/directory
     // _env[6] = "QUERY_STRING=""
@@ -93,11 +82,10 @@ void Cgi::create2darray(Request zapros)
     _env[5] = NULL;
 }
 
-int Cgi::execute_cgi(Request zapros)
+int Cgi::execute_cgi(Request & zapros)
 {
     std::string root(ROOT);
     std::string file_path;
-    std::string buf;
     int status;
     const char *argv[2] = {NULL, NULL};
     file_path += root;
@@ -128,14 +116,16 @@ int Cgi::execute_cgi(Request zapros)
         if (write_to_buf(fd) == -1)
         {
             close(fd);
-            //unlink(std::string(root + "/tmp.bla").c_str());
+            unlink(std::string(root + "/tmp.bla").c_str());
             //delete file_path;
+            free_memory();
             return 0;
         }
-        //_answer = std::string(buf);
+        _answer = std::string(_buf);
         close(fd);
-        //unlink(std::string(root + "/tmp.bla").c_str());
-        //parseCGI(zapros);
+        unlink(std::string(root + "/tmp.bla").c_str());
+        parseCGI(zapros);   
     }
+    free_memory();
     return 0;  
 }

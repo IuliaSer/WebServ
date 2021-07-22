@@ -24,7 +24,7 @@ class Request
         std::map<std::string, std::string>  _headers;
     public:
         void        						parse_start_line();
-        void        						parse_request(std::string str);
+        int         						parse_request(std::string str);
         void        						parse_headers();
         void        						parse_body();
         void        						cut_buf(int flag);
@@ -40,6 +40,7 @@ class Request
         std::string			                getAnswerBody() const {return this->_answer_body;}
         std::map<std::string, std::string>  getHeaders() const {return this->_headers;}
         std::string                         getHost() const {return _headers.find("Host")->second;}
+        int                                 check_request();
         Request()
         {
             _answer_body = "";
