@@ -1,12 +1,20 @@
 #include "main.hpp"
 
-int main() {
+int main(int argc, char **argv) {
+
+    Config config(argv[1]);
+    config.parseConfig();
+
     char buf[65000];
     std::vector<std::string> ports;
+    std::vector<Server> servers = config.getServers();
 
+    std::vector<Server>::iterator it = servers.begin();
+    while (it != servers.end()){
+        ports.push_back(it->getPort());
+        it++;
+    }
     memset(&buf, 0, sizeof(buf));
-    ports.push_back("80");
-    ports.push_back("8000");
     Sockets sockets(ports);
     fd_set master;
     fd_set readset;
@@ -45,9 +53,13 @@ int main() {
                         Response resp;
                         zapros.clean_request();
                         zapros.parse_request(buf);
-                        resp.fill_hosts_and_root();
+                        resp.fill_hosts_and_root(config.getServers());
                         resp.choose_method(zapros);
                         responses.insert(std::make_pair(i, resp));
+//                        if (zapros.getHeaders().find("Connection")->second == "close"){
+//                            close(i);
+//                            FD_CLR(i, &master);
+//                        }
                     }
                 }
             }
@@ -56,18 +68,19 @@ int main() {
                 if (it != responses.end())
                 {
                     ssize_t res = send(i, it->second.getAnswer().c_str(), it->second.getAnswer().length(), 0);
-                    responses.erase(it);
                     /* Logging */
                     std::ofstream log("log.txt", std::ios_base::trunc);
                     log << "Возвращаемое значение send = " << res << std::endl;
                     log << it->second.getAnswer() << std::endl;
                     log.close();
                     /* End of Logging */
-                    if (it->second.getAnswer().find("Connection: close\n"))
+                    if (it->second.getAnswer().find("Connection: close\n") != std::string::npos)
                     {
+                        std::cout << "closing connection" << std::endl;
                         close(i);
                         FD_CLR(i, &master);
                     }
+                    responses.erase(it);
                 }
             }
         }

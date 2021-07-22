@@ -1,6 +1,7 @@
 #ifndef RESPONSE_HPP
 #define RESPONSE_HPP
 #include <iostream>
+#include "Server.hpp"
 
 class Response
 {
@@ -16,7 +17,7 @@ class Response
         std::map<std::string, std::string> _hosts_and_root;
         void    find_root(Request zapros);
     public:
-        void                        fill_hosts_and_root();
+        void                        fill_hosts_and_root(std::vector<Server>& servers);
         void                        choose_method(Request zapros);
         void                        make_get_response(Request zapros);
         void                        make_delete_response(Request zapros);

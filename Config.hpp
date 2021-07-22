@@ -51,6 +51,7 @@ public:
 //	ConfigErrors configErrors;
 
 	void parseConfig(void);
+	std::vector<Server>& getServers() { return _servers; }
 
 };
 

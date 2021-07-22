@@ -108,14 +108,13 @@ std::string content_type(std::string const &file_path) {
         return ("\r\n");
 }
 
-//!!!!!!!!!!!!!!!!!!!
-/* после появления парсера конфига это метод нужно переписать */
-void    Response::fill_hosts_and_root()
+void    Response::fill_hosts_and_root(std::vector<Server>& servers)
 {
-    std::pair<std::string, std::string> first_pair = std::make_pair("localhost", "/Users/iserzhan/WebServ/site");
-    std::pair<std::string, std::string> second_pair = std::make_pair("localhost:8000", "/Users/iserzhan/WebServ/second_site");
-    _hosts_and_root.insert(first_pair);
-    _hosts_and_root.insert(second_pair);
+    std::vector<Server>::iterator it = servers.begin();
+    while (it != servers.end()){
+        _hosts_and_root.insert(std::make_pair(it->getHost() + ":" + it->getPort(), it->getRoot()));
+        it++;
+    }
 }
 
 std::string	Response::getStatus(int code)
@@ -170,7 +169,7 @@ void Response::setValues(Request zapros)
     else
         _file_path = _root + zapros.getResourseName();
     _content_type = content_type(_file_path);
-    file_read(getFilePath(), _answer_body);
+//    file_read(getFilePath(), _answer_body);
 }
 
 void Response::resetValues(Request zapros)
