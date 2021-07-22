@@ -48,6 +48,7 @@ public:
 	const std::string& getHost() const;
 //	const int getHostInt() const;
 	const std::string& getPort() const;
+	const std::string& getRoot() const;
 	int getPortInt() const;
 	const std::string& getPath() const;
 //	int getIndex() const;
@@ -59,6 +60,7 @@ public:
 	void setSocketFd(int fd);
 	void setServerName(const std::string& name);
 	void setPortInt(int port);
+    void setPort(const std::string& port);
 	void setHost(const std::string& host);
 	void setMaxBodySize(size_t size);
 	void setRoot(const std::string& root);

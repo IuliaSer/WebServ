@@ -22,6 +22,10 @@ void Server::setPortInt(int port) {
 	this->_portInt = port;
 }
 
+void Server::setPort(const std::string& port) {
+    this->_port = port;
+}
+
 void Server::setSocketFd(int fd) {
 	this->_socketFd = fd;
 }
@@ -54,5 +58,20 @@ int Server::getPortInt() const{
 
 int Server::getSocketFd() const{
 	return this->_socketFd;
+}
+
+const std::string& Server::getPort() const
+{
+    return this->_port;
+}
+
+const std::string & Server::getRoot() const
+{
+    return this->_root;
+}
+
+const std::string & Server::getHost() const
+{
+    return this->_host;
 }
 

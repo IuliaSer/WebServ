@@ -1,6 +1,6 @@
 NAME = webserv
 
-SRCS = main.cpp Request.cpp Cgi.cpp Response.cpp Sockets.cpp
+SRCS = main.cpp Parser.cpp Cgi.cpp Response.cpp Sockets.cpp Config.cpp Server.cpp Location.cpp Utils.cpp
 
 OBJS = $(SRCS:.c=.o)
 

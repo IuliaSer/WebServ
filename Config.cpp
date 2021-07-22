@@ -98,6 +98,7 @@ void Config::checkServerInstructions(std::vector<std::string> line, uint32_t end
 		this->_servers.back().setServerName(line[1]);
 	} else if (line[0] == "port") {
 		this->_servers.back().setPortInt(atoi(line[1].c_str()));
+		this->_servers.back().setPort(line[1]);
 	} else if (line[0] == "host") {
 		this->_servers.back().setHost(line[1]);
 	} else if (line[0] == "default_error_page") {
