@@ -1,6 +1,7 @@
 #include "main.hpp"
 #include <iostream> // std::cout.
 #include <string> // std::string, std::to_string.
+
 std::string current_date(){
     std::string date("Date: ");
     time_t seconds = time(NULL);
@@ -100,11 +101,11 @@ std::string error_403(){
 std::string content_type(std::string const &file_path) {
     int extentionOfScript = 0;
     if (file_path.find(".html") != std::string::npos)
-        return ("text/html\r\n");
+        return ("text/html");
     else if (file_path.find(".jpg") != std::string::npos)
-        return ("image/jpeg\r\n");
+        return ("image/jpeg");
     else if (file_path.find(".css") != std::string::npos)
-        return ("text/css\r\n");
+        return ("text/css");
     else if (file_path.rfind(".py") != std::string::npos)
 		return("python");
     else if (file_path.rfind(".cgi") != std::string::npos || file_path.rfind(".exe") != std::string::npos)
@@ -113,7 +114,7 @@ std::string content_type(std::string const &file_path) {
         return("cgi");
     }
     else
-        return ("\r\n");
+        return ("");
 }
 
 void    Response::fill_hosts_and_root(std::vector<Server>& servers)
@@ -171,7 +172,6 @@ void Response::make_headers(Request & zapros)
 
 void Response::setValues(Request zapros)
 {
-    // _file_path = _root;
     if (zapros.getResourseName() == "/")
         _file_path = _root;
     else
@@ -187,9 +187,7 @@ void Response::resetValues(Request & zapros)
 }
 
 void Response::make_get_response(Request zapros) {
-    // _file_path = _root;
     _code = 200;
-    // _file_path = _root + zapros.getResourseName();
     
     if (zapros.getResourseName() == "/") {
         file_read(_root + "/index.html", _answer_body);
@@ -236,7 +234,7 @@ void Response::make_post_response(Request & zapros)
         _code = 404;
         return;
     }
-    c.execute_cgi(zapros);
+    c.execute_cgi(zapros, _root);
     resetValues(zapros);
     make_headers(zapros);
 }

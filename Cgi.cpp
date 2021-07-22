@@ -24,7 +24,10 @@ void Cgi::parseCGI(Request & zapros)
         zapros.setStatus(_answer.substr(j + 8, 3));
     j = _answer.find("Content-Type: ", 0);
     if (j >= 0)
-        zapros.setContentType(_answer.substr(j + 14, _answer.find("\r\n", j)));
+    {
+        size_t pos_end = _answer.find("\r\n", j);
+        zapros.setContentType(_answer.substr(j + 14, pos_end - (j + 14)));
+    }
     if (i >= 0)
         zapros.setAnswerBody(_answer.substr(i + 4, _answer.size() - i + 4));
 }  
@@ -82,12 +85,12 @@ void Cgi::create2darray(Request zapros)
     _env[5] = NULL;
 }
 
-int Cgi::execute_cgi(Request & zapros)
+int Cgi::execute_cgi(Request & zapros, std::string& root)
 {
-    std::string root(ROOT);
+//    std::string root(root);
     std::string file_path;
     int status;
-    const char *argv[2] = {NULL, NULL};
+    const char *argv[2] = {zapros.getResourseName().c_str(), zapros.getBody().c_str()};
     file_path += root;
     file_path += zapros.getResourseName();
     create2darray(zapros);

@@ -40,6 +40,7 @@ class Request
         std::string			                getAnswerBody() const {return this->_answer_body;}
         std::map<std::string, std::string>  getHeaders() const {return this->_headers;}
         std::string                         getHost() const {return _headers.find("Host")->second;}
+        const std::string&                        getBody() const {return _body;}
         int                                 check_request();
         Request()
         {

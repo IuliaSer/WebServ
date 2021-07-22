@@ -12,7 +12,7 @@ class Cgi
         char        **_env;
         char        _buf[CGI_BUFSIZE];
     public:
-        int         execute_cgi(Request & zapros);
+        int         execute_cgi(Request & zapros, std::string& root);
         int         write_to_buf(int fd);
         void        parseCGI(Request & zapros);
         void        create2darray(Request zapros);

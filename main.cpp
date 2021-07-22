@@ -5,7 +5,7 @@ int main(int argc, char **argv) {
     Config config(argv[1]);
     config.parseConfig();
 
-    char buf[65000];
+    char buf[1000000];
     std::vector<std::string> ports;
     std::vector<Server> servers = config.getServers();
 
