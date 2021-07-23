@@ -1,6 +1,13 @@
 #include "main.hpp"
 #include <iostream> // std::cout.
 #include <string> // std::string, std::to_string.
+
+
+//Response::Response()
+//{
+//	_autoindex = 0;
+//}
+
 std::string current_date(){
     std::string date("Date: ");
     time_t seconds = time(NULL);
@@ -123,6 +130,8 @@ void    Response::fill_hosts_and_root(std::vector<Server>& servers)
         _hosts_and_root.insert(std::make_pair(it->getHost() + ":" + it->getPort(), it->getRoot()));
         it++;
     }
+//	zapros.getResourseName()
+    //_autoindex =
     
 }
 
@@ -186,6 +195,52 @@ void Response::resetValues(Request & zapros)
     _content_type = zapros.getContentType();
     _answer_body = zapros.getAnswerBody();
 }
+
+
+
+void Response::autoindexOn()
+{
+	DIR *dir;
+	struct dirent *current;
+	std::string body;
+	std::string relativePath = _root + '.';
+	std::cout << "!!!!!!" << relativePath <<'\n';
+
+	dir = opendir(relativePath.c_str());
+	if (dir == NULL)
+	{
+//		this->_statusCode = INTERNALERROR;
+		std::cout << "!!!!!!!!!!!!!!!!!!AUTOINDEX\n";
+		return ;
+	}
+	body = "<html>\n<head>";
+	body += "<title>webserv - AutoIndexOn</title>\n"
+			"<style> "
+			" * { margin: 0; padding: 0; }"
+			"h1 { text-align: center; font-size: 25px; margin-top: 30px;}"
+			"a { text-decoration: none; color: black; font-size: 20px;}"
+			"body { bac     kground: rgb(238,174,202); background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%); }"
+			"ul { display: flex; flex-wrap: wrap; flex-direction: column; border-radius: 5px; text-align: center; padding-left: 0; margin-top: 30px;}"
+			"li { display: block; border-bottom: 1px solid #673ab7; padding-bottom: 5px;}"
+			"</style>\n</head>\n<body>\n";
+	body += "<h1>Autoindex On:</h1>\n<ul>";
+	while ((current = readdir(dir)) != NULL)
+	{
+		if (current->d_name[0] != '.')
+		{
+			body += "<li><a href=\"";
+			body += current->d_name;
+			body += "\">";
+
+			body += current->d_name;
+			body += "</a></li>";
+		}
+	}
+	closedir(dir);
+	body += "</ul></body>\n</html>\n";
+	this->_answer_body = body;
+}
+
 
 void Response::make_get_response(Request zapros) {
     // _file_path = _root;
@@ -254,6 +309,8 @@ std::string get_file_name(const char *buf){
 
 void Response::choose_method(Request & zapros)
 {
+	_zapros = zapros.getResourseName();
+	std::cout << "ZAPROS" << _zapros << '\n';
     ErrorsValue();
     find_root(zapros);
     std::cout << "ROOT < " << _root << std::endl;

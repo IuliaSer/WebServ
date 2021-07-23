@@ -1,11 +1,15 @@
 #ifndef RESPONSE_HPP
 #define RESPONSE_HPP
 #include <iostream>
+#include <dirent.h>
 #include "Server.hpp"
 
 class Response
 {
     private:
+
+		int 						_autoindex;
+	std::string                 _zapros;
         std::string                 _answer;
         std::string                 _answer_body;
         std::string                 _content_type;
@@ -31,6 +35,7 @@ class Response
         std::string		            getStatus(int code);
         std::string		            getFilePath() {return _file_path;}
         void                        ErrorsValue();
+        void 						autoindexOn();
         Response() {}
         ~Response() {}
 };
