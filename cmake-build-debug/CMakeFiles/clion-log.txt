@@ -1,1 +1,4 @@
-CMakeLists.txt not found in /Users/tcassia/webserver Select CMakeLists.txt
+/var/lib/snapd/snap/clion/158/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/nail/School21/Web
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/nail/School21/Web/cmake-build-debug

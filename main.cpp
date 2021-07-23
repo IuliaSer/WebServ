@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
                         FD_CLR(i, &master);
                     }
                     else {
-                        std::cout << "|....Client request : " << buf << std::endl << std::endl;
+                        std::cout << "|....Client request : " << buf << std::endl << std::endl << std::endl;
                         Request zapros;
                         Response resp;
                         zapros.clean_request();

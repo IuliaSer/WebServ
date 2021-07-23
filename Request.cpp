@@ -2,6 +2,7 @@
 #include <map>
 #include "Request.hpp"
 #include <cstring>
+#include <string>
 
 int Request::check_request()
 {
@@ -129,7 +130,7 @@ void Request::parse_body()
             if (_buf[i] == '\r' && _buf[i + 1] == '\n')
             {
                 tmp = _buf.substr(pos, i - pos);
-                body_len = stoi(tmp, 0, 16);
+                body_len = std::stoi(tmp, 0, 16);
 				pos = i + 2;
             }
 			if (body_len == 0)

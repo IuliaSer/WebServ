@@ -1,4 +1,4 @@
-#ifndef MAIN_HPP
+#ifndef MAIN_HP
 #define MAIN_HPP
 #include <iostream>
 #include <netdb.h>
@@ -13,6 +13,7 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <sys/stat.h> //stat
+#include <sys/wait.h>
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <netinet/in.h>

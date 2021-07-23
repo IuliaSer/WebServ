@@ -1,3 +1,4 @@
+#!/usr/bin/php
 <html>
 <head>
   <title>Результат загрузки файла</title>
@@ -15,6 +16,7 @@
      // Если файл загружен успешно, перемещаем его
      // из временной директории в конечную
      move_uploaded_file($_FILES["filename"]["tmp_name"], "/".$_FILES["filename"]["name"]);
+     echo("Файл загружен");
    } else {
       echo("Ошибка загрузки файла");
    }

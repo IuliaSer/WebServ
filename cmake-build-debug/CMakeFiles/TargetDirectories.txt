@@ -1,0 +1,3 @@
+/home/nail/School21/Web/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/nail/School21/Web/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/nail/School21/Web/cmake-build-debug/CMakeFiles/Web.dir
