@@ -100,11 +100,11 @@ std::string error_403(){
 std::string content_type(std::string const &file_path) {
     int extentionOfScript = 0;
     if (file_path.find(".html") != std::string::npos)
-        return ("text/html\r\n");
+        return ("text/html");
     else if (file_path.find(".jpg") != std::string::npos)
-        return ("image/jpeg\r\n");
+        return ("image/jpeg");
     else if (file_path.find(".css") != std::string::npos)
-        return ("text/css\r\n");
+        return ("text/css");
     else if (file_path.rfind(".py") != std::string::npos)
 		return("python");
     else if (file_path.rfind(".cgi") != std::string::npos || file_path.rfind(".exe") != std::string::npos)
@@ -113,7 +113,7 @@ std::string content_type(std::string const &file_path) {
         return("cgi");
     }
     else
-        return ("\r\n");
+        return("");
 }
 
 void    Response::fill_hosts_and_root(std::vector<Server>& servers)
@@ -123,6 +123,7 @@ void    Response::fill_hosts_and_root(std::vector<Server>& servers)
         _hosts_and_root.insert(std::make_pair(it->getHost() + ":" + it->getPort(), it->getRoot()));
         it++;
     }
+    
 }
 
 std::string	Response::getStatus(int code)
