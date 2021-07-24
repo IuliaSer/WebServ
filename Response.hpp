@@ -36,6 +36,7 @@ class Response
         std::string		            getFilePath() {return _file_path;}
         void                        ErrorsValue();
         void 						autoindexOn();
+
         Response() {}
         ~Response() {}
 };

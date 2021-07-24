@@ -292,7 +292,7 @@ void Response::make_post_response(Request & zapros)
         _code = 404;
         return;
     }
-    c.execute_cgi(zapros);
+    c.execute_cgi(zapros, _root);
     resetValues(zapros);
     make_headers(zapros);
 }
@@ -322,5 +322,5 @@ void Response::choose_method(Request & zapros)
     else if (zapros.getMethod() == "POST")
         make_post_response(zapros);
     else 
-        _answer = error_400();
+        _answer = error_400(); // заменить все answer 1 прочитать из файла в answer
 }
