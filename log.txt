@@ -1,82 +1,170 @@
-Возвращаемое значение send = 1763
-HTTP/1.1 404 Not Found
+Возвращаемое значение send = 2151
+HTTP/1.1 200 OK
 Server: my_webserver
-Date: Sat Jul 24 22:21:49 2021
-Content-Type: text/html
-Content-Length: 1623
-Connection: close
+Date: Sat Jul 24 22:54:17 2021
+Content-Type: text/css
+Content-Length: 2033
 
-<html><head>
-  <title>The page you were looking for doesn't exist (404)</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <style>
+/* General */
+body {
+  margin: 0;
+  line-height: 1.5em;
+  color: #333333;
+  font-family: helvetica, arial, sans-serif;
+}
 
-    body {
-      background-color: #2A292F;
-      color: #00BBBD;
-      text-align: center;
-      font-family: arial, sans-serif;
-      margin: 0;
-    }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 0;
+  line-height: 1.2em;
+  margin-top: 1em;
+}
 
-    .logo {
-      position: absolute;
-      left: 1%;
-      top: 2%;
-      width: 5%;
-      height: auto;
-    }
+a:link,
+a:visited {
+  color: #0000e0;
+  text-decoration: none;
+}
 
-    .title {
-      position: relative;
-      margin: 60px auto;
+a:hover,
+a:active {
+  color: #0000ff;
+  text-decoration: underline;
+}
 
-    }
+main {
+  min-height: 50vh;
+}
 
-    .main-image {
-      position: absolute;
-      top: 25px;
-      background-color: rgba(0, 0, 0, 0.5);
-      bottom: 35px;
-      left: 82px;
-      margin: auto;
-      right: 82px;
-      background-repeat: no-repeat;
-      background-position: 50% 50%;
-      background-size: auto 85%;
-    }
+/* Single column layout */
+nav section,
+header section,
+main,
+footer section {
+  max-width: 40em;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 0.5em;
+}
 
-    .screen {
-      position: relative;
-      width: 700px;
-      margin: auto;
-    }
+/* Navigation panel */
+nav {
+  background: #333333;
+  border-bottom: thin solid #111111;
+  line-height: 3em;
+}
 
-    h1, h2 {
-      font-weight: normal;
-      margin: 50px auto;
-    }
-  </style>
-</head>
+nav a {
+  margin-right: 1em;
+}
 
-<body>
-<!-- This file lives in public/404.html -->
-<div class="title"><img src="/images/404.png" alt=""></div>
-<div class="screen">
-  <div class="main-image" style="background-image: url(&quot;/images/5-sorry.gif&quot;);">
+nav a:link,
+nav a:visited {
+  color: #cccccc;
+}
 
-  </div>
-  <img src="/images/macbook.png" alt="">
-</div>
-<h1> 404 NOT FOUND: Seems like your page doesn't exist anymore !</h1>
-<script>
-  $(document).ready(function() {
-    var image = "/images/" + (Math.floor(Math.random() * 100 % 6) + 1) + "-sorry.gif";
-    $(".main-image").css("background-image", "url(" + image + ")");
-  });
-</script>
+nav a:hover,
+nav a:active {
+  color: #ffffff;
+  text-decoration: none;
+}
 
+@media screen and (min-width: 600px) {
+  nav .links {
+    float: right;
+  }
+}
 
-</body></html>
+/* Footer */
+footer {
+  background: #f0f0f0;
+  border-top: thin solid #e0e0e0;
+  margin-top: 2em;
+  padding: 1em 0;
+  box-shadow: 0 100vh 0 100vh #f0f0f0;
+  text-align: center;
+}
+
+footer section p {
+  font-size: 0.8em;
+}
+
+footer a {
+  margin-right: 1em;
+}
+
+footer a:last-child {
+  margin-right: 0;
+}
+
+/* Posts */
+article {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+article h2 a:link,
+article h2 a:visited,
+article h1 a:link,
+article h1 a:visited,
+.more:link,
+.more:visited {
+  color: #333333;
+}
+
+article h2 a:hover,
+article h2 a:active,
+article h1 a:hover,
+article h1 a:active,
+.more:hover,
+.more:active {
+  color: #777777;
+}
+
+p.meta {
+  margin-top: 0;
+  font-size: 0.8em;
+  color: #777777;
+  font-style: italic;
+}
+
+p.summary {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+}
+
+div .more {
+  margin-top: 0;
+  font-weight: bold;
+}
+
+/* RSS */
+.rss {
+  padding: 0.3em 0.35em;
+  border-radius: 0.25em;
+  font-size: 0.75em;
+  font-weight: bold;
+}
+
+.rss:link,
+.rss:visited,
+.rss:hover,
+.rss:active {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.rss:link,
+.rss:visited {
+  background: #ff6600;
+}
+
+.rss:hover,
+.rss:active {
+  background: #ff8822;
+}
 
