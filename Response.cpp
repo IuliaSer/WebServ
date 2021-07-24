@@ -75,7 +75,7 @@ std::string Response::error_404(std::string const &key /* 127.0.0.1:8081*/){
 					"Content-Length: " + ss.str() + "\n"
                     "Connection: close\n"
                     "\n"
-					+ file.c_str();
+					+ file;
 //                    "<html>\n"
 //                    "<head><title>404 Not Found</title></head>\n"
 //                    "<body>\n"
@@ -88,20 +88,35 @@ std::cout << error_answer;
     return error_answer;
 }
 
-std::string error_400(){
+std::string Response::error_400(std::string const &key){
+	std::ifstream 	ifs;
+	std::stringstream ss;
+	std::string 	path;
+	std::string		file;
+
+	path.clear();
+	path = _hosts_and_root.find(key)->second;
+	path += _default_errors.find(key)->second.find(404)->second;
+	ifs.open(path);
+	if (!ifs.is_open())
+		throw std::out_of_range("not open\n");
+	std::getline(ifs, file, ifs.widen(EOF));
+	ifs.close();
+	ss << file.length();
+
     std::string error_answer("HTTP/1.1 400 Bad Request\nServer: my_webserver\n");
     error_answer += current_date();
     error_answer += "Content-Type: text/html\n"
-                    "Content-Length: 157\n"
+					"Content-Length: " + ss.str() + "\n"
                     "Connection: close\n" //надо закрыть соединение после такого ответа
-                    "\n"
-                    "<html>\n"
-                    "<head><title>400 Bad Request</title></head>\n"
-                    "<body>\n"
-                    "<center><h1>400 Bad Request</h1></center>\n"
-                    "<hr><center>My_webserver</center>\n"
-                    "</body>\n"
-                    "</html>";
+                    "\n" + file;
+//					"<html>\n"
+//                    "<head><title>400 Bad Request</title></head>\n"
+//                    "<body>\n"
+//                    "<center><h1>400 Bad Request</h1></center>\n"
+//                    "<hr><center>My_webserver</center>\n"
+//                    "</body>\n"
+//                    "</html>";
     return error_answer;
 }
 
@@ -341,5 +356,5 @@ void Response::choose_method(Request & zapros)
     else if (zapros.getMethod() == "POST")
         make_post_response(zapros);
     else 
-        _answer = error_400(); // заменить все answer 1 прочитать из файла в answer
+        _answer = error_400(zapros.getHost()); // заменить все answer 1 прочитать из файла в answer
 }
