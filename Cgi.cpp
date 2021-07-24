@@ -88,7 +88,7 @@ int Cgi::execute_cgi(Request & zapros, std::string& root)
 	std::string file_path;
 	int status;
 	int fds[2];
-	const char *argv[3] = {zapros.getResourseName().c_str(), zapros.getBody().c_str(), NULL};
+	const char *argv[3] = {zapros.getResourseName().c_str(), zapros.getAnswerBody().c_str(), NULL};
 	file_path += root;
 	file_path += zapros.getResourseName();
 	create2darray(zapros);

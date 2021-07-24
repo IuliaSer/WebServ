@@ -1,16 +1,65 @@
-<html>
-  <head>
-    <title><- status_code -> <- error_message -></title>
-  </head>
+<html><head>
+  <title>The page you were looking for doesn't exist (404)</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <style>
 
-  <body>
-    <center>
-      <h1><- status_code -> <- error_message -></h1>
-      <img
-        src="https://user-images.githubusercontent.com/54612343/104731043-7aa40f00-577e-11eb-9653-20c36e7e0aad.gif"
-      />
-    </center>
-    <hr />
-    <center>ft_nginx</center>
-  </body>
+    body {
+      background-color: #2A292F;
+      color: #00BBBD;
+      text-align: center;
+      font-family: arial, sans-serif;
+      margin: 0;
+    }
+
+    .logo {
+      position: absolute;
+      left: 1%;
+      top: 2%;
+      width: 5%;
+      height: auto;
+    }
+
+    .title {
+      position: relative;
+      margin: 60px auto;
+
+    }
+
+    .main-image {
+      position: absolute;
+      top: 25px;
+      background-color: rgba(0, 0, 0, 0.5);
+      bottom: 35px;
+      left: 82px;
+      margin: auto;
+      right: 82px;
+      background-repeat: no-repeat;
+      background-position: 50% 50%;
+      background-size: auto 85%;
+    }
+
+    .screen {
+      position: relative;
+      width: 700px;
+      margin: auto;
+    }
+
+    h1, h2 {
+      font-weight: normal;
+      margin: 50px auto;
+    }
+  </style>
+</head>
+
+<body>
+<!-- This file lives in public/404.html -->
+<div class="title"><img src="/www/errors/404.png" alt=""></div>
+<div class="screen">
+  <div class="main-image" style="background-image: url(/www/errors/5-sorry.gif);">
+  </div>
+  <img src="/images/macbook.png" alt="">
+</div>
+<h1> 404 NOT FOUND: Seems like your page doesn't exist anymore !</h1>
+</body>
 </html>

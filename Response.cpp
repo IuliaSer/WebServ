@@ -1,6 +1,7 @@
 #include "main.hpp"
 #include <iostream> // std::cout.
 #include <string> // std::string, std::to_string.
+//#include "Response.hpp"
 
 
 //Response::Response()
@@ -53,20 +54,37 @@ void file_read(std::string const &location, std::string &answer_body){
     in.close();     // закрываем файл
 }
 
-std::string error_404(){
+std::string Response::error_404(std::string const &key /* 127.0.0.1:8081*/){
+	std::ifstream 	ifs;
+	std::stringstream ss;
+	std::string 	path;
+	std::string		file;
+
+	path.clear();
+	path = _hosts_and_root.find(key)->second;
+	path += _default_errors.find(key)->second.find(404)->second;
+	ifs.open(path);
+	if (!ifs.is_open())
+		throw std::out_of_range("not open\n");
+	std::getline(ifs, file, ifs.widen(EOF));
+	ifs.close();
+	ss << file.length();
     std::string error_answer("HTTP/1.1 404 Not Found\r\nServer: my_webserver\n");
     error_answer += current_date();
     error_answer += "Content-Type: text/html\n"
-                    "Content-Length: 153\n"
+					"Content-Length: " + ss.str() + "\n"
                     "Connection: close\n"
                     "\n"
-                    "<html>\n"
-                    "<head><title>404 Not Found</title></head>\n"
-                    "<body>\n"
-                    "<center><h1>404 Not Found</h1></center>\n"
-                    "<hr><center>My_webserver</center>\n"
-                    "</body>\n"
-                    "</html>";
+					+ file.c_str();
+//                    "<html>\n"
+//                    "<head><title>404 Not Found</title></head>\n"
+//                    "<body>\n"
+//                    "<center><h1>404 Not Found</h1></center>\n"
+//                    "<hr><center>My_webserver</center>\n"
+//                    "</body>\n"
+//                    "</html>";
+
+std::cout << error_answer;
     return error_answer;
 }
 
@@ -128,6 +146,7 @@ void    Response::fill_hosts_and_root(std::vector<Server>& servers)
     std::vector<Server>::iterator it = servers.begin();
     while (it != servers.end()){
         _hosts_and_root.insert(std::make_pair(it->getHost() + ":" + it->getPort(), it->getRoot()));
+        _default_errors.insert(std::make_pair(it->getHost() + ":" + it->getPort(), it->_default_error_page));
         it++;
     }
 //	zapros.getResourseName()
@@ -253,9 +272,9 @@ void Response::make_get_response(Request zapros) {
     }
     else
     {
-        if (check_file_location(_file_path) == -404)
+        if (check_file_location(_file_path) == 404)
         {
-            _answer = error_404();
+            _answer = error_404(zapros.getHost());
             _code = 404;
             return;
         }
@@ -276,7 +295,7 @@ void Response::make_delete_response(Request zapros)
      }
      else 
      {
-         _answer = error_404();
+         _answer = error_404(zapros.getHost()); // if
             _code = 404;
         return;
      }
@@ -286,9 +305,9 @@ void Response::make_delete_response(Request zapros)
 void Response::make_post_response(Request & zapros)
 {
     Cgi c;
-    if (check_file_location(_file_path) == -404)
+    if (check_file_location(_file_path) == 404)
     {
-        _answer = error_404();
+        _answer = error_404(zapros.getHost());
         _code = 404;
         return;
     }

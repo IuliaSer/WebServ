@@ -4,6 +4,9 @@
 #include <dirent.h>
 #include "Server.hpp"
 
+#include <sstream>
+#include <fstream>
+
 class Response
 {
     private:
@@ -18,7 +21,8 @@ class Response
         std::map<int, std::string>	_errors;
         std::string                 _file_path;
         std::string                 _root;
-        std::map<std::string, std::string> _hosts_and_root;
+        std::map<std::string, std::string>						_hosts_and_root;
+        std::map<std::string, std::map<int, std::string> >		_default_errors;
         void                        find_root(Request zapros);
     public:
         void                        fill_hosts_and_root(std::vector<Server>& servers);
@@ -36,6 +40,7 @@ class Response
         std::string		            getFilePath() {return _file_path;}
         void                        ErrorsValue();
         void 						autoindexOn();
+        std::string					error_404(std::string const &key /* 127.0.0.1:8081*/);
 
         Response() {}
         ~Response() {}
