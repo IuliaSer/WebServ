@@ -1,4 +1,4 @@
-/var/lib/snapd/snap/clion/158/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/nail/School21/Web
+/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/tcassia/webserver
 -- Configuring done
 -- Generating done
--- Build files have been written to: /home/nail/School21/Web/cmake-build-debug
+-- Build files have been written to: /Users/tcassia/webserver/cmake-build-debug

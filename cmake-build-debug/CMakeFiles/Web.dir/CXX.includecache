@@ -6,21 +6,21 @@
 
 #IncludeRegexTransform: 
 
-/home/nail/School21/Web/Cgi.cpp
+/Users/tcassia/webserver/Cgi.cpp
 Cgi.hpp
-/home/nail/School21/Web/Cgi.hpp
+/Users/tcassia/webserver/Cgi.hpp
 
-/home/nail/School21/Web/Cgi.hpp
+/Users/tcassia/webserver/Cgi.hpp
 main.hpp
-/home/nail/School21/Web/main.hpp
+/Users/tcassia/webserver/main.hpp
 
-/home/nail/School21/Web/Config.hpp
+/Users/tcassia/webserver/Config.hpp
 Server.hpp
-/home/nail/School21/Web/Server.hpp
+/Users/tcassia/webserver/Server.hpp
 Location.hpp
-/home/nail/School21/Web/Location.hpp
+/Users/tcassia/webserver/Location.hpp
 Utils.hpp
-/home/nail/School21/Web/Utils.hpp
+/Users/tcassia/webserver/Utils.hpp
 vector
 -
 iostream
@@ -28,7 +28,7 @@ iostream
 fstream
 -
 
-/home/nail/School21/Web/Location.hpp
+/Users/tcassia/webserver/Location.hpp
 string
 -
 map
@@ -36,21 +36,21 @@ map
 vector
 -
 
-/home/nail/School21/Web/Request.hpp
+/Users/tcassia/webserver/Request.hpp
 iostream
 -
 map
 -
 
-/home/nail/School21/Web/Response.hpp
+/Users/tcassia/webserver/Response.hpp
 iostream
 -
 Server.hpp
-/home/nail/School21/Web/Server.hpp
+/Users/tcassia/webserver/Server.hpp
 
-/home/nail/School21/Web/Server.hpp
+/Users/tcassia/webserver/Server.hpp
 Location.hpp
-/home/nail/School21/Web/Location.hpp
+/Users/tcassia/webserver/Location.hpp
 string
 -
 map
@@ -58,17 +58,17 @@ map
 vector
 -
 
-/home/nail/School21/Web/Sockets.hpp
+/Users/tcassia/webserver/Sockets.hpp
 main.hpp
-/home/nail/School21/Web/main.hpp
+/Users/tcassia/webserver/main.hpp
 
-/home/nail/School21/Web/Utils.hpp
+/Users/tcassia/webserver/Utils.hpp
 string
 -
 vector
 -
 
-/home/nail/School21/Web/main.hpp
+/Users/tcassia/webserver/main.hpp
 iostream
 -
 netdb.h
@@ -108,15 +108,15 @@ fstream
 string
 -
 Request.hpp
-/home/nail/School21/Web/Request.hpp
+/Users/tcassia/webserver/Request.hpp
 Response.hpp
-/home/nail/School21/Web/Response.hpp
+/Users/tcassia/webserver/Response.hpp
 Cgi.hpp
-/home/nail/School21/Web/Cgi.hpp
+/Users/tcassia/webserver/Cgi.hpp
 vector
 -
 Sockets.hpp
-/home/nail/School21/Web/Sockets.hpp
+/Users/tcassia/webserver/Sockets.hpp
 Config.hpp
-/home/nail/School21/Web/Config.hpp
+/Users/tcassia/webserver/Config.hpp
 

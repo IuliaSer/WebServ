@@ -8,135 +8,133 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/home/nail/School21/Web/cmake-build-debug"/>
+				<Option working_dir="/Users/tcassia/webserver/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j6 -f &quot;/home/nail/School21/Web/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -j6 -f &quot;/home/nail/School21/Web/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j6 -f &quot;/home/nail/School21/Web/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j6 -f &quot;/home/nail/School21/Web/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/home/nail/School21/Web/cmake-build-debug"/>
+				<Option working_dir="/Users/tcassia/webserver/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j6 -f &quot;/home/nail/School21/Web/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -j6 -f &quot;/home/nail/School21/Web/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j6 -f &quot;/home/nail/School21/Web/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j6 -f &quot;/home/nail/School21/Web/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/home/nail/School21/Web/cmake-build-debug"/>
+				<Option working_dir="/Users/tcassia/webserver/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j6 -f &quot;/home/nail/School21/Web/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j6 -f &quot;/home/nail/School21/Web/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j6 -f &quot;/home/nail/School21/Web/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j6 -f &quot;/home/nail/School21/Web/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="Web">
-				<Option output="/home/nail/School21/Web/cmake-build-debug/Web" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/nail/School21/Web/cmake-build-debug"/>
+				<Option output="/Users/tcassia/webserver/cmake-build-debug/Web" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/tcassia/webserver/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/11.1.0/../../../../include/c++/11.1.0"/>
-					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/11.1.0/../../../../include/c++/11.1.0/x86_64-pc-linux-gnu"/>
-					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/11.1.0/../../../../include/c++/11.1.0/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/11.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/11.1.0/include-fixed"/>
-					<Add directory="/usr/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/11.0.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j6 -f &quot;/home/nail/School21/Web/cmake-build-debug/Makefile&quot;  VERBOSE=1 Web"/>
-					<CompileFile command="/usr/bin/make -j6 -f &quot;/home/nail/School21/Web/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j6 -f &quot;/home/nail/School21/Web/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j6 -f &quot;/home/nail/School21/Web/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 Web"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="Web/fast">
-				<Option output="/home/nail/School21/Web/cmake-build-debug/Web" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/nail/School21/Web/cmake-build-debug"/>
+				<Option output="/Users/tcassia/webserver/cmake-build-debug/Web" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/tcassia/webserver/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/11.1.0/../../../../include/c++/11.1.0"/>
-					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/11.1.0/../../../../include/c++/11.1.0/x86_64-pc-linux-gnu"/>
-					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/11.1.0/../../../../include/c++/11.1.0/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/11.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/11.1.0/include-fixed"/>
-					<Add directory="/usr/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/11.0.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j6 -f &quot;/home/nail/School21/Web/cmake-build-debug/Makefile&quot;  VERBOSE=1 Web/fast"/>
-					<CompileFile command="/usr/bin/make -j6 -f &quot;/home/nail/School21/Web/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j6 -f &quot;/home/nail/School21/Web/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j6 -f &quot;/home/nail/School21/Web/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 Web/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/nail/School21/Web/Cgi.cpp">
+		<Unit filename="/Users/tcassia/webserver/Cgi.cpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/home/nail/School21/Web/Cgi.hpp">
+		<Unit filename="/Users/tcassia/webserver/Cgi.hpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/home/nail/School21/Web/Config.cpp">
+		<Unit filename="/Users/tcassia/webserver/Config.cpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/home/nail/School21/Web/Config.hpp">
+		<Unit filename="/Users/tcassia/webserver/Config.hpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/home/nail/School21/Web/Location.cpp">
+		<Unit filename="/Users/tcassia/webserver/Location.cpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/home/nail/School21/Web/Location.hpp">
+		<Unit filename="/Users/tcassia/webserver/Location.hpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/home/nail/School21/Web/Request.cpp">
+		<Unit filename="/Users/tcassia/webserver/Request.cpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/home/nail/School21/Web/Request.hpp">
+		<Unit filename="/Users/tcassia/webserver/Request.hpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/home/nail/School21/Web/Response.cpp">
+		<Unit filename="/Users/tcassia/webserver/Response.cpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/home/nail/School21/Web/Response.hpp">
+		<Unit filename="/Users/tcassia/webserver/Response.hpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/home/nail/School21/Web/Server.cpp">
+		<Unit filename="/Users/tcassia/webserver/Server.cpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/home/nail/School21/Web/Server.hpp">
+		<Unit filename="/Users/tcassia/webserver/Server.hpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/home/nail/School21/Web/Sockets.cpp">
+		<Unit filename="/Users/tcassia/webserver/Sockets.cpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/home/nail/School21/Web/Sockets.hpp">
+		<Unit filename="/Users/tcassia/webserver/Sockets.hpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/home/nail/School21/Web/Utils.cpp">
+		<Unit filename="/Users/tcassia/webserver/Utils.cpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/home/nail/School21/Web/Utils.hpp">
+		<Unit filename="/Users/tcassia/webserver/Utils.hpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/home/nail/School21/Web/main.cpp">
+		<Unit filename="/Users/tcassia/webserver/main.cpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/home/nail/School21/Web/main.hpp">
+		<Unit filename="/Users/tcassia/webserver/main.hpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/home/nail/School21/Web/CMakeLists.txt">
+		<Unit filename="/Users/tcassia/webserver/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

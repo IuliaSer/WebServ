@@ -20,6 +20,7 @@ int main(int argc, char **argv) {
     fd_set readset;
     fd_set writeset;
     std::map<int, Response> responses;
+//    std::map<int, Request> requests;
     FD_ZERO(&master);
     FD_ZERO(&readset);
     FD_ZERO(&writeset);
@@ -40,19 +41,24 @@ int main(int argc, char **argv) {
                 if (sockets.accept_connection(i, master, fdmax) == 1)
                     continue;
                 else {
+                    Request request;
                     ssize_t bytes_read = 0;
-                    bytes_read = recv(i, buf, sizeof(buf), 0);
+                    bytes_read = recv(i, buf, sizeof(buf) - 1, MSG_PEEK);
+                    memset(&buf, 0, sizeof(buf));
+                    bytes_read = recv(i, buf, bytes_read, MSG_WAITALL);
+                    std::string buffer(buf);
+                    memset(&buf, 0, sizeof(buf));
                     std::cout << "bytes_read -> " << bytes_read << std::endl;
                     if (bytes_read <= 0) {
                         close(i);
                         FD_CLR(i, &master);
                     }
                     else {
-                        std::cout << "|....Client request : " << buf << std::endl << std::endl << std::endl;
+                        std::cout << "|....Client request : " << buffer << std::endl << std::endl << std::endl;
                         Request zapros;
                         Response resp;
                         zapros.clean_request();
-                        if(!zapros.parse_request(buf))
+                        if(!zapros.parse_request(buffer.c_str()))
                         {
                             resp.fill_hosts_and_root(servers);
                             resp.choose_method(zapros);

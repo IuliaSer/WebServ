@@ -11,7 +11,7 @@ std::string current_date(){
 }
 
 
-void Response::find_root(Request zapros) {
+void Response::find_root(Request &zapros) {
     _root = _hosts_and_root.find(zapros.getHost())->second;
 }
 
@@ -51,8 +51,8 @@ std::string error_404(){
     std::string error_answer("HTTP/1.1 404 Not Found\r\nServer: my_webserver\n");
     error_answer += current_date();
     error_answer += "Content-Type: text/html\n"
-                    "Content-Length: 153\n"
                     "Connection: close\n"
+                    "Content-Length: 153\n"
                     "\n"
                     "<html>\n"
                     "<head><title>404 Not Found</title></head>\n"
@@ -147,7 +147,7 @@ void Response::ErrorsValue()
 	_errors[500] = "Internal Server Error";
 }
 
-void Response::make_headers(Request & zapros)
+void Response::make_headers(Request &zapros)
 {
         if(_code == 200)
         {
@@ -170,7 +170,7 @@ void Response::make_headers(Request & zapros)
         }
 }
 
-void Response::setValues(Request zapros)
+void Response::setValues(Request &zapros)
 {
     if (zapros.getResourseName() == "/")
         _file_path = _root;
@@ -180,13 +180,13 @@ void Response::setValues(Request zapros)
     // file_read(getFilePath(), _answer_body);
 }
 
-void Response::resetValues(Request & zapros)
+void Response::resetValues(Request &zapros)
 {
     _content_type = zapros.getContentType();
     _answer_body = zapros.getAnswerBody();
 }
 
-void Response::make_get_response(Request zapros) {
+void Response::make_get_response(Request &zapros) {
     _code = 200;
     
     if (zapros.getResourseName() == "/") {
@@ -207,7 +207,7 @@ void Response::make_get_response(Request zapros) {
     make_headers(zapros);
 }
 
-void Response::make_delete_response(Request zapros)
+void Response::make_delete_response(Request &zapros)
 {
     _code = 200;
     // _file_path = _root + zapros.getResourseName();
@@ -225,7 +225,7 @@ void Response::make_delete_response(Request zapros)
      make_headers(zapros);
 }
 
-void Response::make_post_response(Request & zapros)
+void Response::make_post_response(Request &zapros)
 {
     Cgi c;
     if (check_file_location(_file_path) == -404)

@@ -1,14 +1,8 @@
-Возвращаемое значение send = 253
+Возвращаемое значение send = 107
 HTTP/1.1 200 OK
 Server: my_webserver
-Date: Fri Jul 23 20:02:52 2021
+Date: Sat Jul 24 20:17:23 2021
 Content-Type: 
-Content-Length: 144
+Content-Length: 0
 
-l>
-<head>
-  <title>Результат загрузки файла</title>
-</head>
-<body>
-Ошибка загрузки файла</body>
-</html>
+

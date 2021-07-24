@@ -175,3 +175,13 @@ int Request::parse_request(std::string str)
     }
     return(check_request());
 }
+
+std::string Request::getHeaderContentLength() const
+{
+    return _headers.find("Content-Length")->second;
+}
+
+std::string Request::getHeaderContentType() const
+{
+    return _headers.find("Content-Type")->second;
+}

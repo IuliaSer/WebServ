@@ -39,8 +39,10 @@ class Request
         std::string			                getStatus() const {return this->_status;}
         std::string			                getAnswerBody() const {return this->_answer_body;}
         std::map<std::string, std::string>  getHeaders() const {return this->_headers;}
+        std::string                         getHeaderContentLength() const;
+        std::string                         getHeaderContentType() const;
         std::string                         getHost() const {return _headers.find("Host")->second;}
-        const std::string&                        getBody() const {return _body;}
+        const std::string&                  getBody() const {return _body;}
         int                                 check_request();
         Request()
         {
