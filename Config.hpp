@@ -17,18 +17,6 @@ class Server;
 
 class Location;
 
-//struct ConfigErrors{
-//	const std::string NO_SEMICOLON = "CONFIG ERROR: Directive must end with a \';\'";
-//	const std::string INVALID_BLOCK = "CONFIG ERROR: Block directive's syntax error";
-//	const std::string BRACKET_ERROR = "CONFIG ERROR: Unexpected end of file, expecting \"}\"";
-//	const std::string NO_ARGUMENT = "CONFIG ERROR: Simple directive have at least one arguments";
-//	const std::string INVALID_VALUE = "CONFIG ERROR: Invalid arguments at Simple directive";
-//	const std::string INVALID_DIRECtiVE = "CONFIG ERROR: Invalid directive";
-//};
-
-
-// todo Exceptions
-
 class Config {
 private:
 	// Coplien

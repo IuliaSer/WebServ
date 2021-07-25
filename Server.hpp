@@ -22,7 +22,6 @@ private:
 
 public:
 	std::string _host;  //ip
-	// todo сами переведете хоста в инт
 	// int 		_hostInt; //ip
 	std::string _port;
 	int			_portInt;
