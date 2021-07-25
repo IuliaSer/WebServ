@@ -1,4 +1,4 @@
-#ifndef MAIN_HP
+#ifndef MAIN_HPP
 #define MAIN_HPP
 #include <iostream>
 #include <netdb.h>
@@ -25,9 +25,6 @@
 #include <vector>
 #include "Sockets.hpp"
 #include "Config.hpp"
-#define ROOT "/Users/iserzhan/WebServ/site/"
-
-#define PORT "8000"
 
 #define CGI_BUFSIZE 65536
 

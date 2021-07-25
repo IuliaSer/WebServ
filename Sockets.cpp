@@ -1,21 +1,26 @@
 #include "Sockets.hpp"
 
-Sockets::Sockets(std::vector <std::string> &ports)
+Sockets::Sockets(std::vector<Server> &servers)
 {
     fill_hints();
-    for (int i = 0; i < ports.size(); i++)
-        listen_socket_setup(ports[i].c_str());
+    std::vector<Server>::iterator it = servers.begin();
+    while (it != servers.end()){
+        listen_socket_setup(*it);
+        it++;
+    }
+//    for (int i = 0; i < ports.size(); i++)
+//        listen_socket_setup(ports[i].c_str());
 }
 
 int Sockets::listen_all(fd_set &master){
-    std::set<int>::iterator it = listen_sockets.begin();
+    std::map<int, Server>::iterator it = listen_sockets.begin();
     while (it != listen_sockets.end())
     {
-        listen(*it, 5);
-        FD_SET(*it, &master);
+        listen(it->first, 5);
+        FD_SET(it->first, &master);
         it++;
     }
-    return (*(--it)); //Возвращаем значение для fdmax (последний из прослушивающих сокетов)
+    return ((--it)->first); //Возвращаем значение для fdmax (последний из прослушивающих сокетов)
 }
 
 void Sockets::fill_hints()
@@ -50,13 +55,13 @@ void Sockets::reuse_port(int listen_sock, struct addrinfo *servinfo)
     }
 }
 
-void Sockets::listen_socket_setup(const char *port)
+void Sockets::listen_socket_setup(Server &server)
 {
     struct addrinfo *p;
     struct addrinfo *servinfo;
     int status;
 
-    if ((status = getaddrinfo(NULL, port, &_hints, &servinfo)) != 0)
+    if ((status = getaddrinfo(NULL, server.getPort().c_str(), &_hints, &servinfo)) != 0)
     {
         std::cout << "ERROR GETADDRINFO " << gai_strerror(status) << std::endl;
         exit(1);
@@ -76,7 +81,7 @@ void Sockets::listen_socket_setup(const char *port)
             continue;
         }
         std::cout << "SOCKET CREATED SUCCESFULLY" << std::endl;
-        listen_sockets.insert(listen_sock);
+        listen_sockets.insert(std::make_pair(listen_sock, server));
         break;
     }
     freeaddrinfo(servinfo);
@@ -84,10 +89,10 @@ void Sockets::listen_socket_setup(const char *port)
 
 void    Sockets::close_all()
 {
-    std::set<int>::iterator it = listen_sockets.begin();
+    std::map<int, Server>::iterator it = listen_sockets.begin();
     while (it != listen_sockets.end())
     {
-        close(*it);
+        close(it->first);
         it++;
     }
 }
@@ -96,16 +101,17 @@ int Sockets::accept_connection(int i, fd_set &master, int &fdmax)
 {
     struct sockaddr_storage client_addr;
     socklen_t s_size = sizeof(client_addr);
-    std::set<int>::iterator it = listen_sockets.find(i);
+    std::map<int, Server>::iterator it = listen_sockets.find(i);
     if (it != listen_sockets.end())
     {
-        int sock = accept(*it, (struct sockaddr *) &client_addr, &s_size);
+        int sock = accept(it->first, (struct sockaddr *) &client_addr, &s_size);
         if (sock < 0)
         {
             perror("accept");
             exit(3);
         }
         FD_SET(sock, &master);
+        connection_sockets.insert(std::make_pair(sock, it->second));
         if (sock > fdmax)
             fdmax = sock;
         fcntl(sock, F_SETFL, O_NONBLOCK);

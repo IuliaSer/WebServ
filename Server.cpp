@@ -75,3 +75,16 @@ const std::string & Server::getHost() const
     return this->_host;
 }
 
+Server & Server::operator=(const Server &rhs)
+{
+    this->_host = rhs.getHost();
+    this->_port = rhs.getPort();
+    this->_portInt = rhs.getPortInt();
+    this->_path = rhs._path;
+    this->_server_name = rhs._server_name;
+    this->_max_body_size = rhs._max_body_size;
+    this->_root = rhs.getRoot();
+    this->_default_error_page = rhs._default_error_page;
+//    this->_locations = rhs._locations;
+    return *this;
+}

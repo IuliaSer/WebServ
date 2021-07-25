@@ -18,7 +18,7 @@ class Server {
 private:
 	// Coplien form
 //	Server(const Server& other);
-	Server& operator=(const Server& rhs);
+
 
 public:
 	std::string _host;  //ip
@@ -42,7 +42,7 @@ public:
 public:
 	Server();
 	virtual ~Server();
-
+    Server& operator=(const Server& rhs);
 
 	// Server Getters
 	const std::string& getHost() const;

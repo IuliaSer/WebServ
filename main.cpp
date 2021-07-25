@@ -6,16 +6,9 @@ int main(int argc, char **argv) {
     config.parseConfig();
 
     char buf[1000000];
-    std::vector<std::string> ports;
     std::vector<Server> servers = config.getServers();
-
-    std::vector<Server>::iterator it = servers.begin();
-    while (it != servers.end()){
-        ports.push_back(it->getPort());
-        it++;
-    }
     memset(&buf, 0, sizeof(buf));
-    Sockets sockets(ports);
+    Sockets sockets(servers);
     fd_set master;
     fd_set readset;
     fd_set writeset;
@@ -41,7 +34,7 @@ int main(int argc, char **argv) {
                 if (sockets.accept_connection(i, master, fdmax) == 1)
                     continue;
                 else {
-                    Request request;
+//                    Request request;
                     ssize_t bytes_read = 0;
                     bytes_read = recv(i, buf, sizeof(buf) - 1, MSG_PEEK);
                     memset(&buf, 0, sizeof(buf));
@@ -55,7 +48,7 @@ int main(int argc, char **argv) {
                     }
                     else {
                         std::cout << "|....Client request : " << buffer << std::endl << std::endl << std::endl;
-                        Request zapros;
+                        Request zapros(sockets.connection_sockets.find(i)->second);
                         Response resp;
                         zapros.clean_request();
                         if(!zapros.parse_request(buffer.c_str()))

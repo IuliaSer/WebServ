@@ -64,7 +64,8 @@ void    Cgi::free_memory()
 
 void Cgi::create2darray(Request zapros)
 {
-    _env = new char *[5 + zapros.getHeaders().size()];
+    _env = new char *[10 + zapros.getHeaders().size()]; //узнать почему только так работает
+//    _env = new char *[11];
     _env[0] = strdup("AUTH_TYPE=Anonymous");
     _env[1] = ft_strjoin("CONTENT_LENGTH=", (zapros.getHeaderContentLength().c_str()));
     _env[2] = ft_strjoin("CONTENT_TYPE=", (zapros.getHeaderContentType()).c_str());
@@ -77,12 +78,12 @@ void Cgi::create2darray(Request zapros)
     // _env[9] = "REMOTE_USER="
     _env[4] = ft_strjoin("REQUEST_METHOD=", (zapros.getMethod().c_str()));
     //_env[11] = "REQUEST_URI=/directory
-    // _env[12] = "SCRIPT_NAME="cgi_tester
-    // _env[13] = "SERVER_NAME="for_tester
-    // _env[14] = "SERVER_PORT="8080;
-//     _env[15] = "SERVER_PROTOCOL=HTTP/1.1";
-//     _env[16] = "SERVER_SOFTWARE=webServ";
-    _env[5] = NULL;
+     _env[5] = ft_strjoin("SCRIPT_NAME=", zapros.getResourseName().c_str());
+     _env[6] = ft_strjoin("SERVER_NAME=", zapros.getCurrentServer()._host.c_str());
+     _env[7] = ft_strjoin("SERVER_PORT=", zapros.getCurrentServer()._port.c_str());
+     _env[8] = strdup("SERVER_PROTOCOL=HTTP/1.1");
+     _env[9] = strdup("SERVER_SOFTWARE=webserv");
+    _env[10] = NULL;
 }
 
 int Cgi::execute_cgi(Request & zapros, std::string& root)
@@ -114,6 +115,7 @@ int Cgi::execute_cgi(Request & zapros, std::string& root)
         close(fds[1]);
         int bytes_read = read(fds[0], _buf, CGI_BUFSIZE);
         _answer = std::string(_buf);
+        memset(_buf, 0, CGI_BUFSIZE);
         std::cout << "Answer after cgi " << _answer << std::endl;
         close(fds[0]);
         if (bytes_read != 0)

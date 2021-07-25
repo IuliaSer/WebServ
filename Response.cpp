@@ -195,7 +195,7 @@ void Response::make_get_response(Request &zapros) {
     }
     else
     {
-        if (check_file_location(_file_path) == -404)
+        if (check_file_location(_file_path) == 404)
         {
             _answer = error_404();
             _code = 404;
@@ -228,7 +228,7 @@ void Response::make_delete_response(Request &zapros)
 void Response::make_post_response(Request &zapros)
 {
     Cgi c;
-    if (check_file_location(_file_path) == -404)
+    if (check_file_location(_file_path) == 404)
     {
         _answer = error_404();
         _code = 404;

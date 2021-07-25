@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <map>
+#include "Server.hpp"
 
 class Request
 {
@@ -22,6 +23,7 @@ class Request
         int                                 _bd;
         int                                 _bd_flag;
         std::map<std::string, std::string>  _headers;
+        Server                              _current_server;
     public:
         void        						parse_start_line();
         int         						parse_request(std::string str);
@@ -43,10 +45,12 @@ class Request
         std::string                         getHeaderContentType() const;
         std::string                         getHost() const {return _headers.find("Host")->second;}
         const std::string&                  getBody() const {return _body;}
+        const Server&                       getCurrentServer() const {return _current_server; }
         int                                 check_request();
-        Request()
+        Request(Server &server)
         {
             _answer_body = "";
+            _current_server = server;
         }
         ~Request() {}
 };
