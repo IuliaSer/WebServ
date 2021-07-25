@@ -26,12 +26,11 @@ class Response
         void                        find_root(Request zapros);
     public:
         void                        fill_hosts_and_root(std::vector<Server>& servers);
-        void                        choose_method(Request & zapros);
-        void                        make_get_response(Request zapros);
+        void                        choose_method(Request & zapros, std::vector<Server>& servers);
+        void                        make_get_response(Request zapros, std::vector<Server>& servers);
         void                        make_delete_response(Request zapros);
-        void                        make_response(Request zapros);
         void                        make_headers(Request & zapros);
-        void                        make_post_response(Request & zapros);
+        void                        make_post_response(Request & zapros, std::string &root);
         void                        resetValues(Request & zapros);
         void                        setValues(Request zapros);
         void                        setFilePath(Request zapros) {}
@@ -44,7 +43,7 @@ class Response
 		std::string					error_400(std::string const &key);
 		std::string					error_403(std::string const &key);
 		std::string					error_405(std::string const &key);
-
+        void                        check_location(Request zapros, std::vector<Server>& servers);
         Response() {}
         ~Response() {}
 };

@@ -2,10 +2,10 @@
 
 int main(int argc, char **argv) {
 
-	if (!argv[1] || strcmp(argv[1], "test.conf") != 0){
-		std::cout << "Webserver requires a valid config" << std::endl;
-		return 1;
-	}
+	// if (!argv[1] || strcmp(argv[1], "test.conf") != 0){
+	// 	std::cout << "Webserver requires a valid config" << std::endl;
+	// 	return 1;
+	// }
 
     Config config(argv[1]);
     config.parseConfig();
@@ -60,7 +60,7 @@ int main(int argc, char **argv) {
                         if(!zapros.parse_request(buf))
                         {
                             resp.fill_hosts_and_root(servers);
-                            resp.choose_method(zapros);
+                            resp.choose_method(zapros, servers);
                         }
                         responses.insert(std::make_pair(i, resp));
 //                        if (zapros.getHeaders().find("Connection")->second == "close"){
