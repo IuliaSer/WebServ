@@ -55,7 +55,7 @@ int main(int argc, char **argv) {
                         if(!zapros.parse_request(buf))
                         {
                             resp.fill_hosts_and_root(servers);
-                            resp.choose_method(zapros);
+                            resp.choose_method(zapros, servers);
                         }
                         responses.insert(std::make_pair(i, resp));
 //                        if (zapros.getHeaders().find("Connection")->second == "close"){

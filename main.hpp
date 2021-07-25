@@ -24,6 +24,7 @@
 #include <vector>
 #include "Sockets.hpp"
 #include "Config.hpp"
+#include <dirent.h>
 #define ROOT "/Users/iserzhan/WebServ/site/"
 
 #define PORT "8000"

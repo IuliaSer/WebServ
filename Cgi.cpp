@@ -83,48 +83,86 @@ void Cgi::create2darray(Request zapros)
     _env[5] = NULL;
 }
 
-int Cgi::execute_cgi(Request & zapros)
+// int Cgi::execute_cgi(Request & zapros)
+// {
+//     std::string root(ROOT);
+//     std::string file_path;
+//     int status;
+//     //const char *argv[2] = {NULL, NULL};
+//     const char *argv[3] = {zapros.getResourseName().c_str(), zapros.getAnswerBody().c_str(), NULL};
+//     file_path += root;
+//     file_path += zapros.getResourseName();
+//     create2darray(zapros);
+//     int fd, fd2;
+//     if ((fd = open(file_path.c_str(), O_RDONLY)) < 0)
+//         return 0;
+//     if ((fd2 = open(std::string(root + "/tmp.bla").c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0666)) < 0)
+//         return 0;
+//     pid_t child_id = fork();
+//     if (!child_id)
+//     {
+//         dup2(fd, 0);
+//         dup2(fd2, 1);
+//         if (execve(file_path.c_str(), (char *const *) argv, _env) == -1) {
+//             close(fd);
+//             close(fd2);
+//             return 0;
+//         }
+//     }
+//     else 
+//     {
+//         waitpid(child_id, &status, 0);
+//         close(fd);
+//         close(fd2);
+//         fd = open((root + "/tmp.bla").c_str(), O_RDONLY);
+//         if (write_to_buf(fd) == -1)
+//         {
+//             close(fd);
+//             unlink(std::string(root + "/tmp.bla").c_str());
+//             //delete file_path;
+//             free_memory();
+//             return 0;
+//         }
+//         _answer = std::string(_buf);
+//         close(fd);
+//         //unlink(std::string(root + "/tmp.bla").c_str());
+//         parseCGI(zapros);   
+//     }
+//     free_memory();
+//     return 0;  
+// }
+
+int Cgi::execute_cgi(Request & zapros, std::string& root)
 {
-    std::string root(ROOT);
     std::string file_path;
     int status;
-    const char *argv[2] = {NULL, NULL};
+    int fds[2];
+    const char *argv[3] = {zapros.getResourseName().c_str(), zapros.getAnswerBody().c_str(), NULL};
     file_path += root;
     file_path += zapros.getResourseName();
     create2darray(zapros);
-    int fd, fd2;
-    if ((fd = open(file_path.c_str(), O_RDONLY)) < 0)
-        return 0;
-    if ((fd2 = open(std::string(root + "/tmp.bla").c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0666)) < 0)
-        return 0;
+    if (pipe(fds) == -1)
+        std::cout << "pipe error" << std::endl;
     pid_t child_id = fork();
-    if (!child_id)
+    if (child_id < 0)
+        std::cout << "fork failed" << std::endl;
+    else if (child_id == 0)
     {
-        dup2(fd, 0);
-        dup2(fd2, 1);
+        close(fds[0]);
+        dup2(fds[1], 1);
         if (execve(file_path.c_str(), (char *const *) argv, _env) == -1) {
-            close(fd);
-            close(fd2);
-            return 0;
+            close(fds[1]);
+            exit(-1);
         }
     }
     else 
     {
         waitpid(child_id, &status, 0);
-        close(fd);
-        close(fd2);
-        fd = open((root + "/tmp.bla").c_str(), O_RDONLY);
-        if (write_to_buf(fd) == -1)
-        {
-            close(fd);
-            unlink(std::string(root + "/tmp.bla").c_str());
-            //delete file_path;
-            free_memory();
-            return 0;
-        }
+        close(fds[1]);
+        int bytes_read = read(fds[0], _buf, CGI_BUFSIZE);
         _answer = std::string(_buf);
-        close(fd);
-        //unlink(std::string(root + "/tmp.bla").c_str());
+        std::cout << "Answer after cgi " << _answer << std::endl;
+        close(fds[0]);
         parseCGI(zapros);   
     }
     free_memory();

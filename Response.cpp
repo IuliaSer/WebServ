@@ -1,6 +1,7 @@
 #include "main.hpp"
-#include <iostream> // std::cout.
-#include <string> // std::string, std::to_string.
+#include <iostream>
+#include <string>
+
 std::string current_date(){
     std::string date("Date: ");
     time_t seconds = time(NULL);
@@ -9,18 +10,61 @@ std::string current_date(){
     return date;
 }
 
-
 void Response::find_root(Request zapros) {
     _root = _hosts_and_root.find(zapros.getHost())->second;
+
+}
+
+void Response::autoindexOn()
+{
+	DIR *dir;
+	struct dirent *current;
+	std::string body;
+	std::string relativePath = ".";
+	std::cout << "relative path " << relativePath <<'\n';
+
+    chdir(_root.c_str());
+    std::cout << "ROOT autoindex" << _root << std::endl;
+    //chdir("/Users/iserzhan/WebServ/site");
+	dir = opendir(relativePath.c_str());
+	if (dir == NULL)
+	{
+		std::cout << "AUTOINDEX\n";
+        perror("error");
+		return ;
+	}
+	body = "<html>\n<head>";
+	body += "<title>webserv - AutoIndexOn</title>\n"
+			"<style> "
+			" * { margin: 0; padding: 0; }"
+			"h1 { text-align: center; font-size: 25px; margin-top: 30px;}"
+			"a { text-decoration: none; color: black; font-size: 20px;}"
+			"body { bac     kground: rgb(238,174,202); background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%); }"
+			"ul { display: flex; flex-wrap: wrap; flex-direction: column; border-radius: 5px; text-align: center; padding-left: 0; margin-top: 30px;}"
+			"li { display: block; border-bottom: 1px solid #673ab7; padding-bottom: 5px;}"
+			"</style>\n</head>\n<body>\n";
+	body += "<h1>Autoindex On:</h1>\n<ul>";
+	while ((current = readdir(dir)) != NULL)
+	{
+		if (current->d_name[0] != '.')
+		{
+			body += "<li><a href=\"";
+			body += current->d_name;
+			body += "\">";
+
+			body += current->d_name;
+			body += "</a></li>";
+		}
+	}
+	closedir(dir);
+	body += "</ul></body>\n</html>\n";
+	this->_answer_body = body;
 }
 
 int check_file_location(std::string const &file_path){
-    // std::string path(_root);
-    // path += get_file;
     struct stat fl_stat;
     if (stat(file_path.c_str(), &fl_stat) != 0)
        return (404);
-    //check permission
     return (0);
 }
 
@@ -123,7 +167,7 @@ void    Response::fill_hosts_and_root(std::vector<Server>& servers)
         _hosts_and_root.insert(std::make_pair(it->getHost() + ":" + it->getPort(), it->getRoot()));
         it++;
     }
-    
+
 }
 
 std::string	Response::getStatus(int code)
@@ -172,13 +216,11 @@ void Response::make_headers(Request & zapros)
 
 void Response::setValues(Request zapros)
 {
-    // _file_path = _root;
     if (zapros.getResourseName() == "/")
-        _file_path = _root;
+        _file_path = _root + "/index.html";
     else
-        _file_path = _root + zapros.getResourseName();
+        _file_path = _root + zapros.getResourseName() + "/index.html";
     _content_type = content_type(_file_path);
-    // file_read(getFilePath(), _answer_body);
 }
 
 void Response::resetValues(Request & zapros)
@@ -187,16 +229,51 @@ void Response::resetValues(Request & zapros)
     _answer_body = zapros.getAnswerBody();
 }
 
-void Response::make_get_response(Request zapros) {
-    // _file_path = _root;
+void Response::check_location(Request zapros, std::vector<Server>& servers)
+{
     _code = 200;
-    // _file_path = _root + zapros.getResourseName();
-    
-    if (zapros.getResourseName() == "/") {
-        file_read(_root + "/index.html", _answer_body);
-        _content_type = content_type(_root + "/index.html");
+    Server serv;
+    std::string port;
+    int size = zapros.getHost().size();
+
+    int f = zapros.getHost().find(":", 0);
+    port = zapros.getHost().substr(f + 1, size - (f + 1));
+    for (int i = 0; i < servers.size(); i++)
+    { 
+        if (servers[i]._port == port)
+        {
+            for (int j = 0; j < servers[i]._locations.size(); j++)
+            {
+                std::cout << "PATH: " << servers[i]._locations[j]._path << std::endl;
+                std::cout << "Resourse_name: " << zapros.getResourseName() << std::endl;
+                if(servers[i]._locations[j]._path == zapros.getResourseName())
+                {
+                    std::cout << "FILE_PATH: " << _file_path << std::endl;
+                    int a = 0;
+                    for (; a < servers[i]._locations[j]._allowed_methods.size(); a++)
+                    {
+                        if(zapros.getMethod() == servers[i]._locations[j]._allowed_methods[a])
+                            break;
+                    }
+                    if (a == servers[i]._locations[j]._allowed_methods.size()) // doshla do konca vectora
+                    {
+                        _answer = error_400(); // poka net 405
+                        _code = 405;
+                    }
+                    else if(servers[i]._locations[j]._autoindex)
+                        autoindexOn();
+                    return; //naideno location
+                }
+            }
+        }
     }
-    else
+    _code = 404;
+    return;
+}
+
+void Response::make_get_response(Request zapros, std::vector<Server>& servers) {
+    check_location(zapros, servers);
+    if (_code == 200)
     {
         if (check_file_location(_file_path) == -404)
         {
@@ -206,14 +283,13 @@ void Response::make_get_response(Request zapros) {
         }
         else
             file_read(_file_path, _answer_body);
+        make_headers(zapros);
     }
-    make_headers(zapros);
 }
 
 void Response::make_delete_response(Request zapros)
 {
     _code = 200;
-    // _file_path = _root + zapros.getResourseName();
      if (check_file_location(_file_path) == 0)
      {
          if (!remove(_file_path.c_str()))
@@ -228,7 +304,7 @@ void Response::make_delete_response(Request zapros)
      make_headers(zapros);
 }
 
-void Response::make_post_response(Request & zapros)
+void Response::make_post_response(Request & zapros, std::string & root)
 {
     Cgi c;
     if (check_file_location(_file_path) == -404)
@@ -237,7 +313,7 @@ void Response::make_post_response(Request & zapros)
         _code = 404;
         return;
     }
-    c.execute_cgi(zapros);
+    c.execute_cgi(zapros, root);
     resetValues(zapros);
     make_headers(zapros);
 }
@@ -252,18 +328,18 @@ std::string get_file_name(const char *buf){
     return file_name;
 }
 
-void Response::choose_method(Request & zapros)
+void Response::choose_method(Request & zapros, std::vector<Server>& servers)
 {
     ErrorsValue();
     find_root(zapros);
     std::cout << "ROOT < " << _root << std::endl;
     setValues(zapros);
     if (zapros.getMethod() == "GET")
-        make_get_response(zapros);
+        make_get_response(zapros, servers);
     else if (zapros.getMethod() == "DELETE")
         make_delete_response(zapros);
     else if (zapros.getMethod() == "POST")
-        make_post_response(zapros);
+        make_post_response(zapros, _root);
     else 
         _answer = error_400();
 }

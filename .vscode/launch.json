@@ -8,8 +8,8 @@
             "type": "lldb",
             "request": "launch",
             "name": "Debug",
-            "program": "${workspaceFolder}/webserv",
-            "args": ["test.conf"],
+            "program": "/Users/iserzhan/WebServ/webserv",
+            "args": ["/Users/iserzhan/WebServ/test.conf"],
             "cwd": "${workspaceFolder}"
         }
     ]
