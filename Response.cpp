@@ -83,9 +83,10 @@ void file_read(std::string const &location, std::string &answer_body){
         long length = in.tellg();
         in.seekg(0, in.beg);
 
-        char * buffer = new char [length];
+        char *buffer = new char [length];
         in.read(buffer, length);
         answer_body.append(buffer, in.gcount());//надо добавить проверки
+        delete[] buffer;
     }
     in.close();     // закрываем файл
 }
@@ -135,7 +136,7 @@ std::string Response::error_400(std::string const &key){
 	path += _default_errors.find(key)->second.find(400)->second;
 	ifs.open(path);
 	if (!ifs.is_open())
-		throw std::out_of_range("not open\n");
+		throw std::out_of_range("not open for 400\n");
 	std::getline(ifs, file, ifs.widen(EOF));
 	ifs.close();
 	ss << file.length();
@@ -288,6 +289,7 @@ void Response::make_headers(Request &zapros)
 
 void Response::setValues(Request &zapros)
 {
+    _AUTOINDEX = 0;
     if (zapros.getResourseName() == "/")
         _file_path = _root + "/index.html";
     else
@@ -333,19 +335,21 @@ void Response::check_location(Request zapros, std::vector<Server>& servers)
                         _code = 405;
                     }
                     else if(servers[i]._locations[j]._autoindex)
+                    {
                         autoindexOn();
+                        _AUTOINDEX = 1;
+                    }
                     return; //naideno location
                 }
             }
         }
     }
-    // _code = 404;
     return;
 }
 
 void Response::make_get_response(Request zapros, std::vector<Server>& servers) {
     check_location(zapros, servers);//надо добавить флаг если включен автоиндекс
-    if (_code == 200)
+    if (_code == 200 && _AUTOINDEX == 0)
     {
         if (check_file_location(_file_path) == 404)
         {
@@ -357,6 +361,8 @@ void Response::make_get_response(Request zapros, std::vector<Server>& servers) {
             file_read(_file_path, _answer_body);
         make_headers(zapros);
     }
+    if (_AUTOINDEX == 1)
+        make_headers(zapros);
 }
 
 void Response::make_delete_response(Request &zapros)
@@ -400,7 +406,7 @@ std::string get_file_name(const char *buf){
     return file_name;
 }
 
-void Response::choose_method(Request & zapros, std::vector<Server>& servers)
+void Response::choose_method(Request &zapros, std::vector<Server>& servers)
 {
     ErrorsValue();
     find_root(zapros);
@@ -413,5 +419,5 @@ void Response::choose_method(Request & zapros, std::vector<Server>& servers)
     else if (zapros.getMethod() == "POST")
         make_post_response(zapros);
     else 
-        _answer = error_400(zapros.getHost()); // заменить все answer 1 прочитать из файла в answer
+        _answer = error_400(zapros.getCurrentServer()._host + ":" + zapros.getCurrentServer().getPort()); // заменить все answer 1 прочитать из файла в answer
 }

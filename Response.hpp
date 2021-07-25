@@ -12,6 +12,7 @@ class Response
     private:
 
 		int 						_autoindex;
+        bool 						_AUTOINDEX;
 		std::string                 _zapros;
         std::string                 _answer;
         std::string                 _answer_body;

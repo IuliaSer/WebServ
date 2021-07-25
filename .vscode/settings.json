@@ -66,6 +66,7 @@
 		"utility": "cpp",
 		"vector": "cpp",
 		"complex": "cpp",
-		"sstream": "cpp"
+		"sstream": "cpp",
+		"filesystem": "cpp"
 	}
 }

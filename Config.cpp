@@ -42,9 +42,9 @@ void Config::parseConfig() {
 		std::cout << "serv host : " << srv._host << "\n";
 		std::cout << "serv limit : " << srv._max_body_size << "\n";
 		std::cout << "serv root : " << srv._root << "\n";
-		for (auto m : srv._default_error_page) {
-			std::cout << "serv error page : " << m.first << " " << m.second << "\n";
-		}
+		// for (auto m : srv._default_error_page) {
+		// 	std::cout << "serv error page : " << m.first << " " << m.second << "\n";
+		// }
 
 		for (unsigned long j = 0; j < srv._locations.size(); j++) {
 			Location loc = srv._locations[j];
@@ -65,9 +65,9 @@ void Config::parseConfig() {
 
 			std::cout << "cgi path : " << loc._cgi_path << "\n";
 
-			for (auto m : loc._redirects) {
-				std::cout << "redirs : " << m.first << " " << m.second << "\n";
-			}
+			// for (auto m : loc._redirects) {
+			// 	std::cout << "redirs : " << m.first << " " << m.second << "\n";
+			// }
 		}
 	}
 }
