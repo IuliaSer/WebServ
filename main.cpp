@@ -2,6 +2,11 @@
 
 int main(int argc, char **argv) {
 
+	if (!argv[1] || strcmp(argv[1], "test.conf") != 0){
+		std::cout << "Webserver requires a valid config" << std::endl;
+		return 1;
+	}
+
     Config config(argv[1]);
     config.parseConfig();
 

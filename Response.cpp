@@ -96,7 +96,7 @@ std::string Response::error_400(std::string const &key){
 
 	path.clear();
 	path = _hosts_and_root.find(key)->second;
-	path += _default_errors.find(key)->second.find(404)->second;
+	path += _default_errors.find(key)->second.find(400)->second;
 	ifs.open(path);
 	if (!ifs.is_open())
 		throw std::out_of_range("not open\n");
@@ -120,21 +120,61 @@ std::string Response::error_400(std::string const &key){
     return error_answer;
 }
 
-std::string error_403(){
-    std::string error_answer("HTTP/1.1 400 Forbidden\nServer: my_webserver\n");
+std::string Response::error_403(std::string const &key){
+	std::ifstream 	ifs;
+	std::stringstream ss;
+	std::string 	path;
+	std::string		file;
+
+	path.clear();
+	path = _hosts_and_root.find(key)->second;
+	path += _default_errors.find(key)->second.find(403)->second;
+	ifs.open(path);
+	if (!ifs.is_open())
+		throw std::out_of_range("not open\n");
+	std::getline(ifs, file, ifs.widen(EOF));
+	ifs.close();
+	ss << file.length();
+
+    std::string error_answer("HTTP/1.1 403 Forbidden\nServer: my_webserver\n"); // todo changed 400 to 403
     error_answer += current_date();
     error_answer += "Content-Type: text/html\n"
-                    "Content-Length: 153\n"
+					"Content-Length: "+ ss.str() + "\n"
                     "Connection: close\n" //надо закрыть соединение после такого ответа
-                    "\n"
-                    "<html>\n"
-                    "<head><title>403 Forbidden</title></head>\n"
-                    "<body>\n"
-                    "<center><h1>403 Forbidden</h1></center>\n"
-                    "<hr><center>My_webserver</center>\n"
-                    "</body>\n"
-                    "</html>";
+                    "\n" + file;
+//                    "<html>\n"
+//                    "<head><title>403 Forbidden</title></head>\n"
+//                    "<body>\n"
+//                    "<center><h1>403 Forbidden</h1></center>\n"
+//                    "<hr><center>My_webserver</center>\n"
+//                    "</body>\n"
+//                    "</html>";
     return error_answer;
+}
+
+std::string Response::error_405(std::string const &key){
+	std::ifstream 	ifs;
+	std::stringstream ss;
+	std::string 	path;
+	std::string		file;
+
+	path.clear();
+	path = _hosts_and_root.find(key)->second;
+	path += _default_errors.find(key)->second.find(405)->second;
+	ifs.open(path);
+	if (!ifs.is_open())
+		throw std::out_of_range("not open\n");
+	std::getline(ifs, file, ifs.widen(EOF));
+	ifs.close();
+	ss << file.length();
+
+	std::string error_answer("HTTP/1.1 405 Forbidden\nServer: my_webserver\n"); // todo changed 400 to 403
+	error_answer += current_date();
+	error_answer += "Content-Type: text/html\n"
+					"Content-Length: "+ ss.str() + "\n"
+												   "Connection: close\n" //надо закрыть соединение после такого ответа
+												   "\n" + file;
+	return error_answer;
 }
 
 std::string content_type(std::string const &file_path) {
@@ -306,7 +346,7 @@ void Response::make_delete_response(Request zapros)
      if (check_file_location(_file_path) == 0)
      {
          if (!remove(_file_path.c_str()))
-            _answer = error_403();
+            _answer = error_403(zapros.getHost());
      }
      else 
      {
