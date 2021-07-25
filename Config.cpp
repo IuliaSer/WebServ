@@ -83,16 +83,13 @@ void Config::parseServer(std::vector<std::string> lines, uint32_t* endBlockPos) 
 			break;
 		}
 		else {
-			checkServerInstructions(lineItems, *endBlockPos);
+			checkServerInstructions(lineItems);
 		}
 		(*endBlockPos)++;
 	}
 }
 
-void Config::checkServerInstructions(std::vector<std::string> line, uint32_t endBlockPos) {
-
-	//todo maybe to remove position
-	endBlockPos = 0;
+void Config::checkServerInstructions(std::vector<std::string> line) {
 
 	if (line[0] == "server_name") {
 		this->_servers.back().setServerName(line[1]);
@@ -135,7 +132,12 @@ void Config::checkLocationInstructions(std::vector<std::string> line, uint32_t e
 	if (line[0] == "root") {
 		this->_servers.back().getLocations().back().setRoot(line[1]);
 	} else if (line[0] == "allow_method") {
-		for (unsigned long i = 1; i < line.size(); i++) {
+		size_t size = line.size();
+//		std::cout << size << "-----------------" << std::endl;
+//		for (int i = 0; i < size; ++i) {
+//			std::cout << line[i] << "-----------------" << std::endl;
+//		}
+		for (unsigned long i = 1; i < size; i++) {
 			this->_servers.back().getLocations().back().getAllowedMethods().push_back(line[i]);
 		}
 	} else if (line[0] == "cgi") {
