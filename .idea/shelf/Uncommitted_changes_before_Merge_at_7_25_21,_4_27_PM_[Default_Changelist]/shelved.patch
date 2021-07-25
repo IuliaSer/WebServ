@@ -1,0 +1,117 @@
+Index: Config.cpp
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#include \"Config.hpp\"\n\nConfig::Config(const char *config_path) {\n\tthis->config_path = config_path;\n}\n\nConfig::~Config() {\n}\n\nvoid Config::parseConfig() {\n\tstd::ifstream configFile;\n\tconfigFile.open(config_path);\n\tif (!configFile) {\n\t\tthrow new std::runtime_error(\"File \" + config_path + \" not found\");\n\t}\n\tstd::vector<std::string> lines;\n\n\twhile (!configFile.eof()) {\n\t\tstd::string currLine;\n\t\tgetline(configFile, currLine);\n\t\tif (!skipSpaces(currLine).empty()) {\n\t\t\tlines.push_back(currLine);\n\t\t}\n\t}\n\n\tfor (unsigned long i = 0; i < lines.size(); i++) {\n\t\tstd::vector<std::string> tokens = split(lines[i], \" \");\n\t\tfor (unsigned long i1 = 0; i1 < tokens.size(); i1++) {\n\t\t\ttokens[i1] = trim(tokens[i1]);\n\t\t}\n\t\tuint32_t endBlockPos = i + 1;\n\t\tthis->_servers.push_back(Server());\n\t\tparseServer(lines, &endBlockPos);\n\t\ti = endBlockPos;\n\t}\n\n\tfor (unsigned long i = 0; i < this->_servers.size(); i++) {\n\t\tServer srv = this->_servers[i];\n\t\tstd::cout << \"serv: \" << i + 1 << \"\\n\";\n\t\tstd::cout << \"serv name : \" << srv._server_name << \"\\n\";\n\t\tstd::cout << \"serv port : \" << srv._portInt << \"\\n\";\n\t\tstd::cout << \"serv host : \" << srv._host << \"\\n\";\n\t\tstd::cout << \"serv limit : \" << srv._max_body_size << \"\\n\";\n\t\tstd::cout << \"serv root : \" << srv._root << \"\\n\";\n\t\tfor (auto m : srv._default_error_page) {\n\t\t\tstd::cout << \"serv error page : \" << m.first << \" \" << m.second << \"\\n\";\n\t\t}\n\n\t\tfor (unsigned long j = 0; j < srv._locations.size(); j++) {\n\t\t\tLocation loc = srv._locations[j];\n\t\t\tstd::cout << \"location: \" << j + 1 << \" path: \" << loc._path << \"\\n\";\n\t\t\tstd::cout << \"root : \" << loc._root << \"\\n\";\n\t\t\tstd::cout << \"autoindex : \" << std::boolalpha << loc._autoindex << \"\\n\";\n\t\t\tfor (unsigned long k = 0; k < loc._allowed_methods.size(); k++) {\n\t\t\t\tstd::cout << \"allowed method \" << k + 1 << \" \" + loc._allowed_methods[k] << \"\\n\";\n\t\t\t}\n\n\t\t\tfor (unsigned long k = 0; k < loc._index.size(); k++) {\n\t\t\t\tstd::cout << \"indexes \" << k + 1 << \" \" + loc._index[k] << \"\\n\";\n\t\t\t}\n\n\t\t\tfor (unsigned long k = 0; k < loc._cgi.size(); k++) {\n\t\t\t\tstd::cout << \"cgi \" << k + 1 << \" \" + loc._cgi[k] << \"\\n\";\n\t\t\t}\n\n\t\t\tstd::cout << \"cgi path : \" << loc._cgi_path << \"\\n\";\n\n\t\t\tfor (auto m : loc._redirects) {\n\t\t\t\tstd::cout << \"redirs : \" << m.first << \" \" << m.second << \"\\n\";\n\t\t\t}\n\t\t}\n\t}\n}\n\nvoid Config::parseServer(std::vector<std::string> lines, uint32_t* endBlockPos) {\n\twhile (*endBlockPos < lines.size()) {\n\t\tstd::vector<std::string> lineItems = split(lines[*endBlockPos], \" \");\n\t\tif (lineItems[0] == \"location\") {\n\t\t\tthis->_servers.back().getLocations().push_back(Location());\n\t\t\tparseLocation(lines, endBlockPos);\n\t\t}\n\t\telse if (lineItems[0] == \"}\") {\n\t\t\tbreak;\n\t\t}\n\t\telse {\n\t\t\tcheckServerInstructions(lineItems, *endBlockPos);\n\t\t}\n\t\t(*endBlockPos)++;\n\t}\n}\n\nvoid Config::checkServerInstructions(std::vector<std::string> line, uint32_t endBlockPos) {\n\n\t//todo maybe to remove position\n\tendBlockPos = 0;\n\n\tif (line[0] == \"server_name\") {\n\t\tthis->_servers.back().setServerName(line[1]);\n\t} else if (line[0] == \"port\") {\n\t\tthis->_servers.back().setPortInt(atoi(line[1].c_str()));\n\t\tthis->_servers.back().setPort(line[1]);\n\t} else if (line[0] == \"host\") {\n\t\tthis->_servers.back().setHost(line[1]);\n\t} else if (line[0] == \"default_error_page\") {\n\t\tthis->_servers.back().getDefaultPages()[atoi(line[1].c_str())] = line[2];\n\t} else if (line[0] == \"limit_size\") {\n\t\tthis->_servers.back().setMaxBodySize(atoi(line[1].c_str()));\n\t} else if (line[0] == \"root\") {\n\t\tthis->_servers.back().setRoot(line[1]);\n\t}\n}\n\nvoid Config::parseLocation(std::vector<std::string> lines, uint32_t* endBlockPos) {\n\tstd::vector<std::string> locationLine = split(lines[*endBlockPos], \" \");\n\tthis->_servers.back().getLocations().back().setPath(locationLine[1]);\n\t(*endBlockPos)++;\n\twhile (*endBlockPos < lines.size()) {\n\t\tstd::vector<std::string> lineItems = split(lines[*endBlockPos], \" \");\n\n\t\tif (lineItems[0] == \"}\") {\n\t\t\tbreak ;\n\t\t}\n\t\telse {\n\t\t\t//todo\n\t\t\tcheckLocationInstructions(lineItems, *endBlockPos);\n\t\t}\n\t\t(*endBlockPos)++;\n\t}\n}\n\nvoid Config::checkLocationInstructions(std::vector<std::string> line, uint32_t endBlockPos) {\n\n\tendBlockPos = 0;\n\n\tif (line[0] == \"root\") {\n\t\tthis->_servers.back().getLocations().back().setRoot(line[1]);\n\t} else if (line[0] == \"allow_method\") {\n\t\tfor (unsigned long i = 1; i < line.size(); i++) {\n\t\t\tthis->_servers.back().getLocations().back().getAllowedMethods().push_back(line[i]);\n\t\t}\n\t} else if (line[0] == \"cgi\") {\n\t\tfor (unsigned long i = 1; i < line.size(); i++) {\n\t\t\tthis->_servers.back().getLocations().back().getCgi().push_back(line[i]);\n\t\t}\n\t} else if (line[0] == \"cgi_path\") {\n\t\tthis->_servers.back().getLocations().back().setCgiPath(line[1]);\n\t} else if (line[0] == \"autoindex\") {\n\t\tthis->_servers.back().getLocations().back().setAutoIndex(line[1] == \"on\");\n\t} else if (line[0] == \"index\") {\n\t\tfor (unsigned long i = 1; i < line.size(); i++) {\n\t\t\tthis->_servers.back().getLocations().back().getIndex().push_back(line[i]);\n\t\t}\n\t} else if (line[0] == \"redirect\") {\n\t\tthis->_servers.back().getLocations().back().getRedirects()[atoi(line[1].c_str())] = line[2];\n\t}\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Config.cpp b/Config.cpp
+--- a/Config.cpp	(revision 0f054b2402a258d296e3e7a9381cd8a95d5e9a75)
++++ b/Config.cpp	(date 1627219598000)
+@@ -83,16 +83,13 @@
+ 			break;
+ 		}
+ 		else {
+-			checkServerInstructions(lineItems, *endBlockPos);
++			checkServerInstructions(lineItems);
+ 		}
+ 		(*endBlockPos)++;
+ 	}
+ }
+ 
+-void Config::checkServerInstructions(std::vector<std::string> line, uint32_t endBlockPos) {
+-
+-	//todo maybe to remove position
+-	endBlockPos = 0;
++void Config::checkServerInstructions(std::vector<std::string> line) {
+ 
+ 	if (line[0] == "server_name") {
+ 		this->_servers.back().setServerName(line[1]);
+@@ -135,7 +132,12 @@
+ 	if (line[0] == "root") {
+ 		this->_servers.back().getLocations().back().setRoot(line[1]);
+ 	} else if (line[0] == "allow_method") {
+-		for (unsigned long i = 1; i < line.size(); i++) {
++		size_t size = line.size();
++//		std::cout << size << "-----------------" << std::endl;
++//		for (int i = 0; i < size; ++i) {
++//			std::cout << line[i] << "-----------------" << std::endl;
++//		}
++		for (unsigned long i = 1; i < size; i++) {
+ 			this->_servers.back().getLocations().back().getAllowedMethods().push_back(line[i]);
+ 		}
+ 	} else if (line[0] == "cgi") {
+Index: main.cpp
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#include \"main.hpp\"\n\nint main(int argc, char **argv) {\n\n    Config config(argv[1]);\n    config.parseConfig();\n\n    char buf[65000];\n    std::vector<std::string> ports;\n    std::vector<Server> servers = config.getServers();\n\n    std::vector<Server>::iterator it = servers.begin();\n    while (it != servers.end()){\n        ports.push_back(it->getPort());\n        it++;\n    }\n    memset(&buf, 0, sizeof(buf));\n    Sockets sockets(ports);\n    fd_set master;\n    fd_set readset;\n    fd_set writeset;\n    std::map<int, Response> responses;\n    FD_ZERO(&master);\n    FD_ZERO(&readset);\n    FD_ZERO(&writeset);\n    int fdmax = sockets.listen_all(master);\n    while (1) {\n        readset = master;\n        writeset = master;\n        timeval timeout;\n        timeout.tv_sec = 3;\n        timeout.tv_usec = 0;\n        if(select(fdmax + 1, &readset, &writeset, NULL, &timeout) == -1)\n        {\n            perror(\"select\");\n            exit(3);\n        }\n        for (int i = 0; i <= fdmax; i++) {\n            if (FD_ISSET(i, &readset)) {\n                if (sockets.accept_connection(i, master, fdmax) == 1)\n                    continue;\n                else {\n                    ssize_t bytes_read = 0;\n                    bytes_read = recv(i, buf, sizeof(buf), 0);\n                    std::cout << \"bytes_read -> \" << bytes_read << std::endl;\n                    if (bytes_read <= 0) {\n                        close(i);\n                        FD_CLR(i, &master);\n                    }\n                    else {\n                        std::cout << \"|....Client request : \" << buf << std::endl << std::endl;\n                        Request zapros;\n                        Response resp;\n                        zapros.clean_request();\n                        if(!zapros.parse_request(buf))\n                        {\n                            resp.fill_hosts_and_root(servers);\n                            resp.choose_method(zapros);\n                        }\n                        responses.insert(std::make_pair(i, resp));\n//                        if (zapros.getHeaders().find(\"Connection\")->second == \"close\"){\n//                            close(i);\n//                            FD_CLR(i, &master);\n//                        }\n                    }\n                }\n            }\n            if (FD_ISSET(i, &writeset)){\n                std::map<int, Response>::iterator it = responses.find(i);\n                if (it != responses.end())\n                {\n                    ssize_t res = send(i, it->second.getAnswer().c_str(), it->second.getAnswer().length(), 0);\n                    /* Logging */\n                    std::ofstream log(\"log.txt\", std::ios_base::trunc);\n                    log << \"Возвращаемое значение send = \" << res << std::endl;\n                    log << it->second.getAnswer() << std::endl;\n                    log.close();\n                    /* End of Logging */\n                    if (it->second.getAnswer().find(\"Connection: close\\n\") != std::string::npos)\n                    {\n                        std::cout << \"closing connection\" << std::endl;\n                        close(i);\n                        FD_CLR(i, &master);\n                    }\n                    responses.erase(it);\n                }\n                \n            }\n        }\n    }\n    return 0;\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/main.cpp b/main.cpp
+--- a/main.cpp	(revision 0f054b2402a258d296e3e7a9381cd8a95d5e9a75)
++++ b/main.cpp	(date 1627219598000)
+@@ -2,6 +2,11 @@
+ 
+ int main(int argc, char **argv) {
+ 
++	if (!argv[1] || strcmp(argv[1], "test.conf") != 0){
++		std::cout << "Webserver requires a valid config" << std::endl;
++		return 1;
++	}
++
+     Config config(argv[1]);
+     config.parseConfig();
+ 
+Index: Response.hpp
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#ifndef RESPONSE_HPP\n#define RESPONSE_HPP\n#include <iostream>\n#include \"Server.hpp\"\n\nclass Response\n{\n    private:\n        std::string                 _answer;\n        std::string                 _answer_body;\n        std::string                 _content_type;\n        std::string                 _status;\n        int                         _code;\n        std::map<int, std::string>\t_errors;\n        std::string                 _file_path;\n        std::string                 _root;\n        std::map<std::string, std::string> _hosts_and_root;\n        void                        find_root(Request zapros);\n    public:\n        void                        fill_hosts_and_root(std::vector<Server>& servers);\n        void                        choose_method(Request & zapros);\n        void                        make_get_response(Request zapros);\n        void                        make_delete_response(Request zapros);\n        void                        make_response(Request zapros);\n        void                        make_headers(Request & zapros);\n        void                        make_post_response(Request & zapros);\n        void                        resetValues(Request & zapros);\n        void                        setValues(Request zapros);\n        void                        setFilePath(Request zapros) {}\n        std::string                 getAnswer() const {return this->_answer;}\n        std::string\t\t            getStatus(int code);\n        std::string\t\t            getFilePath() {return _file_path;}\n        void                        ErrorsValue();\n        Response() {}\n        ~Response() {}\n};\n\n#endif
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Response.hpp b/Response.hpp
+--- a/Response.hpp	(revision 0f054b2402a258d296e3e7a9381cd8a95d5e9a75)
++++ b/Response.hpp	(date 1627219598000)
+@@ -1,11 +1,18 @@
+ #ifndef RESPONSE_HPP
+ #define RESPONSE_HPP
+ #include <iostream>
++#include <dirent.h>
+ #include "Server.hpp"
+ 
++#include <sstream>
++#include <fstream>
++
+ class Response
+ {
+     private:
++
++		int 						_autoindex;
++	std::string                 _zapros;
+         std::string                 _answer;
+         std::string                 _answer_body;
+         std::string                 _content_type;
+@@ -14,7 +21,8 @@
+         std::map<int, std::string>	_errors;
+         std::string                 _file_path;
+         std::string                 _root;
+-        std::map<std::string, std::string> _hosts_and_root;
++        std::map<std::string, std::string>						_hosts_and_root;
++        std::map<std::string, std::map<int, std::string> >		_default_errors;
+         void                        find_root(Request zapros);
+     public:
+         void                        fill_hosts_and_root(std::vector<Server>& servers);
+@@ -31,6 +39,12 @@
+         std::string		            getStatus(int code);
+         std::string		            getFilePath() {return _file_path;}
+         void                        ErrorsValue();
++        void 						autoindexOn();
++        std::string					error_404(std::string const &key /* 127.0.0.1:8081*/);
++		std::string					error_400(std::string const &key);
++		std::string					error_403(std::string const &key);
++		std::string					error_405(std::string const &key);
++
+         Response() {}
+         ~Response() {}
+ };
