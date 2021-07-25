@@ -26,7 +26,6 @@ public:
 	// int 		_hostInt; //ip
 	std::string _port;
 	int			_portInt;
-	// index
 	std::string _path;
 
 	std::string _server_name;

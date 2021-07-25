@@ -2,6 +2,11 @@
 
 int main(int argc, char **argv) {
 
+	// if (!argv[1] || strcmp(argv[1], "test.conf") != 0){
+	// 	std::cout << "Webserver requires a valid config" << std::endl;
+	// 	return 1;
+	// }
+
     Config config(argv[1]);
     config.parseConfig();
 
@@ -54,9 +59,10 @@ int main(int argc, char **argv) {
                         if(!zapros.parse_request(buffer.c_str()))
                         {
                             resp.fill_hosts_and_root(servers);
-                            resp.choose_method(zapros);
+                            resp.choose_method(zapros, servers);
                         }
                         responses.insert(std::make_pair(i, resp));
+						std::cout << "socket number " << i << std::endl;
 //                        if (zapros.getHeaders().find("Connection")->second == "close"){
 //                            close(i);
 //                            FD_CLR(i, &master);
@@ -68,6 +74,8 @@ int main(int argc, char **argv) {
                 std::map<int, Response>::iterator it = responses.find(i);
                 if (it != responses.end())
                 {
+					std::cout << "socket number " << i << std::endl;
+					std::cout << "ТУТ ОТВЕТ" << it->second.getAnswer().c_str() << std::endl;
                     ssize_t res = send(i, it->second.getAnswer().c_str(), it->second.getAnswer().length(), 0);
                     /* Logging */
                     std::ofstream log("log.txt", std::ios_base::trunc);

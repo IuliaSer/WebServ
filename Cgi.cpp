@@ -23,11 +23,9 @@ void Cgi::parseCGI(Request & zapros)
     if (j >= 0)
         zapros.setStatus(_answer.substr(j + 8, 3));
     j = _answer.find("Content-Type: ", 0);
+    int f = _answer.find("\r\n", j + 14);
     if (j >= 0)
-    {
-        size_t pos_end = _answer.find("\r\n", j);
-        zapros.setContentType(_answer.substr(j + 14, pos_end - (j + 14)));
-    }
+        zapros.setContentType(_answer.substr(j + 14, f - j + 14));
     if (i >= 0)
         zapros.setAnswerBody(_answer.substr(i + 4, _answer.size() - i + 4));
 }  

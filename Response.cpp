@@ -10,18 +10,61 @@ std::string current_date(){
     return date;
 }
 
-
 void Response::find_root(Request &zapros) {
     _root = _hosts_and_root.find(zapros.getHost())->second;
+
+}
+
+void Response::autoindexOn()
+{
+	DIR *dir;
+	struct dirent *current;
+	std::string body;
+	std::string relativePath = ".";
+	std::cout << "relative path " << relativePath <<'\n';
+
+    chdir(_root.c_str());
+    std::cout << "ROOT autoindex" << _root << std::endl;
+    //chdir("/Users/iserzhan/WebServ/site");
+	dir = opendir(relativePath.c_str());
+	if (dir == NULL)
+	{
+		std::cout << "AUTOINDEX\n";
+        perror("error");
+		return ;
+	}
+	body = "<html>\n<head>";
+	body += "<title>webserv - AutoIndexOn</title>\n"
+			"<style> "
+			" * { margin: 0; padding: 0; }"
+			"h1 { text-align: center; font-size: 25px; margin-top: 30px;}"
+			"a { text-decoration: none; color: black; font-size: 20px;}"
+			"body { bac     kground: rgb(238,174,202); background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%); }"
+			"ul { display: flex; flex-wrap: wrap; flex-direction: column; border-radius: 5px; text-align: center; padding-left: 0; margin-top: 30px;}"
+			"li { display: block; border-bottom: 1px solid #673ab7; padding-bottom: 5px;}"
+			"</style>\n</head>\n<body>\n";
+	body += "<h1>Autoindex On:</h1>\n<ul>";
+	while ((current = readdir(dir)) != NULL)
+	{
+		if (current->d_name[0] != '.')
+		{
+			body += "<li><a href=\"";
+			body += current->d_name;
+			body += "\">";
+
+			body += current->d_name;
+			body += "</a></li>";
+		}
+	}
+	closedir(dir);
+	body += "</ul></body>\n</html>\n";
+	this->_answer_body = body;
 }
 
 int check_file_location(std::string const &file_path){
-    // std::string path(_root);
-    // path += get_file;
     struct stat fl_stat;
     if (stat(file_path.c_str(), &fl_stat) != 0)
        return (404);
-    //check permission
     return (0);
 }
 
@@ -47,55 +90,127 @@ void file_read(std::string const &location, std::string &answer_body){
     in.close();     // закрываем файл
 }
 
-std::string error_404(){
+std::string Response::error_404(std::string const &key /* 127.0.0.1:8081*/){
+	std::ifstream 	ifs;
+	std::stringstream ss;
+	std::string 	path;
+	std::string		file;
+
+	path.clear();
+	path = _hosts_and_root.find(key)->second;
+	path += _default_errors.find(key)->second.find(404)->second;
+	ifs.open(path);
+	if (!ifs.is_open())
+		throw std::out_of_range("not open\n");
+	std::getline(ifs, file, ifs.widen(EOF));
+	ifs.close();
+	ss << file.length();
     std::string error_answer("HTTP/1.1 404 Not Found\r\nServer: my_webserver\n");
     error_answer += current_date();
     error_answer += "Content-Type: text/html\n"
+					"Content-Length: " + ss.str() + "\n"
                     "Connection: close\n"
-                    "Content-Length: 153\n"
                     "\n"
-                    "<html>\n"
-                    "<head><title>404 Not Found</title></head>\n"
-                    "<body>\n"
-                    "<center><h1>404 Not Found</h1></center>\n"
-                    "<hr><center>My_webserver</center>\n"
-                    "</body>\n"
-                    "</html>";
+					+ file;
+//                    "<html>\n"
+//                    "<head><title>404 Not Found</title></head>\n"
+//                    "<body>\n"
+//                    "<center><h1>404 Not Found</h1></center>\n"
+//                    "<hr><center>My_webserver</center>\n"
+//                    "</body>\n"
+//                    "</html>";
+
+std::cout << error_answer;
     return error_answer;
 }
 
-std::string error_400(){
+std::string Response::error_400(std::string const &key){
+	std::ifstream 	ifs;
+	std::stringstream ss;
+	std::string 	path;
+	std::string		file;
+
+	path.clear();
+	path = _hosts_and_root.find(key)->second;
+	path += _default_errors.find(key)->second.find(400)->second;
+	ifs.open(path);
+	if (!ifs.is_open())
+		throw std::out_of_range("not open\n");
+	std::getline(ifs, file, ifs.widen(EOF));
+	ifs.close();
+	ss << file.length();
+
     std::string error_answer("HTTP/1.1 400 Bad Request\nServer: my_webserver\n");
     error_answer += current_date();
     error_answer += "Content-Type: text/html\n"
-                    "Content-Length: 157\n"
+					"Content-Length: " + ss.str() + "\n"
                     "Connection: close\n" //надо закрыть соединение после такого ответа
-                    "\n"
-                    "<html>\n"
-                    "<head><title>400 Bad Request</title></head>\n"
-                    "<body>\n"
-                    "<center><h1>400 Bad Request</h1></center>\n"
-                    "<hr><center>My_webserver</center>\n"
-                    "</body>\n"
-                    "</html>";
+                    "\n" + file;
+//					"<html>\n"
+//                    "<head><title>400 Bad Request</title></head>\n"
+//                    "<body>\n"
+//                    "<center><h1>400 Bad Request</h1></center>\n"
+//                    "<hr><center>My_webserver</center>\n"
+//                    "</body>\n"
+//                    "</html>";
     return error_answer;
 }
 
-std::string error_403(){
-    std::string error_answer("HTTP/1.1 400 Forbidden\nServer: my_webserver\n");
+std::string Response::error_403(std::string const &key){
+	std::ifstream 	ifs;
+	std::stringstream ss;
+	std::string 	path;
+	std::string		file;
+
+	path.clear();
+	path = _hosts_and_root.find(key)->second;
+	path += _default_errors.find(key)->second.find(403)->second;
+	ifs.open(path);
+	if (!ifs.is_open())
+		throw std::out_of_range("not open\n");
+	std::getline(ifs, file, ifs.widen(EOF));
+	ifs.close();
+	ss << file.length();
+
+    std::string error_answer("HTTP/1.1 403 Forbidden\nServer: my_webserver\n"); // todo changed 400 to 403
     error_answer += current_date();
     error_answer += "Content-Type: text/html\n"
-                    "Content-Length: 153\n"
+					"Content-Length: "+ ss.str() + "\n"
                     "Connection: close\n" //надо закрыть соединение после такого ответа
-                    "\n"
-                    "<html>\n"
-                    "<head><title>403 Forbidden</title></head>\n"
-                    "<body>\n"
-                    "<center><h1>403 Forbidden</h1></center>\n"
-                    "<hr><center>My_webserver</center>\n"
-                    "</body>\n"
-                    "</html>";
+                    "\n" + file;
+//                    "<html>\n"
+//                    "<head><title>403 Forbidden</title></head>\n"
+//                    "<body>\n"
+//                    "<center><h1>403 Forbidden</h1></center>\n"
+//                    "<hr><center>My_webserver</center>\n"
+//                    "</body>\n"
+//                    "</html>";
     return error_answer;
+}
+
+std::string Response::error_405(std::string const &key){
+	std::ifstream 	ifs;
+	std::stringstream ss;
+	std::string 	path;
+	std::string		file;
+
+	path.clear();
+	path = _hosts_and_root.find(key)->second;
+	path += _default_errors.find(key)->second.find(405)->second;
+	ifs.open(path);
+	if (!ifs.is_open())
+		throw std::out_of_range("not open\n");
+	std::getline(ifs, file, ifs.widen(EOF));
+	ifs.close();
+	ss << file.length();
+
+	std::string error_answer("HTTP/1.1 405 Forbidden\nServer: my_webserver\n"); // todo changed 400 to 403
+	error_answer += current_date();
+	error_answer += "Content-Type: text/html\n"
+					"Content-Length: "+ ss.str() + "\n"
+												   "Connection: close\n" //надо закрыть соединение после такого ответа
+												   "\n" + file;
+	return error_answer;
 }
 
 std::string content_type(std::string const &file_path) {
@@ -114,7 +229,7 @@ std::string content_type(std::string const &file_path) {
         return("cgi");
     }
     else
-        return ("");
+        return("");
 }
 
 void    Response::fill_hosts_and_root(std::vector<Server>& servers)
@@ -122,6 +237,7 @@ void    Response::fill_hosts_and_root(std::vector<Server>& servers)
     std::vector<Server>::iterator it = servers.begin();
     while (it != servers.end()){
         _hosts_and_root.insert(std::make_pair(it->getHost() + ":" + it->getPort(), it->getRoot()));
+        _default_errors.insert(std::make_pair(it->getHost() + ":" + it->getPort(), it->_default_error_page));
         it++;
     }
 }
@@ -173,11 +289,10 @@ void Response::make_headers(Request &zapros)
 void Response::setValues(Request &zapros)
 {
     if (zapros.getResourseName() == "/")
-        _file_path = _root;
+        _file_path = _root + "/index.html";
     else
         _file_path = _root + zapros.getResourseName();
     _content_type = content_type(_file_path);
-    // file_read(getFilePath(), _answer_body);
 }
 
 void Response::resetValues(Request &zapros)
@@ -186,40 +301,76 @@ void Response::resetValues(Request &zapros)
     _answer_body = zapros.getAnswerBody();
 }
 
-void Response::make_get_response(Request &zapros) {
+void Response::check_location(Request zapros, std::vector<Server>& servers)
+{
     _code = 200;
-    
-    if (zapros.getResourseName() == "/") {
-        file_read(_root + "/index.html", _answer_body);
-        _content_type = content_type(_root + "/index.html");
+    Server serv;
+    std::string port;
+    int size = zapros.getHost().size();
+
+    int f = zapros.getHost().find(":", 0);
+    port = zapros.getHost().substr(f + 1, size - (f + 1));
+    for (int i = 0; i < servers.size(); i++)
+    { 
+        if (servers[i]._port == port)
+        {
+            for (int j = 0; j < servers[i]._locations.size(); j++)
+            {
+                std::cout << "PATH: " << servers[i]._locations[j]._path << std::endl;
+                std::cout << "Resourse_name: " << zapros.getResourseName() << std::endl;
+                if(servers[i]._locations[j]._path == zapros.getResourseName())
+                {
+                    std::cout << "FILE_PATH: " << _file_path << std::endl;
+                    int a = 0;
+                    for (; a < servers[i]._locations[j]._allowed_methods.size(); a++)
+                    {
+                        if(zapros.getMethod() == servers[i]._locations[j]._allowed_methods[a])
+                            break;
+                    }
+                    if (a == servers[i]._locations[j]._allowed_methods.size()) // doshla do konca vectora
+                    {
+                        _answer = error_405(zapros.getHost()); // poka net 405
+                        _code = 405;
+                    }
+                    else if(servers[i]._locations[j]._autoindex)
+                        autoindexOn();
+                    return; //naideno location
+                }
+            }
+        }
     }
-    else
+    // _code = 404;
+    return;
+}
+
+void Response::make_get_response(Request zapros, std::vector<Server>& servers) {
+    check_location(zapros, servers);//надо добавить флаг если включен автоиндекс
+    if (_code == 200)
     {
         if (check_file_location(_file_path) == 404)
         {
-            _answer = error_404();
+            _answer = error_404(zapros.getHost());
             _code = 404;
             return;
         }
         else
             file_read(_file_path, _answer_body);
+        make_headers(zapros);
     }
-    make_headers(zapros);
 }
 
 void Response::make_delete_response(Request &zapros)
 {
     _code = 200;
-    // _file_path = _root + zapros.getResourseName();
      if (check_file_location(_file_path) == 0)
      {
          if (!remove(_file_path.c_str()))
-            _answer = error_403();
+            _answer = error_403(zapros.getHost());
      }
      else 
      {
-         _answer = error_404();
-            _code = 404;
+         _answer = error_404(zapros.getHost()); // if
+        _code = 404;
         return;
      }
      make_headers(zapros);
@@ -230,7 +381,7 @@ void Response::make_post_response(Request &zapros)
     Cgi c;
     if (check_file_location(_file_path) == 404)
     {
-        _answer = error_404();
+        _answer = error_404(zapros.getHost());
         _code = 404;
         return;
     }
@@ -249,18 +400,18 @@ std::string get_file_name(const char *buf){
     return file_name;
 }
 
-void Response::choose_method(Request & zapros)
+void Response::choose_method(Request & zapros, std::vector<Server>& servers)
 {
     ErrorsValue();
     find_root(zapros);
     std::cout << "ROOT < " << _root << std::endl;
     setValues(zapros);
     if (zapros.getMethod() == "GET")
-        make_get_response(zapros);
+        make_get_response(zapros, servers);
     else if (zapros.getMethod() == "DELETE")
         make_delete_response(zapros);
     else if (zapros.getMethod() == "POST")
         make_post_response(zapros);
     else 
-        _answer = error_400();
+        _answer = error_400(zapros.getHost()); // заменить все answer 1 прочитать из файла в answer
 }

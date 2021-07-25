@@ -19,6 +19,8 @@ class Cgi
         void        free_memory();
         Cgi() {}
         ~Cgi() {}
+
+        // root
 };
 
 #endif

@@ -1,5 +1,6 @@
 #ifndef MAIN_HPP
 #define MAIN_HPP
+#include <stdlib.h>
 #include <iostream>
 #include <netdb.h>
 #include <cstring>
@@ -25,7 +26,10 @@
 #include <vector>
 #include "Sockets.hpp"
 #include "Config.hpp"
+#include <dirent.h>
 
 #define CGI_BUFSIZE 65536
+
+
 
 #endif

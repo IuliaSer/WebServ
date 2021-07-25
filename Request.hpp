@@ -4,6 +4,7 @@
 #include <iostream>
 #include <map>
 #include "Server.hpp"
+#include <dirent.h>
 
 class Request
 {
