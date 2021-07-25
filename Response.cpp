@@ -1,6 +1,14 @@
 #include "main.hpp"
 #include <iostream> // std::cout.
 #include <string> // std::string, std::to_string.
+//#include "Response.hpp"
+
+
+//Response::Response()
+//{
+//	_autoindex = 0;
+//}
+
 std::string current_date(){
     std::string date("Date: ");
     time_t seconds = time(NULL);
@@ -46,65 +54,137 @@ void file_read(std::string const &location, std::string &answer_body){
     in.close();     // закрываем файл
 }
 
-std::string error_404(){
+std::string Response::error_404(std::string const &key /* 127.0.0.1:8081*/){
+	std::ifstream 	ifs;
+	std::stringstream ss;
+	std::string 	path;
+	std::string		file;
+
+	path.clear();
+	path = _hosts_and_root.find(key)->second;
+	path += _default_errors.find(key)->second.find(404)->second;
+	ifs.open(path);
+	if (!ifs.is_open())
+		throw std::out_of_range("not open\n");
+	std::getline(ifs, file, ifs.widen(EOF));
+	ifs.close();
+	ss << file.length();
     std::string error_answer("HTTP/1.1 404 Not Found\r\nServer: my_webserver\n");
     error_answer += current_date();
     error_answer += "Content-Type: text/html\n"
-                    "Content-Length: 153\n"
+					"Content-Length: " + ss.str() + "\n"
                     "Connection: close\n"
                     "\n"
-                    "<html>\n"
-                    "<head><title>404 Not Found</title></head>\n"
-                    "<body>\n"
-                    "<center><h1>404 Not Found</h1></center>\n"
-                    "<hr><center>My_webserver</center>\n"
-                    "</body>\n"
-                    "</html>";
+					+ file;
+//                    "<html>\n"
+//                    "<head><title>404 Not Found</title></head>\n"
+//                    "<body>\n"
+//                    "<center><h1>404 Not Found</h1></center>\n"
+//                    "<hr><center>My_webserver</center>\n"
+//                    "</body>\n"
+//                    "</html>";
+
+std::cout << error_answer;
     return error_answer;
 }
 
-std::string error_400(){
+std::string Response::error_400(std::string const &key){
+	std::ifstream 	ifs;
+	std::stringstream ss;
+	std::string 	path;
+	std::string		file;
+
+	path.clear();
+	path = _hosts_and_root.find(key)->second;
+	path += _default_errors.find(key)->second.find(400)->second;
+	ifs.open(path);
+	if (!ifs.is_open())
+		throw std::out_of_range("not open\n");
+	std::getline(ifs, file, ifs.widen(EOF));
+	ifs.close();
+	ss << file.length();
+
     std::string error_answer("HTTP/1.1 400 Bad Request\nServer: my_webserver\n");
     error_answer += current_date();
     error_answer += "Content-Type: text/html\n"
-                    "Content-Length: 157\n"
+					"Content-Length: " + ss.str() + "\n"
                     "Connection: close\n" //надо закрыть соединение после такого ответа
-                    "\n"
-                    "<html>\n"
-                    "<head><title>400 Bad Request</title></head>\n"
-                    "<body>\n"
-                    "<center><h1>400 Bad Request</h1></center>\n"
-                    "<hr><center>My_webserver</center>\n"
-                    "</body>\n"
-                    "</html>";
+                    "\n" + file;
+//					"<html>\n"
+//                    "<head><title>400 Bad Request</title></head>\n"
+//                    "<body>\n"
+//                    "<center><h1>400 Bad Request</h1></center>\n"
+//                    "<hr><center>My_webserver</center>\n"
+//                    "</body>\n"
+//                    "</html>";
     return error_answer;
 }
 
-std::string error_403(){
-    std::string error_answer("HTTP/1.1 400 Forbidden\nServer: my_webserver\n");
+std::string Response::error_403(std::string const &key){
+	std::ifstream 	ifs;
+	std::stringstream ss;
+	std::string 	path;
+	std::string		file;
+
+	path.clear();
+	path = _hosts_and_root.find(key)->second;
+	path += _default_errors.find(key)->second.find(403)->second;
+	ifs.open(path);
+	if (!ifs.is_open())
+		throw std::out_of_range("not open\n");
+	std::getline(ifs, file, ifs.widen(EOF));
+	ifs.close();
+	ss << file.length();
+
+    std::string error_answer("HTTP/1.1 403 Forbidden\nServer: my_webserver\n"); // todo changed 400 to 403
     error_answer += current_date();
     error_answer += "Content-Type: text/html\n"
-                    "Content-Length: 153\n"
+					"Content-Length: "+ ss.str() + "\n"
                     "Connection: close\n" //надо закрыть соединение после такого ответа
-                    "\n"
-                    "<html>\n"
-                    "<head><title>403 Forbidden</title></head>\n"
-                    "<body>\n"
-                    "<center><h1>403 Forbidden</h1></center>\n"
-                    "<hr><center>My_webserver</center>\n"
-                    "</body>\n"
-                    "</html>";
+                    "\n" + file;
+//                    "<html>\n"
+//                    "<head><title>403 Forbidden</title></head>\n"
+//                    "<body>\n"
+//                    "<center><h1>403 Forbidden</h1></center>\n"
+//                    "<hr><center>My_webserver</center>\n"
+//                    "</body>\n"
+//                    "</html>";
     return error_answer;
+}
+
+std::string Response::error_405(std::string const &key){
+	std::ifstream 	ifs;
+	std::stringstream ss;
+	std::string 	path;
+	std::string		file;
+
+	path.clear();
+	path = _hosts_and_root.find(key)->second;
+	path += _default_errors.find(key)->second.find(405)->second;
+	ifs.open(path);
+	if (!ifs.is_open())
+		throw std::out_of_range("not open\n");
+	std::getline(ifs, file, ifs.widen(EOF));
+	ifs.close();
+	ss << file.length();
+
+	std::string error_answer("HTTP/1.1 405 Forbidden\nServer: my_webserver\n"); // todo changed 400 to 403
+	error_answer += current_date();
+	error_answer += "Content-Type: text/html\n"
+					"Content-Length: "+ ss.str() + "\n"
+												   "Connection: close\n" //надо закрыть соединение после такого ответа
+												   "\n" + file;
+	return error_answer;
 }
 
 std::string content_type(std::string const &file_path) {
     int extentionOfScript = 0;
     if (file_path.find(".html") != std::string::npos)
-        return ("text/html\r\n");
+        return ("text/html");
     else if (file_path.find(".jpg") != std::string::npos)
-        return ("image/jpeg\r\n");
+        return ("image/jpeg");
     else if (file_path.find(".css") != std::string::npos)
-        return ("text/css\r\n");
+        return ("text/css");
     else if (file_path.rfind(".py") != std::string::npos)
 		return("python");
     else if (file_path.rfind(".cgi") != std::string::npos || file_path.rfind(".exe") != std::string::npos)
@@ -113,7 +193,7 @@ std::string content_type(std::string const &file_path) {
         return("cgi");
     }
     else
-        return ("\r\n");
+        return("");
 }
 
 void    Response::fill_hosts_and_root(std::vector<Server>& servers)
@@ -121,8 +201,12 @@ void    Response::fill_hosts_and_root(std::vector<Server>& servers)
     std::vector<Server>::iterator it = servers.begin();
     while (it != servers.end()){
         _hosts_and_root.insert(std::make_pair(it->getHost() + ":" + it->getPort(), it->getRoot()));
+        _default_errors.insert(std::make_pair(it->getHost() + ":" + it->getPort(), it->_default_error_page));
         it++;
     }
+//	zapros.getResourseName()
+    //_autoindex =
+    
 }
 
 std::string	Response::getStatus(int code)
@@ -186,6 +270,52 @@ void Response::resetValues(Request & zapros)
     _answer_body = zapros.getAnswerBody();
 }
 
+
+
+void Response::autoindexOn()
+{
+	DIR *dir;
+	struct dirent *current;
+	std::string body;
+	std::string relativePath = _root + '.';
+	std::cout << "!!!!!!" << relativePath <<'\n';
+
+	dir = opendir(relativePath.c_str());
+	if (dir == NULL)
+	{
+//		this->_statusCode = INTERNALERROR;
+		std::cout << "!!!!!!!!!!!!!!!!!!AUTOINDEX\n";
+		return ;
+	}
+	body = "<html>\n<head>";
+	body += "<title>webserv - AutoIndexOn</title>\n"
+			"<style> "
+			" * { margin: 0; padding: 0; }"
+			"h1 { text-align: center; font-size: 25px; margin-top: 30px;}"
+			"a { text-decoration: none; color: black; font-size: 20px;}"
+			"body { bac     kground: rgb(238,174,202); background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%); }"
+			"ul { display: flex; flex-wrap: wrap; flex-direction: column; border-radius: 5px; text-align: center; padding-left: 0; margin-top: 30px;}"
+			"li { display: block; border-bottom: 1px solid #673ab7; padding-bottom: 5px;}"
+			"</style>\n</head>\n<body>\n";
+	body += "<h1>Autoindex On:</h1>\n<ul>";
+	while ((current = readdir(dir)) != NULL)
+	{
+		if (current->d_name[0] != '.')
+		{
+			body += "<li><a href=\"";
+			body += current->d_name;
+			body += "\">";
+
+			body += current->d_name;
+			body += "</a></li>";
+		}
+	}
+	closedir(dir);
+	body += "</ul></body>\n</html>\n";
+	this->_answer_body = body;
+}
+
+
 void Response::make_get_response(Request zapros) {
     // _file_path = _root;
     _code = 200;
@@ -197,9 +327,9 @@ void Response::make_get_response(Request zapros) {
     }
     else
     {
-        if (check_file_location(_file_path) == -404)
+        if (check_file_location(_file_path) == 404)
         {
-            _answer = error_404();
+            _answer = error_404(zapros.getHost());
             _code = 404;
             return;
         }
@@ -216,11 +346,11 @@ void Response::make_delete_response(Request zapros)
      if (check_file_location(_file_path) == 0)
      {
          if (!remove(_file_path.c_str()))
-            _answer = error_403();
+            _answer = error_403(zapros.getHost());
      }
      else 
      {
-         _answer = error_404();
+         _answer = error_404(zapros.getHost()); // if
             _code = 404;
         return;
      }
@@ -230,13 +360,13 @@ void Response::make_delete_response(Request zapros)
 void Response::make_post_response(Request & zapros)
 {
     Cgi c;
-    if (check_file_location(_file_path) == -404)
+    if (check_file_location(_file_path) == 404)
     {
-        _answer = error_404();
+        _answer = error_404(zapros.getHost());
         _code = 404;
         return;
     }
-    c.execute_cgi(zapros);
+    c.execute_cgi(zapros, _root);
     resetValues(zapros);
     make_headers(zapros);
 }
@@ -253,6 +383,8 @@ std::string get_file_name(const char *buf){
 
 void Response::choose_method(Request & zapros)
 {
+	_zapros = zapros.getResourseName();
+	std::cout << "ZAPROS" << _zapros << '\n';
     ErrorsValue();
     find_root(zapros);
     std::cout << "ROOT < " << _root << std::endl;
@@ -264,5 +396,5 @@ void Response::choose_method(Request & zapros)
     else if (zapros.getMethod() == "POST")
         make_post_response(zapros);
     else 
-        _answer = error_400();
+        _answer = error_400(zapros.getHost()); // заменить все answer 1 прочитать из файла в answer
 }

@@ -1,17 +1,17 @@
 NAME = webserv
 
-SRCS = main.cpp Parser.cpp Cgi.cpp Response.cpp Sockets.cpp Config.cpp Server.cpp Location.cpp Utils.cpp
+SRCS = main.cpp Request.cpp Cgi.cpp Response.cpp Sockets.cpp Config.cpp Server.cpp Location.cpp Utils.cpp
 
 OBJS = $(SRCS:.c=.o)
 
 CC = clang++
 
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) -o $(NAME) -g
+	$(CC) $(OBJS) -o $(NAME)
 
 %.o: %.cpp
 	$(CC) $(CFLAGS) -c $< -o $@

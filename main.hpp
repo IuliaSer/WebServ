@@ -1,5 +1,6 @@
 #ifndef MAIN_HPP
 #define MAIN_HPP
+#include <stdlib.h>
 #include <iostream>
 #include <netdb.h>
 #include <cstring>
@@ -29,5 +30,7 @@
 #define PORT "8000"
 
 #define CGI_BUFSIZE 65536
+
+
 
 #endif
