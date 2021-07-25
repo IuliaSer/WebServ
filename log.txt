@@ -1,7 +1,7 @@
 Возвращаемое значение send = 1775
 HTTP/1.1 404 Not Found
 Server: my_webserver
-Date: Sun Jul 25 15:15:47 2021
+Date: Sun Jul 25 15:44:23 2021
 Content-Type: text/html
 Content-Length: 1635
 Connection: close

@@ -83,16 +83,13 @@ void Config::parseServer(std::vector<std::string> lines, uint32_t* endBlockPos) 
 			break;
 		}
 		else {
-			checkServerInstructions(lineItems, *endBlockPos);
+			checkServerInstructions(lineItems);
 		}
 		(*endBlockPos)++;
 	}
 }
 
-void Config::checkServerInstructions(std::vector<std::string> line, uint32_t endBlockPos) {
-
-	//todo maybe to remove position
-	endBlockPos = 0;
+void Config::checkServerInstructions(std::vector<std::string> line) {
 
 	if (line[0] == "server_name") {
 		this->_servers.back().setServerName(line[1]);

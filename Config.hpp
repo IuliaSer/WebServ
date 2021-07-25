@@ -42,7 +42,7 @@ private:
 	void parseServer(std::vector<std::string> lines, uint32_t* endBlockPos);
 	void parseLocation(std::vector<std::string> lines, uint32_t* endBlockPos);
 
-	void checkServerInstructions(std::vector<std::string> line, uint32_t endBlockPos);
+	void checkServerInstructions(std::vector<std::string> line);
 	void checkLocationInstructions(std::vector<std::string> line, uint32_t endBlockPos);
 public:
 	Config(const char *config_path);
