@@ -63,27 +63,16 @@ RM = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-<<<<<<< HEAD
 CMAKE_SOURCE_DIR = /Users/tcassia/webserver
 
 # The top-level build directory on which CMake was run.
 CMAKE_BINARY_DIR = /Users/tcassia/webserver/cmake-build-debug
-=======
-CMAKE_SOURCE_DIR = /Users/pmelinda/ourServ2
-
-# The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/pmelinda/ourServ2/cmake-build-debug
->>>>>>> 258543ae9997a96e924deea5ab8da03ce5012043
 
 #=============================================================================
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-<<<<<<< HEAD
 all: CMakeFiles/Web.dir/all
-=======
-all: CMakeFiles/ourServ2.dir/all
->>>>>>> 258543ae9997a96e924deea5ab8da03ce5012043
 
 .PHONY : all
 
@@ -93,16 +82,11 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-<<<<<<< HEAD
 clean: CMakeFiles/Web.dir/clean
-=======
-clean: CMakeFiles/ourServ2.dir/clean
->>>>>>> 258543ae9997a96e924deea5ab8da03ce5012043
 
 .PHONY : clean
 
 #=============================================================================
-<<<<<<< HEAD
 # Target rules for target CMakeFiles/Web.dir
 
 # All Build rule for target.
@@ -128,33 +112,6 @@ Web: CMakeFiles/Web.dir/rule
 CMakeFiles/Web.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Web.dir/build.make CMakeFiles/Web.dir/clean
 .PHONY : CMakeFiles/Web.dir/clean
-=======
-# Target rules for target CMakeFiles/ourServ2.dir
-
-# All Build rule for target.
-CMakeFiles/ourServ2.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ourServ2.dir/build.make CMakeFiles/ourServ2.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ourServ2.dir/build.make CMakeFiles/ourServ2.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/pmelinda/ourServ2/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10 "Built target ourServ2"
-.PHONY : CMakeFiles/ourServ2.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/ourServ2.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/pmelinda/ourServ2/cmake-build-debug/CMakeFiles 10
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/ourServ2.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/pmelinda/ourServ2/cmake-build-debug/CMakeFiles 0
-.PHONY : CMakeFiles/ourServ2.dir/rule
-
-# Convenience name for target.
-ourServ2: CMakeFiles/ourServ2.dir/rule
-
-.PHONY : ourServ2
-
-# clean rule for target.
-CMakeFiles/ourServ2.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ourServ2.dir/build.make CMakeFiles/ourServ2.dir/clean
-.PHONY : CMakeFiles/ourServ2.dir/clean
->>>>>>> 258543ae9997a96e924deea5ab8da03ce5012043
 
 #=============================================================================
 # Special targets to cleanup operation of make.

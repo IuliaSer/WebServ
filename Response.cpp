@@ -211,6 +211,24 @@ std::string Response::error_405(std::string const &key){
 	return error_answer;
 }
 
+void Response::error_413()
+{
+    std::string error_answer("HTTP/1.1 413 Not Found\r\nServer: my_webserver\n");
+    error_answer += current_date();
+    error_answer += "Content-Type: text/html\n"
+                    "Content-Length: 167\r\n"
+                    "Connection: close\r\n"
+                    "\r\n"
+                    "<html>\n"
+                    "<head><title>413 Payload Too Large</title></head>\n"
+                    "<body>\n"
+                    "<center><h1>413 Payload Too Large</h1></center>\n"
+                    "<hr><center>My_webserver</center>\n"
+                    "</body>\n"
+                    "</html>";
+    _answer = error_answer;
+}
+
 std::string content_type(std::string const &file_path) {
     int extentionOfScript = 0;
     if (file_path.find(".html") != std::string::npos)

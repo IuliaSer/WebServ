@@ -22,8 +22,10 @@ CMakeFiles/Web.dir/Location.cpp.o
  /Users/tcassia/webserver/Location.cpp
  /Users/tcassia/webserver/Location.hpp
 CMakeFiles/Web.dir/Request.cpp.o
+ /Users/tcassia/webserver/Location.hpp
  /Users/tcassia/webserver/Request.cpp
  /Users/tcassia/webserver/Request.hpp
+ /Users/tcassia/webserver/Server.hpp
 CMakeFiles/Web.dir/Response.cpp.o
  /Users/tcassia/webserver/Cgi.hpp
  /Users/tcassia/webserver/Config.hpp
@@ -40,16 +42,10 @@ CMakeFiles/Web.dir/Server.cpp.o
  /Users/tcassia/webserver/Server.cpp
  /Users/tcassia/webserver/Server.hpp
 CMakeFiles/Web.dir/Sockets.cpp.o
- /Users/tcassia/webserver/Cgi.hpp
- /Users/tcassia/webserver/Config.hpp
  /Users/tcassia/webserver/Location.hpp
- /Users/tcassia/webserver/Request.hpp
- /Users/tcassia/webserver/Response.hpp
  /Users/tcassia/webserver/Server.hpp
  /Users/tcassia/webserver/Sockets.cpp
  /Users/tcassia/webserver/Sockets.hpp
- /Users/tcassia/webserver/Utils.hpp
- /Users/tcassia/webserver/main.hpp
 CMakeFiles/Web.dir/Utils.cpp.o
  /Users/tcassia/webserver/Utils.cpp
  /Users/tcassia/webserver/Utils.hpp

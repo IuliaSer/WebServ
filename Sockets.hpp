@@ -17,6 +17,7 @@ class Sockets
         std::map<int, Server> listen_sockets;
         std::map<int, Server> connection_sockets;
         int accept_connection(int i, fd_set &master, int &fdmax);
+        void    remove_connection(int socket);
     private:
         struct addrinfo _hints;
         void    fill_hints();

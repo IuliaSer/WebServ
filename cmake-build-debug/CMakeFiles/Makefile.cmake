@@ -50,9 +50,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-<<<<<<< HEAD
   "CMakeFiles/Web.dir/DependInfo.cmake"
-=======
-  "CMakeFiles/ourServ2.dir/DependInfo.cmake"
->>>>>>> 258543ae9997a96e924deea5ab8da03ce5012043
   )

@@ -120,3 +120,10 @@ int Sockets::accept_connection(int i, fd_set &master, int &fdmax)
     else
         return 0; //Возвращаем ноль и сигнализируем, что это не прослушивающий сокет, а сокет соединения уже
 }
+
+void Sockets::remove_connection(int socket)
+{
+    std::map<int, Server>::iterator  it = connection_sockets.find(socket);
+//    if (it != connection_sockets.end())
+        connection_sockets.erase(it);
+}

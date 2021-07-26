@@ -1,11 +1,28 @@
 #include "main.hpp"
 
+int    check_for_limit_size_body(std::string &str_request, Server &server, Response &response)
+{
+    size_t pos = 0;
+    pos = str_request.find("Content-Length: ");
+    if (pos != std::string::npos)
+    {
+        size_t end_of_length = str_request.find("\r\n", pos);
+        int length = atoi(str_request.substr(pos + 16, end_of_length - (pos + 16)).c_str());
+        if (server._max_body_size != 0 && server._max_body_size < length)
+        {
+            response.error_413();
+            return 1;
+        }
+    }
+    return 0;
+}
+
 int main(int argc, char **argv) {
 
-	// if (!argv[1] || strcmp(argv[1], "test.conf") != 0){
-	// 	std::cout << "Webserver requires a valid config" << std::endl;
-	// 	return 1;
-	// }
+	 if (!argv[1] || strcmp(argv[1], "test.conf") != 0){
+	 	std::cout << "Webserver requires a valid config" << std::endl;
+	 	return 1;
+	 }
 
     Config config(argv[1]);
     config.parseConfig();
@@ -18,16 +35,19 @@ int main(int argc, char **argv) {
     fd_set readset;
     fd_set writeset;
     std::map<int, Response> responses;
+    std::set<int> need_to_close;
 //    std::map<int, Request> requests;
     FD_ZERO(&master);
     FD_ZERO(&readset);
     FD_ZERO(&writeset);
     int fdmax = sockets.listen_all(master);
+    int save_socket = -1;
+    std::string save_buf;
     while (1) {
         readset = master;
         writeset = master;
         timeval timeout;
-        timeout.tv_sec = 3;
+        timeout.tv_sec = 0;
         timeout.tv_usec = 0;
         if(select(fdmax + 1, &readset, &writeset, NULL, &timeout) == -1)
         {
@@ -39,34 +59,55 @@ int main(int argc, char **argv) {
                 if (sockets.accept_connection(i, master, fdmax) == 1)
                     continue;
                 else {
-//                    Request request;
                     ssize_t bytes_read = 0;
                     bytes_read = recv(i, buf, sizeof(buf) - 1, MSG_PEEK);
                     memset(&buf, 0, sizeof(buf));
+                    std::cout << "request size" << bytes_read << std::endl;
                     bytes_read = recv(i, buf, bytes_read, MSG_WAITALL);
                     std::string buffer(buf);
                     memset(&buf, 0, sizeof(buf));
-                    std::cout << "bytes_read -> " << bytes_read << std::endl;
+                    if (save_socket == i)
+                    {
+                        save_buf.append(buffer);
+                        buffer = save_buf;
+                        save_buf.clear();
+                        save_socket = -1;
+                    }
+                    else if (buffer.find("multipart/form-data") != std::string::npos)
+                    {
+                        save_buf = buffer;
+                        memset(&buf, 0, sizeof(buf));
+                        save_socket = i;
+                        continue;
+                    }
                     if (bytes_read <= 0) {
                         close(i);
                         FD_CLR(i, &master);
+                        sockets.remove_connection(i);
                     }
                     else {
                         std::cout << "|....Client request : " << buffer << std::endl << std::endl << std::endl;
-                        Request zapros(sockets.connection_sockets.find(i)->second);
                         Response resp;
-                        zapros.clean_request();
-                        if(!zapros.parse_request(buffer.c_str()))
-                        {
-                            resp.fill_hosts_and_root(servers);
-                            resp.choose_method(zapros, servers);
+                        if (check_for_limit_size_body(buffer, sockets.connection_sockets.find(i)->second, resp) == 1){
+                            responses.insert(std::make_pair(i, resp));
                         }
-                        responses.insert(std::make_pair(i, resp));
-						std::cout << "socket number " << i << std::endl;
-//                        if (zapros.getHeaders().find("Connection")->second == "close"){
-//                            close(i);
-//                            FD_CLR(i, &master);
-//                        }
+                        else
+                        {
+                            Request zapros(sockets.connection_sockets.find(i)->second);
+                            zapros.clean_request();
+                            if (!zapros.parse_request(buffer.c_str()))
+                            {
+                                resp.fill_hosts_and_root(servers);
+                                resp.choose_method(zapros, servers);
+                            }
+                            responses.insert(std::make_pair(i, resp));
+                            std::map<std::string, std::string>::iterator it = zapros.getHeaders().find("Connection");
+                            if (it != zapros.getHeaders().end())
+                            {
+                                if (it->second == "close")
+                                    need_to_close.insert(i);
+                            }
+                        }
                     }
                 }
             }
@@ -74,8 +115,7 @@ int main(int argc, char **argv) {
                 std::map<int, Response>::iterator it = responses.find(i);
                 if (it != responses.end())
                 {
-					std::cout << "socket number " << i << std::endl;
-					std::cout << "ТУТ ОТВЕТ" << it->second.getAnswer().c_str() << std::endl;
+//					std::cout << "ТУТ ОТВЕТ" << it->second.getAnswer().c_str() << std::endl;
                     ssize_t res = send(i, it->second.getAnswer().c_str(), it->second.getAnswer().length(), 0);
                     /* Logging */
                     std::ofstream log("log.txt", std::ios_base::trunc);
@@ -83,11 +123,12 @@ int main(int argc, char **argv) {
                     log << it->second.getAnswer() << std::endl;
                     log.close();
                     /* End of Logging */
-                    if (it->second.getAnswer().find("Connection: close\n") != std::string::npos)
+                    if (it->second.getAnswer().find("Connection: close\r\n") != std::string::npos || need_to_close.find(i) != need_to_close.end())
                     {
-                        std::cout << "closing connection" << std::endl;
+                        std::cout << "Closing connection" << std::endl;
                         close(i);
                         FD_CLR(i, &master);
+                        sockets.remove_connection(i);
                     }
                     responses.erase(it);
                 }

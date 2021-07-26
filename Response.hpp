@@ -44,6 +44,7 @@ class Response
 		std::string					error_400(std::string const &key);
 		std::string					error_403(std::string const &key);
 		std::string					error_405(std::string const &key);
+		void        				error_413();
         void                        check_location(Request zapros, std::vector<Server>& servers);
         Response() {}
         ~Response() {}
