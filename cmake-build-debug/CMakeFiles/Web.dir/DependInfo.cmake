@@ -4,15 +4,15 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/pmelinda/ourServ2/Cgi.cpp" "/Users/pmelinda/ourServ2/cmake-build-debug/CMakeFiles/Web.dir/Cgi.cpp.o"
-  "/Users/pmelinda/ourServ2/Config.cpp" "/Users/pmelinda/ourServ2/cmake-build-debug/CMakeFiles/Web.dir/Config.cpp.o"
-  "/Users/pmelinda/ourServ2/Location.cpp" "/Users/pmelinda/ourServ2/cmake-build-debug/CMakeFiles/Web.dir/Location.cpp.o"
-  "/Users/pmelinda/ourServ2/Request.cpp" "/Users/pmelinda/ourServ2/cmake-build-debug/CMakeFiles/Web.dir/Request.cpp.o"
-  "/Users/pmelinda/ourServ2/Response.cpp" "/Users/pmelinda/ourServ2/cmake-build-debug/CMakeFiles/Web.dir/Response.cpp.o"
-  "/Users/pmelinda/ourServ2/Server.cpp" "/Users/pmelinda/ourServ2/cmake-build-debug/CMakeFiles/Web.dir/Server.cpp.o"
-  "/Users/pmelinda/ourServ2/Sockets.cpp" "/Users/pmelinda/ourServ2/cmake-build-debug/CMakeFiles/Web.dir/Sockets.cpp.o"
-  "/Users/pmelinda/ourServ2/Utils.cpp" "/Users/pmelinda/ourServ2/cmake-build-debug/CMakeFiles/Web.dir/Utils.cpp.o"
-  "/Users/pmelinda/ourServ2/main.cpp" "/Users/pmelinda/ourServ2/cmake-build-debug/CMakeFiles/Web.dir/main.cpp.o"
+  "/Users/tcassia/webserver/Cgi.cpp" "/Users/tcassia/webserver/cmake-build-debug/CMakeFiles/Web.dir/Cgi.cpp.o"
+  "/Users/tcassia/webserver/Config.cpp" "/Users/tcassia/webserver/cmake-build-debug/CMakeFiles/Web.dir/Config.cpp.o"
+  "/Users/tcassia/webserver/Location.cpp" "/Users/tcassia/webserver/cmake-build-debug/CMakeFiles/Web.dir/Location.cpp.o"
+  "/Users/tcassia/webserver/Request.cpp" "/Users/tcassia/webserver/cmake-build-debug/CMakeFiles/Web.dir/Request.cpp.o"
+  "/Users/tcassia/webserver/Response.cpp" "/Users/tcassia/webserver/cmake-build-debug/CMakeFiles/Web.dir/Response.cpp.o"
+  "/Users/tcassia/webserver/Server.cpp" "/Users/tcassia/webserver/cmake-build-debug/CMakeFiles/Web.dir/Server.cpp.o"
+  "/Users/tcassia/webserver/Sockets.cpp" "/Users/tcassia/webserver/cmake-build-debug/CMakeFiles/Web.dir/Sockets.cpp.o"
+  "/Users/tcassia/webserver/Utils.cpp" "/Users/tcassia/webserver/cmake-build-debug/CMakeFiles/Web.dir/Utils.cpp.o"
+  "/Users/tcassia/webserver/main.cpp" "/Users/tcassia/webserver/cmake-build-debug/CMakeFiles/Web.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "AppleClang")
 

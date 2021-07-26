@@ -8,7 +8,7 @@ int    check_for_limit_size_body(std::string &str_request, Server &server, Respo
     {
         size_t end_of_length = str_request.find("\r\n", pos);
         int length = atoi(str_request.substr(pos + 16, end_of_length - (pos + 16)).c_str());
-        if (server._max_body_size != 0 && server._max_body_size < length)
+        if (server._max_body_size != 0 && server._max_body_size < static_cast<size_t>(length))
         {
             response.error_413();
             return 1;
@@ -17,7 +17,8 @@ int    check_for_limit_size_body(std::string &str_request, Server &server, Respo
     return 0;
 }
 
-int main(int argc, char **argv) {
+int main(int , char **argv) {
+
 
 	 if (!argv[1] || strcmp(argv[1], "test.conf") != 0){
 	 	std::cout << "Webserver requires a valid config" << std::endl;
@@ -61,7 +62,6 @@ int main(int argc, char **argv) {
                     ssize_t bytes_read = 0;
                     bytes_read = recv(i, buf, sizeof(buf) - 1, MSG_PEEK);
                     memset(&buf, 0, sizeof(buf));
-                    std::cout << "request size" << bytes_read << std::endl;
                     bytes_read = recv(i, buf, bytes_read, MSG_WAITALL);
                     std::string buffer(buf);
                     memset(&buf, 0, sizeof(buf));
@@ -114,29 +114,35 @@ int main(int argc, char **argv) {
                 std::map<int, Response>::iterator it = responses.find(i);
                 if (it != responses.end())
                 {
-<<<<<<< HEAD
-					std::cout << "ТУТ ОТВЕТ" << it->second.getAnswer().c_str() << std::endl;
-=======
 					std::cout << "ТУТ ОТВЕТ -> " << it->second.getAnswer().c_str() << std::endl;
->>>>>>> 1e846ae5b8295c0d3258ed03074f366ac55ad6b3
                     ssize_t res = send(i, it->second.getAnswer().c_str(), it->second.getAnswer().length(), 0);
-                    /* Logging */
-                    std::ofstream log("log.txt", std::ios_base::trunc);
-                    log << "Возвращаемое значение send = " << res << std::endl;
-                    log << it->second.getAnswer() << std::endl;
-                    log << it->second.getAnswer().length() << std::endl;
-                    log.close();
-                    /* End of Logging */
-                    if (it->second.getAnswer().find("Connection: close\r\n") != std::string::npos || need_to_close.find(i) != need_to_close.end())
+                    if (res <= 0)
                     {
-                        std::cout << "Closing connection" << std::endl;
                         close(i);
                         FD_CLR(i, &master);
                         sockets.remove_connection(i);
+                        responses.erase(it);
                     }
-                    responses.erase(it);
+                    else
+                    {
+//                        /* Logging */
+//                        std::ofstream log("log.txt", std::ios_base::trunc);
+//                        log << "Возвращаемое значение send = " << res << std::endl;
+//                        log << it->second.getAnswer() << std::endl;
+//                        log << it->second.getAnswer().length() << std::endl;
+//                        log.close();
+//                        /* End of Logging */
+                        if (it->second.getAnswer().find("Connection: close\r\n") != std::string::npos ||
+                            need_to_close.find(i) != need_to_close.end())
+                        {
+                            std::cout << "Closing connection" << std::endl;
+                            close(i);
+                            FD_CLR(i, &master);
+                            sockets.remove_connection(i);
+                        }
+                        responses.erase(it);
+                    }
                 }
-                
             }
         }
     }

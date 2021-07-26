@@ -39,8 +39,6 @@ vector
 /Users/tcassia/webserver/Request.cpp
 iostream
 -
-map
--
 Request.hpp
 /Users/tcassia/webserver/Request.hpp
 cstring
@@ -57,6 +55,8 @@ Server.hpp
 /Users/tcassia/webserver/Server.hpp
 dirent.h
 -
+Response.hpp
+/Users/tcassia/webserver/Response.hpp
 
 /Users/tcassia/webserver/Response.cpp
 main.hpp
@@ -65,6 +65,10 @@ iostream
 -
 string
 -
+Response.hpp
+/Users/tcassia/webserver/Response.hpp
+Request.hpp
+/Users/tcassia/webserver/Request.hpp
 
 /Users/tcassia/webserver/Response.hpp
 iostream
@@ -76,6 +80,8 @@ Server.hpp
 sstream
 -
 fstream
+-
+sys/stat.h
 -
 
 /Users/tcassia/webserver/Server.hpp

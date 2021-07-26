@@ -26,18 +26,13 @@ public:
 	std::string _port;
 	int			_portInt;
 	std::string _path;
-
 	std::string _server_name;
 	size_t		_max_body_size;
 	std::string _root;
 	std::map<int, std::string> _default_error_page;
-
 	std::map<std::string, Location> _location_config;
 	std::vector<Location> _locations;
-
 	int 		_socketFd;
-
-public:
 	Server();
 	virtual ~Server();
     Server& operator=(const Server& rhs);

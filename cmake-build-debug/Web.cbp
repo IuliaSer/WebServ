@@ -8,38 +8,38 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/Users/pmelinda/ourServ2/cmake-build-debug"/>
+				<Option working_dir="/Users/tcassia/webserver/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/Users/pmelinda/ourServ2/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/pmelinda/ourServ2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/Users/pmelinda/ourServ2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/pmelinda/ourServ2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/Users/pmelinda/ourServ2/cmake-build-debug"/>
+				<Option working_dir="/Users/tcassia/webserver/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/Users/pmelinda/ourServ2/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/pmelinda/ourServ2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/Users/pmelinda/ourServ2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/pmelinda/ourServ2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/Users/pmelinda/ourServ2/cmake-build-debug"/>
+				<Option working_dir="/Users/tcassia/webserver/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/Users/pmelinda/ourServ2/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/pmelinda/ourServ2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/Users/pmelinda/ourServ2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/pmelinda/ourServ2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="Web">
-				<Option output="/Users/pmelinda/ourServ2/cmake-build-debug/Web" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/Users/pmelinda/ourServ2/cmake-build-debug"/>
+				<Option output="/Users/tcassia/webserver/cmake-build-debug/Web" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/tcassia/webserver/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -52,15 +52,15 @@
 					<Add directory="/Library/Frameworks"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/Users/pmelinda/ourServ2/cmake-build-debug/Makefile&quot;  VERBOSE=1 Web"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/pmelinda/ourServ2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/Users/pmelinda/ourServ2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/pmelinda/ourServ2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 Web"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="Web/fast">
-				<Option output="/Users/pmelinda/ourServ2/cmake-build-debug/Web" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/Users/pmelinda/ourServ2/cmake-build-debug"/>
+				<Option output="/Users/tcassia/webserver/cmake-build-debug/Web" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/tcassia/webserver/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -73,68 +73,68 @@
 					<Add directory="/Library/Frameworks"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/Users/pmelinda/ourServ2/cmake-build-debug/Makefile&quot;  VERBOSE=1 Web/fast"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/pmelinda/ourServ2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/Users/pmelinda/ourServ2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/pmelinda/ourServ2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 Web/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/tcassia/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/Users/pmelinda/ourServ2/Cgi.cpp">
+		<Unit filename="/Users/tcassia/webserver/Cgi.cpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/Users/pmelinda/ourServ2/Cgi.hpp">
+		<Unit filename="/Users/tcassia/webserver/Cgi.hpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/Users/pmelinda/ourServ2/Config.cpp">
+		<Unit filename="/Users/tcassia/webserver/Config.cpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/Users/pmelinda/ourServ2/Config.hpp">
+		<Unit filename="/Users/tcassia/webserver/Config.hpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/Users/pmelinda/ourServ2/Location.cpp">
+		<Unit filename="/Users/tcassia/webserver/Location.cpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/Users/pmelinda/ourServ2/Location.hpp">
+		<Unit filename="/Users/tcassia/webserver/Location.hpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/Users/pmelinda/ourServ2/Request.cpp">
+		<Unit filename="/Users/tcassia/webserver/Request.cpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/Users/pmelinda/ourServ2/Request.hpp">
+		<Unit filename="/Users/tcassia/webserver/Request.hpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/Users/pmelinda/ourServ2/Response.cpp">
+		<Unit filename="/Users/tcassia/webserver/Response.cpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/Users/pmelinda/ourServ2/Response.hpp">
+		<Unit filename="/Users/tcassia/webserver/Response.hpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/Users/pmelinda/ourServ2/Server.cpp">
+		<Unit filename="/Users/tcassia/webserver/Server.cpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/Users/pmelinda/ourServ2/Server.hpp">
+		<Unit filename="/Users/tcassia/webserver/Server.hpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/Users/pmelinda/ourServ2/Sockets.cpp">
+		<Unit filename="/Users/tcassia/webserver/Sockets.cpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/Users/pmelinda/ourServ2/Sockets.hpp">
+		<Unit filename="/Users/tcassia/webserver/Sockets.hpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/Users/pmelinda/ourServ2/Utils.cpp">
+		<Unit filename="/Users/tcassia/webserver/Utils.cpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/Users/pmelinda/ourServ2/Utils.hpp">
+		<Unit filename="/Users/tcassia/webserver/Utils.hpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/Users/pmelinda/ourServ2/main.cpp">
+		<Unit filename="/Users/tcassia/webserver/main.cpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/Users/pmelinda/ourServ2/main.hpp">
+		<Unit filename="/Users/tcassia/webserver/main.hpp">
 			<Option target="Web"/>
 		</Unit>
-		<Unit filename="/Users/pmelinda/ourServ2/CMakeLists.txt">
+		<Unit filename="/Users/tcassia/webserver/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

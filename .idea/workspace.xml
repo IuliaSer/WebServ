@@ -14,26 +14,33 @@
     <list default="true" id="01cfb1a5-f187-43f5-bb84-a27d2ddf652e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Cgi.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Cgi.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Location.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Location.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Request.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Request.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Request.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Request.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Response.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Response.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Response.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Response.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Server.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Web.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Web.dir/CXX.includecache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Web.dir/Cgi.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Web.dir/Cgi.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Web.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Web.dir/DependInfo.cmake" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Web.dir/Request.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Web.dir/Request.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Web.dir/Response.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Web.dir/Response.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Web.dir/Server.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Web.dir/Server.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Web.dir/Sockets.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Web.dir/Sockets.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Web.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Web.dir/build.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Web.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Web.dir/depend.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Web.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Web.dir/main.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/Web" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Web" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Web.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Web.cbp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/log.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/second_site/log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/second_site/log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/cscript.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/site/cscript.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/csript" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/python.py" beforeDir="false" afterPath="$PROJECT_DIR$/site/python.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/upload_file" beforeDir="false" afterPath="$PROJECT_DIR$/site/upload_file" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/upload_file.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/site/upload_file.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/www/errors/default_error_403_forbidden.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/www/errors/default_error_403_forbidden.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/www/errors/default_error_405_not_allowed.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/www/errors/default_error_405_not_allowed.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/www/errors/default_error_bad_request.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/www/errors/default_error_bad_request.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/www/errors/default_error_not_found.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/www/errors/default_error_not_found.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test.conf" beforeDir="false" afterPath="$PROJECT_DIR$/test.conf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webserv" beforeDir="false" afterPath="$PROJECT_DIR$/webserv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webserv.dSYM/Contents/Resources/DWARF/webserv" beforeDir="false" afterPath="$PROJECT_DIR$/webserv.dSYM/Contents/Resources/DWARF/webserv" afterDir="false" />

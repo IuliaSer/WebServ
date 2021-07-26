@@ -5,14 +5,13 @@
 #include "Server.hpp"
 #include <sstream>
 #include <fstream>
+#include <sys/stat.h>
 
 class Request;
 
 class Response
 {
     private:
-
-		int 						_autoindex;
         bool 						_AUTOINDEX;
 		std::string                 _zapros;
         std::string                 _answer;
@@ -36,7 +35,7 @@ class Response
         void                        resetValues(Request & zapros);
         void                        setValues(Request &zapros);
         void                        setAnswer(const std::string  &answer) {this->_answer = answer;}
-        void                        setFilePath(Request &zapros) {}
+//        void                        setFilePath(Request &zapros) {}
         std::string                 getAnswer() const {return this->_answer;}
         std::string		            getStatus(int code);
         std::string		            getFilePath() const {return this->_file_path;}

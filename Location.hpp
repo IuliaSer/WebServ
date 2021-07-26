@@ -23,10 +23,7 @@ public:
 	std::vector<std::string> _index;
 	std::string _path;
 	std::map<int, std::string> _redirects;
-
-public:
 	Location();
-
 	void setPath(const std::string& path);
 	void setRoot(const std::string& root);
 	std::vector<std::string>& getAllowedMethods();

@@ -17,7 +17,7 @@ void Cgi::parseCGI(Request & zapros)
     int i;
     int j = 0;
     i = _answer.find("\r\n\r\n", 0);
-    if (i == std::string::npos)
+    if (static_cast<unsigned long>(i) == std::string::npos)
         i = 0;
     j = _answer.find("Status: ", 0);
     if (j >= 0)
@@ -120,9 +120,9 @@ int Cgi::execute_cgi(Request & zapros, std::string& file_path)
         close(fds[0]);
         dup2(fds[1], 1);
         if (_extentionOfScript == 1)
-            execve(file_path.c_str(), (char *const *) argv_interp, _env);
+            e = execve(file_path.c_str(), (char *const *) argv_interp, _env);
         else 
-            execve(file_path.c_str(), (char *const *) argv, _env);
+            e = execve(file_path.c_str(), (char *const *) argv, _env);
         if(e == -1)
         {
             close(fds[1]);
