@@ -5,6 +5,7 @@
 #include <map>
 #include "Server.hpp"
 #include <dirent.h>
+#include "Response.hpp"
 
 class Request
 {
@@ -27,7 +28,7 @@ class Request
         Server                              _current_server;
     public:
         void        						parse_start_line();
-        int         						parse_request(std::string str);
+        int         						parse_request(std::string str, Response & resp);
         void        						parse_headers();
         void        						parse_body();
         void        						cut_buf(int flag);
@@ -47,7 +48,7 @@ class Request
         std::string                         getHost() const {return _headers.find("Host")->second;}
         const std::string&                  getBody() const {return _body;}
         const Server&                       getCurrentServer() const {return _current_server; }
-        int                                 check_request();
+        int                                 check_request(Response & resp);
         Request(Server &server)
         {
             _answer_body = "";

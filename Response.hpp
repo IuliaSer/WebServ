@@ -3,9 +3,10 @@
 #include <iostream>
 #include <dirent.h>
 #include "Server.hpp"
-
 #include <sstream>
 #include <fstream>
+
+class Request;
 
 class Response
 {
@@ -34,6 +35,7 @@ class Response
         void                        make_post_response(Request & zapros);
         void                        resetValues(Request & zapros);
         void                        setValues(Request &zapros);
+        void                        setAnswer(const std::string  &answer) {this->_answer = answer;}
         void                        setFilePath(Request &zapros) {}
         std::string                 getAnswer() const {return this->_answer;}
         std::string		            getStatus(int code);

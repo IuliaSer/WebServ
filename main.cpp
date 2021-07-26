@@ -19,10 +19,10 @@ int    check_for_limit_size_body(std::string &str_request, Server &server, Respo
 
 int main(int argc, char **argv) {
 
-	 if (!argv[1] || strcmp(argv[1], "test.conf") != 0){
-	 	std::cout << "Webserver requires a valid config" << std::endl;
-	 	return 1;
-	 }
+	// if (!argv[1] || strcmp(argv[1], "test.conf") != 0){
+	//  	std::cout << "Webserver requires a valid config" << std::endl;
+	//  	return 1;
+	// }
 
     Config config(argv[1]);
     config.parseConfig();
@@ -95,7 +95,7 @@ int main(int argc, char **argv) {
                         {
                             Request zapros(sockets.connection_sockets.find(i)->second);
                             zapros.clean_request();
-                            if (!zapros.parse_request(buffer.c_str()))
+                            if (!zapros.parse_request(buffer.c_str(), resp))
                             {
                                 resp.fill_hosts_and_root(servers);
                                 resp.choose_method(zapros, servers);
@@ -115,7 +115,7 @@ int main(int argc, char **argv) {
                 std::map<int, Response>::iterator it = responses.find(i);
                 if (it != responses.end())
                 {
-//					std::cout << "ТУТ ОТВЕТ" << it->second.getAnswer().c_str() << std::endl;
+					std::cout << "ТУТ ОТВЕТ" << it->second.getAnswer().c_str() << std::endl;
                     ssize_t res = send(i, it->second.getAnswer().c_str(), it->second.getAnswer().length(), 0);
                     /* Logging */
                     std::ofstream log("log.txt", std::ios_base::trunc);

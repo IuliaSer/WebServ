@@ -1,6 +1,8 @@
 #include "main.hpp"
 #include <iostream>
 #include <string>
+#include "Response.hpp"
+#include "Request.hpp"
 
 std::string current_date(){
     std::string date("Date: ");
@@ -202,7 +204,7 @@ std::string Response::error_405(std::string const &key){
 	ifs.close();
 	ss << file.length();
 
-	std::string error_answer("HTTP/1.1 405 Forbidden\nServer: my_webserver\n"); // todo changed 400 to 403
+	std::string error_answer("HTTP/1.1 405 Method not allowed\nServer: my_webserver\n"); // todo changed 400 to 403
 	error_answer += current_date();
 	error_answer += "Content-Type: text/html\n"
 					"Content-Length: "+ ss.str() + "\n"
@@ -213,7 +215,7 @@ std::string Response::error_405(std::string const &key){
 
 void Response::error_413()
 {
-    std::string error_answer("HTTP/1.1 413 Not Found\r\nServer: my_webserver\n");
+    std::string error_answer("HTTP/1.1 413 Payload Too Large\r\nServer: my_webserver\n");
     error_answer += current_date();
     error_answer += "Content-Type: text/html\n"
                     "Content-Length: 167\r\n"
@@ -289,7 +291,7 @@ void Response::make_headers(Request &zapros)
             sprintf(buffer, "%d", length);
             std::string length_string(buffer);
             std::cout << "lenght - > " << length_string << std::endl;
-            _answer += "Server: my_webserver\r\n";
+            _answer += "Server: My_Webserver\r\n";
             _answer += current_date();
             _answer += "Content-Type: ";
             _answer += _content_type;
@@ -340,12 +342,11 @@ void Response::check_location(Request zapros, std::vector<Server>& servers)
         {
             for (int j = 0; j < servers[i]._locations.size(); j++)
             {
-                std::cout << "PATH: " << servers[i]._locations[j]._path << std::endl;
-                std::cout << "Resourse_name: " << zapros.getResourseName() << std::endl;
-                if(servers[i]._locations[j]._path == dir_path) //mi na nuzhnom location
+                if(servers[i]._locations[j]._path == dir_path)
                 {
                     _root = servers[i]._locations[j]._root;
-                    _file_path = _file_path + "/" + servers[i]._locations[j]._index[0];
+                    if(dir_path == zapros.getResourseName())
+                        _file_path = _file_path + "/" + servers[i]._locations[j]._index[0];
                     std::cout << "FILE_PATH: " << _file_path << std::endl;
                     int a = 0;
                     for (; a < servers[i]._locations[j]._allowed_methods.size(); a++)
@@ -353,9 +354,9 @@ void Response::check_location(Request zapros, std::vector<Server>& servers)
                         if(zapros.getMethod() == servers[i]._locations[j]._allowed_methods[a])
                             break;
                     }
-                    if (a == servers[i]._locations[j]._allowed_methods.size()) // doshla do konca vectora
+                    if (a == servers[i]._locations[j]._allowed_methods.size())
                     {
-                        _answer = error_405(zapros.getHost()); // poka net 405
+                        _answer = error_405(zapros.getHost());
                         _code = 405;
                     }
                     else if(servers[i]._locations[j]._redirects.count(301))
@@ -367,7 +368,7 @@ void Response::check_location(Request zapros, std::vector<Server>& servers)
                         autoindexOn();
                         _AUTOINDEX = 1;
                     }
-                    return; //naideno location
+                    return;
                 }
             }
         }
@@ -432,5 +433,5 @@ void Response::choose_method(Request &zapros, std::vector<Server>& servers)
     else if (zapros.getMethod() == "POST")
         make_post_response(zapros);
     else 
-        _answer = error_400(zapros.getCurrentServer()._host + ":" + zapros.getCurrentServer().getPort()); // заменить все answer 1 прочитать из файла в answer
+        _answer = error_400(zapros.getCurrentServer()._host + ":" + zapros.getCurrentServer().getPort());
 }

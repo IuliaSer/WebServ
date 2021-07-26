@@ -1,28 +1,29 @@
 #include <iostream>
-#include <map>
 #include "Request.hpp"
 #include <cstring>
 #include <string>
 
-int Request::check_request()
+class Response;
+
+int Request::check_request(Response & resp)
 {
-    // int i = -1;
-    // int len = _protocol_version.length();
-    // const char *str = _protocol_version.c_str();
-    // i = _protocol_version.find("HTTP/", 0);
-    // if(i != 0)
-    // {
-    //     //_answer = error_400();
-    //     return (-1);
-    // }
-    // for(int i = 5; i < len; i++)
-    // {
-    //     if((!(isdigit(str[i]))) || str[i] != '.')
-    //     {
-    //         //_answer = error_400();
-    //         return (-1);
-    //     }
-    // }
+    int i = -1;
+    int len = _protocol_version.length();
+    const char *str = _protocol_version.c_str();
+    i = _protocol_version.find("HTTP/", 0);
+    if(i != 0)
+    {
+        resp.setAnswer(resp.error_400(getCurrentServer()._host + ":" + getCurrentServer().getPort()));
+        return (-1);
+    }
+    for(int i = 5; i < len; i++)
+    {
+        if((!(isdigit(str[i]))) && str[i] != '.')
+        {
+            resp.setAnswer(resp.error_400(getCurrentServer()._host + ":" + getCurrentServer().getPort()));
+            return (-1);
+        }
+    }
     return 0;
 }
 
@@ -146,7 +147,7 @@ void Request::parse_body()
     }
 }
 
-int Request::parse_request(std::string str)
+int Request::parse_request(std::string str, Response & resp)
 {
     _buf += str;
     _len = _buf.length();
@@ -173,7 +174,7 @@ int Request::parse_request(std::string str)
     {
         clean_request();
     }
-    return(check_request());
+    return(check_request(resp));
 }
 
 std::string Request::getHeaderContentLength() const
