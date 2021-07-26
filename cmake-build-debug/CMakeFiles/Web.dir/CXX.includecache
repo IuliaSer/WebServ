@@ -6,10 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/Users/tcassia/webserver/Cgi.cpp
-Cgi.hpp
-/Users/tcassia/webserver/Cgi.hpp
-
 /Users/tcassia/webserver/Cgi.hpp
 main.hpp
 /Users/tcassia/webserver/main.hpp
@@ -41,12 +37,30 @@ iostream
 -
 map
 -
+Server.hpp
+/Users/tcassia/webserver/Server.hpp
+dirent.h
+-
+
+/Users/tcassia/webserver/Response.cpp
+main.hpp
+/Users/tcassia/webserver/main.hpp
+iostream
+-
+string
+-
 
 /Users/tcassia/webserver/Response.hpp
 iostream
 -
+dirent.h
+-
 Server.hpp
 /Users/tcassia/webserver/Server.hpp
+sstream
+-
+fstream
+-
 
 /Users/tcassia/webserver/Server.hpp
 Location.hpp
@@ -59,8 +73,20 @@ vector
 -
 
 /Users/tcassia/webserver/Sockets.hpp
-main.hpp
-/Users/tcassia/webserver/main.hpp
+sys/select.h
+-
+netdb.h
+-
+set
+-
+Server.hpp
+/Users/tcassia/webserver/Server.hpp
+iostream
+-
+fcntl.h
+-
+unistd.h
+-
 
 /Users/tcassia/webserver/Utils.hpp
 string
@@ -69,6 +95,8 @@ vector
 -
 
 /Users/tcassia/webserver/main.hpp
+stdlib.h
+-
 iostream
 -
 netdb.h
@@ -119,4 +147,6 @@ Sockets.hpp
 /Users/tcassia/webserver/Sockets.hpp
 Config.hpp
 /Users/tcassia/webserver/Config.hpp
+dirent.h
+-
 

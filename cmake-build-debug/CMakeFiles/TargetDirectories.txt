@@ -1,9 +1,3 @@
-<<<<<<< HEAD
 /Users/tcassia/webserver/cmake-build-debug/CMakeFiles/rebuild_cache.dir
 /Users/tcassia/webserver/cmake-build-debug/CMakeFiles/edit_cache.dir
 /Users/tcassia/webserver/cmake-build-debug/CMakeFiles/Web.dir
-=======
-/Users/pmelinda/ourServ2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/Users/pmelinda/ourServ2/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/pmelinda/ourServ2/cmake-build-debug/CMakeFiles/ourServ2.dir
->>>>>>> 258543ae9997a96e924deea5ab8da03ce5012043
