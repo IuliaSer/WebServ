@@ -6,7 +6,7 @@ OBJS = $(SRCS:.c=.o)
 
 CC = clang++
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -g -std=c++98
 
 all: $(NAME)
 

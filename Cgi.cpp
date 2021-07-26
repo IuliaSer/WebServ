@@ -25,9 +25,14 @@ void Cgi::parseCGI(Request & zapros)
     j = _answer.find("Content-Type: ", 0);
     int f = _answer.find("\r\n", j + 14);
     if (j >= 0)
-        zapros.setContentType(_answer.substr(j + 14, f - j + 14));
+        zapros.setContentType(_answer.substr(j + 14, f - (j + 14)));
     if (i >= 0)
-        zapros.setAnswerBody(_answer.substr(i + 4, _answer.size() - i + 4));
+        zapros.setAnswerBody(_answer.substr(i + 4, _answer.size() - (i + 4)));
+    if (zapros.getStatus() == "201"){
+        size_t pos = _answer.find("Location: ") + 10;
+        size_t end = _answer.find("\r\n", pos);
+        zapros.setLocation(_answer.substr(pos, end));
+    }
 }  
 
 char	*ft_strjoin(char const *s1, char const *s2)

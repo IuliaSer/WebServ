@@ -1,7 +1,8 @@
 #include <iostream>
 
 int main(int argc, char **argv){
-    std::cout << "Content-type: text/html\r\n\r\n"
+    std::cout << "Status: 200"
+                 "Content-type: text/html\r\n\r\n"
                  "<!DOCTYPE html>\n"
                  "<html lang=\"en\">\n"
                  "<head>\n"
