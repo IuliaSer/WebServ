@@ -6,23 +6,23 @@
 
 int Request::check_request()
 {
-    // int i = -1;
-    // int len = _protocol_version.length();
-    // const char *str = _protocol_version.c_str();
-    // i = _protocol_version.find("HTTP/", 0);
-    // if(i != 0)
-    // {
-    //     //_answer = error_400();
-    //     return (-1);
-    // }
-    // for(int i = 5; i < len; i++)
-    // {
-    //     if((!(isdigit(str[i]))) || str[i] != '.')
-    //     {
-    //         //_answer = error_400();
-    //         return (-1);
-    //     }
-    // }
+     int i = -1;
+     int len = _protocol_version.length();
+     const char *str = _protocol_version.c_str();
+     i = _protocol_version.find("HTTP/", 0);
+     if(i != 0)
+     {
+         _answer = error_400();
+         return (-1);
+     }
+     for(int i = 5; i < len; i++)
+     {
+         if((!(isdigit(str[i]))) || str[i] != '.')
+         {
+             _answer = error_400();
+             return (-1);
+         }
+     }
     return 0;
 }
 
@@ -117,10 +117,10 @@ void Request::parse_body()
     int body_len = -1;
     if(_headers.count("Content-Length"))
     {
-        body_len = stoi(_headers["Content-Length"]);
+        body_len = std::strtol(_headers["Content-Length"].c_str(), 0, 10);
         _body.append(_buf, 0, body_len);
     }
-    else if(_headers.count("Transfer-Encoding")) //nado proverit na chunked
+    else if(_headers.count("Transfer-Encoding"))
     {
         std::string tmp;
         int pos = 0;
@@ -130,7 +130,7 @@ void Request::parse_body()
             if (_buf[i] == '\r' && _buf[i + 1] == '\n')
             {
                 tmp = _buf.substr(pos, i - pos);
-                body_len = std::stoi(tmp, 0, 16);
+                body_len = std::strtol(tmp.c_str(), 0, 16);
 				pos = i + 2;
             }
 			if (body_len == 0)

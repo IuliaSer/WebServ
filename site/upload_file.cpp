@@ -21,37 +21,32 @@ int check_if_file_already_exists(std::string filename){
 }
 
 void    error_on_file_upload(std::string check){
-    std::cout << "Content-type: text/html\r\n\r\n"
+    std::cout << "Status: 201\r\n"
+                 "Content-type: text/html\r\n\r\n"
                  "<!DOCTYPE html>\n"
                  " <head>\n"
                  "  <meta charset=\"utf-8\">\n"
-                 "  <title>Ошибка при загрузке файла </title>\n"
+                 "  <title>Failed to upload</title>\n"
                  " </head>\n"
                  " <body>\n"
-                 "  <div id=\"centerLayer\">\n"
-                 " Файл уже существует\n"
-                 "  </div>\n"
+                 "  <p>Failed to upload</p>\n"
                  " </body>\n"
                  "</html> ";
 }
 
 int main(int argc, char **argv, char **envp)
 {
-//    std::string length(envp[1]);
     std::string content_type(envp[2]);
     std::string root(envp[10]);
     std::string body(argv[1]);
+    std::string host(envp[6]);
+    std::string port(envp[7]);
 
     root.erase(0, 16);
-//    size_t pos = content_type.find("boundary=") + 9;
-//    size_t end_of_delimetr = content_type.find("\r\n", pos);
-//    std::string delimetr(content_type.substr(pos, end_of_delimetr - pos));
+    host.erase(0, 12);
+    port.erase(0, 12);
     std::string delimetr(extract_data("boundary=", "\r\n", content_type));
     delimetr = "--" + delimetr;
-//    size_t start_of_body = body.find(delimetr) + delimetr.length();
-//    size_t pos_of_filename = body.find("filename=", start_of_body) + 9;
-//    size_t end_of_filename = body.find("\r\n", pos_of_filename);
-//    std::string filename(body.substr(pos_of_filename, end_of_filename - pos_of_filename));
     std::string filename(extract_data("filename=\"", "\"\r\n", body));
     if (check_if_file_already_exists(root + "/" + filename) == -1)
     {
@@ -65,16 +60,16 @@ int main(int argc, char **argv, char **envp)
     if (new_file.is_open())
     {
         new_file << body.substr(start_of_data, end_of_data - start_of_data);
-        std::cout << "Content-type: text/html\r\n"
+        std::cout << "Status: 201\r\n"
+                     "Content-Type: text/html\r\n"
+                     "Location: http://" + host + ":" + port + "/" + filename + "\r\n\r\n" +
                      "<!DOCTYPE html>\n"
                      " <head>\n"
                      "  <meta charset=\"utf-8\">\n"
-                     "  <title>Файл успешно загружен </title>\n"
+                     "  <title>Upload script</title>\n"
                      " </head>\n"
                      " <body>\n"
-                     "  <div id=\"centerLayer\">\n"
-                     " Файл уже существует\n"
-                     "  </div>\n"
+                     "  <p>File uploaded successfully</p>\n"
                      " </body>\n"
                      "</html> ";
         new_file.close();

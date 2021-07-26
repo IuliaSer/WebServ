@@ -213,18 +213,18 @@ std::string Response::error_405(std::string const &key){
 
 void Response::error_413()
 {
-    std::string error_answer("HTTP/1.1 413 Not Found\r\nServer: my_webserver\n");
+    std::string error_answer("HTTP/1.1 413 Payload Too Large\r\nServer: my_webserver\n");
     error_answer += current_date();
     error_answer += "Content-Type: text/html\n"
-                    "Content-Length: 167\r\n"
+                    "Content-Length: 154\r\n"
                     "Connection: close\r\n"
                     "\r\n"
-                    "<html>\n"
-                    "<head><title>413 Payload Too Large</title></head>\n"
-                    "<body>\n"
-                    "<center><h1>413 Payload Too Large</h1></center>\n"
-                    "<hr><center>My_webserver</center>\n"
-                    "</body>\n"
+                    "<html>"
+                    "<head><title>413 Payload Too Large</title></head>"
+                    "<body>"
+                    "<center><h1>413 Payload Too Large</h1></center>"
+                    "<hr><center>My_webserver</center>"
+                    "</body>"
                     "</html>";
     _answer = error_answer;
 }
@@ -234,6 +234,8 @@ std::string content_type(std::string const &file_path) {
     if (file_path.find(".html") != std::string::npos)
         return ("text/html");
     else if (file_path.find(".jpg") != std::string::npos)
+        return ("image/jpeg");
+    else if (file_path.find(".ico") != std::string::npos)
         return ("image/jpeg");
     else if (file_path.find(".css") != std::string::npos)
         return ("text/css");
@@ -281,7 +283,7 @@ void Response::ErrorsValue()
 
 void Response::make_headers(Request &zapros)
 {
-        if(_code == 200)
+        if(_code == 200 || _code == 201)
         {
             _answer = "HTTP/1.1 " + std::to_string(_code) + " " + getStatus(_code) + "\r\n";
             int length = static_cast<int>(_answer_body.length());
@@ -297,6 +299,12 @@ void Response::make_headers(Request &zapros)
             _answer += "Content-Length: ";
             _answer += length_string;
             _answer += "\r\n";
+            if (_code == 201)
+            {
+                _answer += "Location: ";
+                _answer += zapros.getLocation();
+                _answer += "\r\n";
+            }
             _answer += "\r\n";
             _answer += _answer_body;
         }
@@ -345,7 +353,8 @@ void Response::check_location(Request zapros, std::vector<Server>& servers)
                 if(servers[i]._locations[j]._path == dir_path) //mi na nuzhnom location
                 {
                     _root = servers[i]._locations[j]._root;
-                    _file_path = _file_path + "/" + servers[i]._locations[j]._index[0];
+                    if (zapros.getResourseName() == dir_path)
+                        _file_path = _file_path + "/" + servers[i]._locations[j]._index[0];
                     std::cout << "FILE_PATH: " << _file_path << std::endl;
                     int a = 0;
                     for (; a < servers[i]._locations[j]._allowed_methods.size(); a++)
@@ -367,7 +376,7 @@ void Response::check_location(Request zapros, std::vector<Server>& servers)
                         autoindexOn();
                         _AUTOINDEX = 1;
                     }
-                    return; //naideno location
+                    return;
                 }
             }
         }
@@ -417,6 +426,7 @@ void Response::make_post_response(Request &zapros)
     }
     c.execute_cgi(zapros, _file_path);
     resetValues(zapros);
+    _code = std::atoi(zapros.getStatus().c_str());
     make_headers(zapros);
 }
 

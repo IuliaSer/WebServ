@@ -6,6 +6,10 @@
 
 #IncludeRegexTransform: 
 
+/Users/tcassia/webserver/Cgi.cpp
+Cgi.hpp
+/Users/tcassia/webserver/Cgi.hpp
+
 /Users/tcassia/webserver/Cgi.hpp
 main.hpp
 /Users/tcassia/webserver/main.hpp
@@ -30,6 +34,18 @@ string
 map
 -
 vector
+-
+
+/Users/tcassia/webserver/Request.cpp
+iostream
+-
+map
+-
+Request.hpp
+/Users/tcassia/webserver/Request.hpp
+cstring
+-
+string
 -
 
 /Users/tcassia/webserver/Request.hpp
@@ -93,6 +109,10 @@ string
 -
 vector
 -
+
+/Users/tcassia/webserver/main.cpp
+main.hpp
+/Users/tcassia/webserver/main.hpp
 
 /Users/tcassia/webserver/main.hpp
 stdlib.h
