@@ -1,0 +1,19 @@
+Index: log.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>Возвращаемое значение send = 1775\nHTTP/1.1 404 Not Found\r\nServer: my_webserver\nDate: Sun Jul 25 15:44:23 2021\nContent-Type: text/html\nContent-Length: 1635\nConnection: close\n\n<html><head>\n  <title>The page you were looking for doesn't exist (404)</title>\n  <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n  <script src=\"https://code.jquery.com/jquery-2.1.1.min.js\"></script>\n  <style>\n\n    body {\n      background-color: #2A292F;\n      color: #00BBBD;\n      text-align: center;\n      font-family: arial, sans-serif;\n      margin: 0;\n    }\n\n    .logo {\n      position: absolute;\n      left: 1%;\n      top: 2%;\n      width: 5%;\n      height: auto;\n    }\n\n    .title {\n      position: relative;\n      margin: 60px auto;\n\n    }\n\n    .main-image {\n      position: absolute;\n      top: 25px;\n      background-color: rgba(0, 0, 0, 0.5);\n      bottom: 35px;\n      left: 82px;\n      margin: auto;\n      right: 82px;\n      background-repeat: no-repeat;\n      background-position: 50% 50%;\n      background-size: auto 85%;\n    }\n\n    .screen {\n      position: relative;\n      width: 700px;\n      margin: auto;\n    }\n\n    h1, h2 {\n      font-weight: normal;\n      margin: 50px auto;\n    }\n  </style>\n</head>\n\n<body>\n<!-- This file lives in public/404.html -->\n<div class=\"title\"><img src=\"/www/errors/404.png\" alt=\"\"></div>\n<div class=\"screen\">\n  <div class=\"main-image\"><img src=\"/www/errors/5-sorry.gif\" alt=\"\" style=\"margin: 17vh -18vw;\"></div>\n\n  </div>\n  <img src=\"/images/macbook.png\" alt=\"\">\n</div>\n<h1> 404  : Seems like your page doesn't exist anymore !</h1>\n<script>\n  $(document).ready(function() {\n    var image = \"/www/errors/\" + (Math.floor(Math.random() * 100 % 6) + 1) + \"-sorry.gif\";\n    $(\".main-image\").css(\"background-image\", \"url(\" + image + \")\");\n  });\n</script>\n\n\n</body></html>\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/log.txt b/log.txt
+--- a/log.txt	(revision 363b908d56f6f6de468766574c1c8213f1670eaa)
++++ b/log.txt	(date 1627219159000)
+@@ -1,7 +1,7 @@
+ Возвращаемое значение send = 1775
+ HTTP/1.1 404 Not Found
+ Server: my_webserver
+-Date: Sun Jul 25 15:44:23 2021
++Date: Sun Jul 25 16:19:19 2021
+ Content-Type: text/html
+ Content-Length: 1635
+ Connection: close
