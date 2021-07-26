@@ -24,6 +24,7 @@ class Request
         int                                 _bd;
         int                                 _bd_flag;
         std::map<std::string, std::string>  _headers;
+        std::string                         _location;
         Server                              _current_server;
     public:
         void        						parse_start_line();
@@ -33,6 +34,7 @@ class Request
         void        						cut_buf(int flag);
         void        						clean_request();
         void                                setStatus(const std::string  &status) {this->_status = status;}
+        void                                setLocation(const std::string  &location) {this->_location = location;}
         void                                setAnswerBody(const std::string  &answer_body) {this->_answer_body = answer_body;}
         void                                setContentType(const std::string  &content_type) {this->_content_type = content_type;}
         std::string			                getResourseName() const {return this->_resource_name;}
@@ -40,6 +42,7 @@ class Request
         std::string			                getContentType() const {return this->_content_type;}
         std::string			                getContentLength() const {return this->_content_length;}
         std::string			                getStatus() const {return this->_status;}
+        std::string			                getLocation() const {return this->_location;}
         std::string			                getAnswerBody() const {return this->_answer_body;}
         std::map<std::string, std::string>  getHeaders() const {return this->_headers;}
         std::string                         getHeaderContentLength() const;

@@ -1,9 +1,10 @@
-Возвращаемое значение send = 1209
+Возвращаемое значение send = 1187
 HTTP/1.1 200 OK
 Server: my_webserver
-Date: Mon Jul 26 14:44:44 2021
-Content-Type: 
-Content-Length: 1099
+Date: Mon Jul 26 20:30:55 2021
+Content-Type: image/jpeg
+Content-Length: 1065
+
 
 <html>
 <head><title>webserv - AutoIndexOn</title>
@@ -11,6 +12,6 @@ Content-Length: 1099
 </head>
 <body>
 <h1>Autoindex On:</h1>
-<ul><li><a href="blog">blog</a></li><li><a href="contact.html">contact.html</a></li><li><a href="djiga.jpg">djiga.jpg</a></li><li><a href="favicon.ico">favicon.ico</a></li><li><a href="first">first</a></li><li><a href="flower.jpeg">flower.jpeg</a></li><li><a href="icon.jpg">icon.jpg</a></li><li><a href="index.html">index.html</a></li><li><a href="log.txt">log.txt</a></li><li><a href="news">news</a></li><li><a href="news.html">news.html</a></li><li><a href="static">static</a></li></ul></body>
+<ul><li><a href="blog">blog</a></li><li><a href="contact.html">contact.html</a></li><li><a href="djiga.jpg">djiga.jpg</a></li><li><a href="favicon.ico">favicon.ico</a></li><li><a href="flower.jpeg">flower.jpeg</a></li><li><a href="icon.jpg">icon.jpg</a></li><li><a href="index.html">index.html</a></li><li><a href="log.txt">log.txt</a></li><li><a href="news">news</a></li><li><a href="news.html">news.html</a></li><li><a href="static">static</a></li></ul></body>
 </html>
 

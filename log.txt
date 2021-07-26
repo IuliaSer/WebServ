@@ -1,8 +1,3 @@
-Возвращаемое значение send = 116
-HTTP/1.1 200 OK
-Server: my_webserver
-Date: Mon Jul 26 18:48:05 2021
-Content-Type: text/html
-Content-Length: 0
+Возвращаемое значение send = 0
 
-
+0
