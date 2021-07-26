@@ -1,13 +1,4 @@
-/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/tcassia/webserver
-CMake Error: Parse error in cache file /Users/tcassia/webserver/cmake-build-debug/CMakeCache.txt on line 2. Offending entry: <<<<<<< HEAD
-CMake Error: Parse error in cache file /Users/tcassia/webserver/cmake-build-debug/CMakeCache.txt on line 6. Offending entry: >>>>>>> 258543ae9997a96e924deea5ab8da03ce5012043
-CMake Error: Parse error in cache file /Users/tcassia/webserver/cmake-build-debug/CMakeCache.txt on line 164. Offending entry: <<<<<<< HEAD
-CMake Error: Parse error in cache file /Users/tcassia/webserver/cmake-build-debug/CMakeCache.txt on line 168. Offending entry: >>>>>>> 258543ae9997a96e924deea5ab8da03ce5012043
-CMake Error: Parse error in cache file /Users/tcassia/webserver/cmake-build-debug/CMakeCache.txt on line 236. Offending entry: <<<<<<< HEAD
-CMake Error: Parse error in cache file /Users/tcassia/webserver/cmake-build-debug/CMakeCache.txt on line 246. Offending entry: >>>>>>> 258543ae9997a96e924deea5ab8da03ce5012043
-CMake Error: Parse error in cache file /Users/tcassia/webserver/cmake-build-debug/CMakeCache.txt on line 258. Offending entry: <<<<<<< HEAD
-CMake Error: Parse error in cache file /Users/tcassia/webserver/cmake-build-debug/CMakeCache.txt on line 262. Offending entry: >>>>>>> 258543ae9997a96e924deea5ab8da03ce5012043
-CMake Error: Parse error in cache file /Users/tcassia/webserver/cmake-build-debug/CMakeCache.txt on line 335. Offending entry: <<<<<<< HEAD
-CMake Error: Parse error in cache file /Users/tcassia/webserver/cmake-build-debug/CMakeCache.txt on line 339. Offending entry: >>>>>>> 258543ae9997a96e924deea5ab8da03ce5012043
-CMake Error: The current CMakeCache.txt directory /Users/tcassia/webserver/cmake-build-debug/CMakeCache.txt is different than the directory /Users/pmelinda/ourServ2/cmake-build-debug where CMakeCache.txt was created. This may result in binaries being created in the wrong place. If you are not sure, reedit the CMakeCache.txt
-CMake Error: The source "/Users/tcassia/webserver/CMakeLists.txt" does not match the source "/Users/pmelinda/ourServ2/CMakeLists.txt" used to generate cache.  Re-run cmake with a different source directory.
+/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/pmelinda/ourServ2
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/pmelinda/ourServ2/cmake-build-debug

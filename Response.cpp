@@ -97,40 +97,40 @@ std::string Response::error_404(std::string const &key /* 127.0.0.1:8081*/){
 	std::string 	path;
 	std::string		file;
 
+	std::string error_answer;
 	path.clear();
 	path = _hosts_and_root.find(key)->second;
 	path += _default_errors.find(key)->second.find(404)->second;
 	ifs.open(path);
 	if (!ifs.is_open()){
-		std::string error_answer("HTTP/1.1 404 Not Found\r\nServer: my_webserver\n");
+		error_answer = "HTTP/1.1 404 Not Found\r\nServer: my_webserver\r\n";
 		error_answer += current_date();
-		error_answer += "Content-Type: text/html\n"
-						"Content-Length:  " // todo посчитать длинну
-						"\n"
-						"Connection: close\n"
-						"\n"
-						"<html>\n"
-                    	"<head><title>404 Not Found</title></head>\n"
-                    	"<body>\n"
-                    	"<center><h1>404 Not Found</h1></center>\n"
-                    	"<hr><center>My_webserver</center>\n"
-                    	"</body>\n"
+		error_answer += "Content-Type: text/html\r\n"
+						"Content-Length: 139\r\n"
+						"Connection: close\r\n"
+						"\r\n"
+						"<html>"
+                    	"<head><title>404 Not Found</title></head>"
+                    	"<body>"
+                    	"<center><h1>404 Not Found</h1></center>"
+                    	"<hr><center>My_webserver</center>"
+                    	"</body>"
                     	"</html>";
 	}
 	else {
 		std::getline(ifs, file, ifs.widen(EOF));
 		ifs.close();
 		ss << file.length();
-		std::string error_answer("HTTP/1.1 404 Not Found\r\nServer: my_webserver\n");
+		error_answer = "HTTP/1.1 404 Not Found\r\nServer: my_webserver\r\n";
 		error_answer += current_date();
-		error_answer += "Content-Type: text/html\n"
-						"Content-Length: " + ss.str() + "\n"
-														"Connection: close\n"
-														"\n"
+		error_answer += "Content-Type: text/html\r\n"
+						"Content-Length: " + ss.str() + "\r\n"
+														"Connection: close\r\n"
+														"\r\n"
 						+ file;
 	}
 
-std::cout << error_answer; // todo for debug
+	std::cout << error_answer; // todo for debug
     return error_answer;
 }
 
@@ -140,31 +140,37 @@ std::string Response::error_400(std::string const &key){
 	std::string 	path;
 	std::string		file;
 
+	std::string error_answer;
 	path.clear();
 	path = _hosts_and_root.find(key)->second;
 	path += _default_errors.find(key)->second.find(400)->second;
 	ifs.open(path);
 	if (!ifs.is_open()) {
-
+		error_answer = "HTTP/1.1 400 Bad Request\r\nServer: my_webserver\r\n";
+		error_answer += current_date();
+		error_answer += "Content-Type: text/html\r\n"
+						"Content-Length: 143\r\n" //todo
+						"Connection: close\r\n"
+						"\r\n"
+						"<html>"
+	                    "<head><title>400 Bad Request</title></head>"
+	                    "<body>"
+	                    "<center><h1>400 Bad Request</h1></center>"
+	                    "<hr><center>My_webserver</center>"
+	                    "</body>"
+	                    "</html>";
 	}
 	else {
 		std::getline(ifs, file, ifs.widen(EOF));
 		ifs.close();
 		ss << file.length();
 
-		std::string error_answer("HTTP/1.1 400 Bad Request\nServer: my_webserver\n");
+		error_answer = "HTTP/1.1 400 Bad Request\r\nServer: my_webserver\r\n";
 		error_answer += current_date();
-		error_answer += "Content-Type: text/html\n"
-						"Content-Length: " + ss.str() + "\n"
-														"Connection: close\n" //надо закрыть соединение после такого ответа
-														"\n" + file;
-//					"<html>\n"
-//                    "<head><title>400 Bad Request</title></head>\n"
-//                    "<body>\n"
-//                    "<center><h1>400 Bad Request</h1></center>\n"
-//                    "<hr><center>My_webserver</center>\n"
-//                    "</body>\n"
-//                    "</html>";
+		error_answer += "Content-Type: text/html\r\n"
+						"Content-Length: " + ss.str() + "\r\n"
+														"Connection: close\r\n" //надо закрыть соединение после такого ответа
+														"\r\n" + file;
 	}
 	std::cout << error_answer;
     return error_answer;
@@ -176,29 +182,37 @@ std::string Response::error_403(std::string const &key){
 	std::string 	path;
 	std::string		file;
 
+	std::string error_answer;
 	path.clear();
 	path = _hosts_and_root.find(key)->second;
 	path += _default_errors.find(key)->second.find(403)->second;
 	ifs.open(path);
-	if (!ifs.is_open())
-		throw std::out_of_range("not open\n");
-	std::getline(ifs, file, ifs.widen(EOF));
-	ifs.close();
-	ss << file.length();
+	if (!ifs.is_open()){
+		error_answer = "HTTP/1.1 403 Forbidden\r\nServer: my_webserver\r\n"; // todo changed 400 to 403
+		error_answer += current_date();
+		error_answer += "Content-Type: text/html\r\n"
+						"Content-Length: 139\r\n" //todo
+						"Connection: close\r\n"
+						"<html>"
+	                    "<head><title>403 Forbidden</title></head>"
+	                    "<body>"
+	                    "<center><h1>403 Forbidden</h1></center>"
+	                    "<hr><center>My_webserver</center>"
+	                    "</body>"
+	                    "</html>";
+	}
+	else {
+		std::getline(ifs, file, ifs.widen(EOF));
+		ifs.close();
+		ss << file.length();
 
-    std::string error_answer("HTTP/1.1 403 Forbidden\nServer: my_webserver\n"); // todo changed 400 to 403
-    error_answer += current_date();
-    error_answer += "Content-Type: text/html\n"
-					"Content-Length: "+ ss.str() + "\n"
-                    "Connection: close\n" //надо закрыть соединение после такого ответа
-                    "\n" + file;
-//                    "<html>\n"
-//                    "<head><title>403 Forbidden</title></head>\n"
-//                    "<body>\n"
-//                    "<center><h1>403 Forbidden</h1></center>\n"
-//                    "<hr><center>My_webserver</center>\n"
-//                    "</body>\n"
-//                    "</html>";
+		error_answer = "HTTP/1.1 403 Forbidden\r\nServer: my_webserver\r\n"; // todo changed 400 to 403
+		error_answer += current_date();
+		error_answer += "Content-Type: text/html\r\n"
+						"Content-Length: " + ss.str() + "\r\n"
+														"Connection: close\r\n" //надо закрыть соединение после такого ответа
+														"\r\n" + file;
+	}
     return error_answer;
 }
 
@@ -208,22 +222,37 @@ std::string Response::error_405(std::string const &key){
 	std::string 	path;
 	std::string		file;
 
+	std::string error_answer;
 	path.clear();
 	path = _hosts_and_root.find(key)->second;
 	path += _default_errors.find(key)->second.find(405)->second;
 	ifs.open(path);
-	if (!ifs.is_open())
-		throw std::out_of_range("not open\n");
-	std::getline(ifs, file, ifs.widen(EOF));
-	ifs.close();
-	ss << file.length();
+	if (!ifs.is_open()){
+		error_answer ="HTTP/1.1 405 Not Allowed\r\nServer: my_webserver\r\n";
+		error_answer += current_date();
+		error_answer += "Content-Type: text/html\r\n"
+						"Content-Length: 143\r\n" //todo
+						"Connection: close\r\n"
+						"<html>"
+						"<head><title>405 Not Allowed</title></head>"
+						"<body>"
+						"<center><h1>405 Not Allowed</h1></center>"
+						"<hr><center>My_webserver</center>"
+						"</body>"
+						"</html>";
+	}
+	else {
+		std::getline(ifs, file, ifs.widen(EOF));
+		ifs.close();
+		ss << file.length();
 
-	std::string error_answer("HTTP/1.1 405 Forbidden\nServer: my_webserver\n"); // todo changed 400 to 403
-	error_answer += current_date();
-	error_answer += "Content-Type: text/html\n"
-					"Content-Length: "+ ss.str() + "\n"
-												   "Connection: close\n" //надо закрыть соединение после такого ответа
-												   "\n" + file;
+		error_answer ="HTTP/1.1 405 Forbidden\r\nServer: my_webserver\r\n";
+		error_answer += current_date();
+		error_answer += "Content-Type: text/html\r\n"
+						"Content-Length: " + ss.str() + "\r\n"
+														"Connection: close\r\n" //надо закрыть соединение после такого ответа
+														"\r\n" + file;
+	}
 	return error_answer;
 }
 

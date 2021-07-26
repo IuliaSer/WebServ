@@ -1,5 +1,5 @@
+# Install script for directory: /Users/pmelinda/ourServ2
 
-# Install script for directory: /Users/tcassia/webserver
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
   set(CMAKE_INSTALL_PREFIX "/usr/local")
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/tcassia/webserver/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/pmelinda/ourServ2/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
