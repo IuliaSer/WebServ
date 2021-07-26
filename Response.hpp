@@ -29,7 +29,7 @@ class Response
         void                        fill_hosts_and_root(std::vector<Server>& servers);
         void                        choose_method(Request &zapros, std::vector<Server>& servers);
         void                        make_get_response(Request zapros, std::vector<Server>& servers);
-        void                        make_delete_response(Request &zapros);
+        void                        make_delete_response(Request &zapros, std::vector<Server>& servers);
         void                        make_headers(Request &zapros);
         void                        make_post_response(Request & zapros);
         void                        resetValues(Request & zapros);
@@ -37,7 +37,7 @@ class Response
         void                        setFilePath(Request &zapros) {}
         std::string                 getAnswer() const {return this->_answer;}
         std::string		            getStatus(int code);
-        std::string		            getFilePath() {return _file_path;}
+        std::string		            getFilePath() const {return this->_file_path;}
         void                        ErrorsValue();
         void 						autoindexOn();
         std::string					error_404(std::string const &key /* 127.0.0.1:8081*/);

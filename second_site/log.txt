@@ -1,8 +1,8 @@
-Возвращаемое значение send = 1218
+Возвращаемое значение send = 1209
 HTTP/1.1 200 OK
 Server: my_webserver
-Date: Sun Jul 25 19:16:36 2021
-Content-Type: text/html
+Date: Mon Jul 26 14:44:44 2021
+Content-Type: 
 Content-Length: 1099
 
 <html>

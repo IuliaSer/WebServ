@@ -1,22 +1,8 @@
-Возвращаемое значение send = 670
+Возвращаемое значение send = 107
 HTTP/1.1 200 OK
 Server: my_webserver
-Date: Sun Jul 25 19:44:42 2021
+Date: Mon Jul 26 18:34:44 2021
 Content-Type: 
-Content-Length: 561
+Content-Length: 0
 
-
-<font size=+10>Environment</font><br>
-<b>           AUTH_TYPE</b>: Anonymous<br>
-<b>      CONTENT_LENGTH</b>: 0<br>
-<b>        CONTENT_TYPE</b>: application/x-www-form-urlencoded<br>
-<b>   GATEWAY_INTERFACE</b>: CGI/1.1<br>
-<b>      REQUEST_METHOD</b>: POST<br>
-<b>         SCRIPT_NAME</b>: /python.py<br>
-<b>         SERVER_NAME</b>: 127.0.0.1<br>
-<b>         SERVER_PORT</b>: 8000<br>
-<b>     SERVER_PROTOCOL</b>: HTTP/1.1<br>
-<b>     SERVER_SOFTWARE</b>: webserv<br>
-<b>__CF_USER_TEXT_ENCODING</b>: 0x3469:0x0:0x0<br>
-<b>            LC_CTYPE</b>: UTF-8<br>
 

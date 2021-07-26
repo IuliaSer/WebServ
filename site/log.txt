@@ -1,16 +1,82 @@
-Возвращаемое значение send = 1298
-HTTP/1.1 200 OK
+Возвращаемое значение send = 1775
+HTTP/1.1 404 Not Found
 Server: my_webserver
-Date: Sun Jul 25 19:41:11 2021
+Date: Mon Jul 26 14:35:50 2021
 Content-Type: text/html
-Content-Length: 1179
+Content-Length: 1635
+Connection: close
 
-<html>
-<head><title>webserv - AutoIndexOn</title>
-<style>  * { margin: 0; padding: 0; }h1 { text-align: center; font-size: 25px; margin-top: 30px;}a { text-decoration: none; color: black; font-size: 20px;}body { bac     kground: rgb(238,174,202); background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%); }ul { display: flex; flex-wrap: wrap; flex-direction: column; border-radius: 5px; text-align: center; padding-left: 0; margin-top: 30px;}li { display: block; border-bottom: 1px solid #673ab7; padding-bottom: 5px;}</style>
+<html><head>
+  <title>The page you were looking for doesn't exist (404)</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <style>
+
+    body {
+      background-color: #2A292F;
+      color: #00BBBD;
+      text-align: center;
+      font-family: arial, sans-serif;
+      margin: 0;
+    }
+
+    .logo {
+      position: absolute;
+      left: 1%;
+      top: 2%;
+      width: 5%;
+      height: auto;
+    }
+
+    .title {
+      position: relative;
+      margin: 60px auto;
+
+    }
+
+    .main-image {
+      position: absolute;
+      top: 25px;
+      background-color: rgba(0, 0, 0, 0.5);
+      bottom: 35px;
+      left: 82px;
+      margin: auto;
+      right: 82px;
+      background-repeat: no-repeat;
+      background-position: 50% 50%;
+      background-size: auto 85%;
+    }
+
+    .screen {
+      position: relative;
+      width: 700px;
+      margin: auto;
+    }
+
+    h1, h2 {
+      font-weight: normal;
+      margin: 50px auto;
+    }
+  </style>
 </head>
+
 <body>
-<h1>Autoindex On:</h1>
-<ul><li><a href="blog">blog</a></li><li><a href="contact.html">contact.html</a></li><li><a href="cscript.cpp">cscript.cpp</a></li><li><a href="csript">csript</a></li><li><a href="emptypage.html">emptypage.html</a></li><li><a href="favicon.ico">favicon.ico</a></li><li><a href="images">images</a></li><li><a href="index.html">index.html</a></li><li><a href="log.txt">log.txt</a></li><li><a href="news">news</a></li><li><a href="news.html">news.html</a></li><li><a href="python.py">python.py</a></li><li><a href="static">static</a></li><li><a href="www">www</a></li></ul></body>
-</html>
+<!-- This file lives in public/404.html -->
+<div class="title"><img src="/www/errors/404.png" alt=""></div>
+<div class="screen">
+  <div class="main-image"><img src="/www/errors/5-sorry.gif" alt="" style="margin: 17vh -18vw;"></div>
+
+  </div>
+  <img src="/images/macbook.png" alt="">
+</div>
+<h1> 404  : Seems like your page doesn't exist anymore !</h1>
+<script>
+  $(document).ready(function() {
+    var image = "/www/errors/" + (Math.floor(Math.random() * 100 % 6) + 1) + "-sorry.gif";
+    $(".main-image").css("background-image", "url(" + image + ")");
+  });
+</script>
+
+
+</body></html>
 

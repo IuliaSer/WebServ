@@ -60,9 +60,22 @@ void    Cgi::free_memory()
     delete(_env);
 }
 
+void Cgi::define_cgi_path(std::string& file_path)
+{
+    _extentionOfScript = 1;
+	if (file_path.rfind(".py") != std::string::npos)
+		_pathToHandler = "/usr/bin/python";
+	else if (file_path.rfind(".php") != std::string::npos)
+		_pathToHandler = "/usr/bin/php";
+	else if (file_path.rfind(".perl") != std::string::npos || file_path.rfind(".pl") != std::string::npos)
+		_pathToHandler = "/usr/bin/perl";
+	else if (file_path.rfind(".cgi") != std::string::npos || file_path.rfind(".exe") != std::string::npos)
+		_extentionOfScript = 0;
+}
+
 void Cgi::create2darray(Request zapros)
 {
-    _env = new char *[10 + zapros.getHeaders().size()]; //узнать почему только так работает
+    _env = new char *[10 + zapros.getHeaders().size()];
 //    _env = new char *[11];
     _env[0] = strdup("AUTH_TYPE=Anonymous");
     _env[1] = ft_strjoin("CONTENT_LENGTH=", (zapros.getHeaderContentLength().c_str()));
@@ -84,15 +97,15 @@ void Cgi::create2darray(Request zapros)
     _env[10] = NULL;
 }
 
-int Cgi::execute_cgi(Request & zapros, std::string& root)
+int Cgi::execute_cgi(Request & zapros, std::string& file_path)
 {
-    std::string file_path;
     int status;
     int fds[2];
+    int e;
     const char *argv[3] = {zapros.getResourseName().c_str(), zapros.getBody().c_str(), NULL};
-    file_path += root;
-    file_path += zapros.getResourseName();
+    const char *argv_interp[4] = {zapros.getResourseName().c_str(), zapros.getBody().c_str(), _pathToHandler.c_str(), NULL}; // s interpretatorom
     create2darray(zapros);
+    define_cgi_path(file_path);
     if (pipe(fds) == -1)
         std::cout << "pipe error" << std::endl;
     pid_t child_id = fork();
@@ -102,7 +115,12 @@ int Cgi::execute_cgi(Request & zapros, std::string& root)
     {
         close(fds[0]);
         dup2(fds[1], 1);
-        if (execve(file_path.c_str(), (char *const *) argv, _env) == -1) {
+        if (_extentionOfScript == 1)
+            execve(file_path.c_str(), (char *const *) argv_interp, _env);
+        else 
+            execve(file_path.c_str(), (char *const *) argv, _env);
+        if(e == -1)
+        {
             close(fds[1]);
             exit(-1);
         }

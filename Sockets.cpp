@@ -16,7 +16,7 @@ int Sockets::listen_all(fd_set &master){
     std::map<int, Server>::iterator it = listen_sockets.begin();
     while (it != listen_sockets.end())
     {
-        listen(it->first, 5);
+        listen(it->first, 128);
         FD_SET(it->first, &master);
         it++;
     }

@@ -1,6 +1,6 @@
 #include "main.hpp"
-#include <iostream> // std::cout.
-#include <string> // std::string, std::to_string.
+#include <iostream>
+#include <string>
 
 std::string current_date(){
     std::string date("Date: ");
@@ -12,7 +12,6 @@ std::string current_date(){
 
 void Response::find_root(Request &zapros) {
     _root = _hosts_and_root.find(zapros.getHost())->second;
-
 }
 
 void Response::autoindexOn()
@@ -21,11 +20,9 @@ void Response::autoindexOn()
 	struct dirent *current;
 	std::string body;
 	std::string relativePath = ".";
-	std::cout << "relative path " << relativePath <<'\n';
 
     chdir(_root.c_str());
     std::cout << "ROOT autoindex" << _root << std::endl;
-    //chdir("/Users/iserzhan/WebServ/site");
 	dir = opendir(relativePath.c_str());
 	if (dir == NULL)
 	{
@@ -289,11 +286,9 @@ void Response::make_headers(Request &zapros)
 
 void Response::setValues(Request &zapros)
 {
+    _code = 200;
     _AUTOINDEX = 0;
-    if (zapros.getResourseName() == "/")
-        _file_path = _root + "/index.html";
-    else
-        _file_path = _root + zapros.getResourseName();
+    _file_path = _root + zapros.getResourseName();
     _content_type = content_type(_file_path);
 }
 
@@ -305,13 +300,22 @@ void Response::resetValues(Request &zapros)
 
 void Response::check_location(Request zapros, std::vector<Server>& servers)
 {
-    _code = 200;
     Server serv;
     std::string port;
     int size = zapros.getHost().size();
-
+    std::string dir_path;
+    int j = -1;
     int f = zapros.getHost().find(":", 0);
     port = zapros.getHost().substr(f + 1, size - (f + 1));
+
+    int i = zapros.getResourseName().rfind(".", zapros.getResourseName().size());
+    if(i > 0)
+        j = zapros.getResourseName().rfind("/", i); // '/' position
+    int pos = zapros.getResourseName().size() - (zapros.getResourseName().size() - j - 1);
+    if (j >= 0)
+        dir_path = zapros.getResourseName().substr(0, pos);
+    else 
+        dir_path = zapros.getResourseName();
     for (int i = 0; i < servers.size(); i++)
     { 
         if (servers[i]._port == port)
@@ -320,8 +324,10 @@ void Response::check_location(Request zapros, std::vector<Server>& servers)
             {
                 std::cout << "PATH: " << servers[i]._locations[j]._path << std::endl;
                 std::cout << "Resourse_name: " << zapros.getResourseName() << std::endl;
-                if(servers[i]._locations[j]._path == zapros.getResourseName())
+                if(servers[i]._locations[j]._path == dir_path) //mi na nuzhnom location
                 {
+                    _root = servers[i]._locations[j]._root;
+                    _file_path = _file_path + "/" + servers[i]._locations[j]._index[0];
                     std::cout << "FILE_PATH: " << _file_path << std::endl;
                     int a = 0;
                     for (; a < servers[i]._locations[j]._allowed_methods.size(); a++)
@@ -333,6 +339,10 @@ void Response::check_location(Request zapros, std::vector<Server>& servers)
                     {
                         _answer = error_405(zapros.getHost()); // poka net 405
                         _code = 405;
+                    }
+                    else if(servers[i]._locations[j]._redirects.count(301))
+                    {
+                        _file_path = servers[i]._locations[j]._redirects[301] + "/" + servers[i]._locations[j]._index[0];
                     }
                     else if(servers[i]._locations[j]._autoindex)
                     {
@@ -347,39 +357,35 @@ void Response::check_location(Request zapros, std::vector<Server>& servers)
     return;
 }
 
-void Response::make_get_response(Request zapros, std::vector<Server>& servers) {
-    check_location(zapros, servers);//надо добавить флаг если включен автоиндекс
-    if (_code == 200 && _AUTOINDEX == 0)
-    {
-        if (check_file_location(_file_path) == 404)
-        {
-            _answer = error_404(zapros.getHost());
-            _code = 404;
-            return;
-        }
-        else
-            file_read(_file_path, _answer_body);
-        make_headers(zapros);
-    }
-    if (_AUTOINDEX == 1)
-        make_headers(zapros);
-}
-
-void Response::make_delete_response(Request &zapros)
+void Response::make_get_response(Request zapros, std::vector<Server>& servers)
 {
-    _code = 200;
-     if (check_file_location(_file_path) == 0)
-     {
-         if (!remove(_file_path.c_str()))
-            _answer = error_403(zapros.getHost());
-     }
-     else 
-     {
-         _answer = error_404(zapros.getHost()); // if
+    if (check_file_location(_file_path) == 404)
+    {
+        _answer = error_404(zapros.getHost());
         _code = 404;
         return;
-     }
-     make_headers(zapros);
+    }
+    check_location(zapros, servers);
+    if(_code == 200 && _AUTOINDEX == 0)
+        file_read(_file_path, _answer_body);
+    make_headers(zapros);
+}
+
+void Response::make_delete_response(Request &zapros, std::vector<Server>& servers)
+{
+    if (check_file_location(_file_path) == 404)
+    {
+        _answer = error_404(zapros.getHost());
+        _code = 404;
+        return;
+    }
+    check_location(zapros, servers);
+    if(_code == 200)
+    {
+        if (!remove(_file_path.c_str()))
+                _answer = error_403(zapros.getHost());
+        make_headers(zapros);
+    }
 }
 
 void Response::make_post_response(Request &zapros)
@@ -391,31 +397,20 @@ void Response::make_post_response(Request &zapros)
         _code = 404;
         return;
     }
-    c.execute_cgi(zapros, _root);
+    c.execute_cgi(zapros, _file_path);
     resetValues(zapros);
     make_headers(zapros);
-}
-
-std::string get_file_name(const char *buf){
-    int i = 4;
-    std::string file_name;
-    while (buf[i] != ' '){
-        file_name += buf[i];
-        i++;
-    }
-    return file_name;
 }
 
 void Response::choose_method(Request &zapros, std::vector<Server>& servers)
 {
     ErrorsValue();
     find_root(zapros);
-    std::cout << "ROOT < " << _root << std::endl;
     setValues(zapros);
     if (zapros.getMethod() == "GET")
         make_get_response(zapros, servers);
     else if (zapros.getMethod() == "DELETE")
-        make_delete_response(zapros);
+        make_delete_response(zapros, servers);
     else if (zapros.getMethod() == "POST")
         make_post_response(zapros);
     else 
