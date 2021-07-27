@@ -5,7 +5,6 @@
 #include "Location.hpp"
 
 Location::Location() {
-	// todo implement
 }
 
 void Location::setPath(const std::string& path) {

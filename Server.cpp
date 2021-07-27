@@ -5,7 +5,6 @@
 #include "Server.hpp"
 
 Server::Server() {
-	// todo implement
 }
 
 Server::~Server() {
@@ -85,6 +84,5 @@ Server & Server::operator=(const Server &rhs)
     this->_max_body_size = rhs._max_body_size;
     this->_root = rhs.getRoot();
     this->_default_error_page = rhs._default_error_page;
-//    this->_locations = rhs._locations;
     return *this;
 }

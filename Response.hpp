@@ -35,13 +35,12 @@ class Response
         void                        resetValues(Request & zapros);
         void                        setValues(Request &zapros);
         void                        setAnswer(const std::string  &answer) {this->_answer = answer;}
-//        void                        setFilePath(Request &zapros) {}
         std::string                 getAnswer() const {return this->_answer;}
         std::string		            getStatus(int code);
         std::string		            getFilePath() const {return this->_file_path;}
         void                        ErrorsValue();
-        void 						autoindexOn();
-        std::string					error_404(std::string const &key /* 127.0.0.1:8081*/);
+        void 						autoindexOn(Request &zapros);
+        std::string					error_404(std::string const &key);
 		std::string					error_400(std::string const &key);
 		std::string					error_403(std::string const &key);
 		std::string					error_405(std::string const &key);

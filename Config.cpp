@@ -33,43 +33,6 @@ void Config::parseConfig() {
 		parseServer(lines, &endBlockPos);
 		i = endBlockPos;
 	}
-
-	for (unsigned long i = 0; i < this->_servers.size(); i++) {
-		Server srv = this->_servers[i];
-		std::cout << "serv: " << i + 1 << "\n";
-		std::cout << "serv name : " << srv._server_name << "\n";
-		std::cout << "serv port : " << srv._portInt << "\n";
-		std::cout << "serv host : " << srv._host << "\n";
-		std::cout << "serv limit : " << srv._max_body_size << "\n";
-		std::cout << "serv root : " << srv._root << "\n";
-		// for (auto m : srv._default_error_page) {
-		// 	std::cout << "serv error page : " << m.first << " " << m.second << "\n";
-		// }
-
-		for (unsigned long j = 0; j < srv._locations.size(); j++) {
-			Location loc = srv._locations[j];
-			std::cout << "location: " << j + 1 << " path: " << loc._path << "\n";
-			std::cout << "root : " << loc._root << "\n";
-			std::cout << "autoindex : " << std::boolalpha << loc._autoindex << "\n";
-			for (unsigned long k = 0; k < loc._allowed_methods.size(); k++) {
-				std::cout << "allowed method " << k + 1 << " " + loc._allowed_methods[k] << "\n";
-			}
-
-			for (unsigned long k = 0; k < loc._index.size(); k++) {
-				std::cout << "indexes " << k + 1 << " " + loc._index[k] << "\n";
-			}
-
-			for (unsigned long k = 0; k < loc._cgi.size(); k++) {
-				std::cout << "cgi " << k + 1 << " " + loc._cgi[k] << "\n";
-			}
-
-			std::cout << "cgi path : " << loc._cgi_path << "\n";
-
-			// for (auto m : loc._redirects) {
-			// 	std::cout << "redirs : " << m.first << " " << m.second << "\n";
-			// }
-		}
-	}
 }
 
 void Config::parseServer(std::vector<std::string> lines, uint32_t* endBlockPos) {
@@ -118,7 +81,6 @@ void Config::parseLocation(std::vector<std::string> lines, uint32_t* endBlockPos
 			break ;
 		}
 		else {
-			//todo
 			checkLocationInstructions(lineItems, *endBlockPos);
 		}
 		(*endBlockPos)++;
@@ -133,10 +95,6 @@ void Config::checkLocationInstructions(std::vector<std::string> line, uint32_t e
 		this->_servers.back().getLocations().back().setRoot(line[1]);
 	} else if (line[0] == "allow_method") {
 		size_t size = line.size();
-//		std::cout << size << "-----------------" << std::endl;
-//		for (int i = 0; i < size; ++i) {
-//			std::cout << line[i] << "-----------------" << std::endl;
-//		}
 		for (unsigned long i = 1; i < size; i++) {
 			this->_servers.back().getLocations().back().getAllowedMethods().push_back(line[i]);
 		}

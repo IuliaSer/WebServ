@@ -85,13 +85,7 @@ void Cgi::create2darray(Request zapros)
     _env[1] = ft_strjoin("CONTENT_LENGTH=", (zapros.getHeaderContentLength().c_str()));
     _env[2] = ft_strjoin("CONTENT_TYPE=", (zapros.getHeaderContentType()).c_str());
     _env[3] = strdup("GATEWAY_INTERFACE=CGI/1.1");
-    // _env[4] = "PATH_INFO=/directory
-    // _env[6] = "QUERY_STRING=""
-//     _env[7] = "REMOTE_ADDR="127.0.0.1
-    // _env[8] = "REMOTE_IDENT=".localhost:8080
-    // _env[9] = "REMOTE_USER="
     _env[4] = ft_strjoin("REQUEST_METHOD=", (zapros.getMethod().c_str()));
-    //_env[11] = "REQUEST_URI=/directory
     _env[5] = ft_strjoin("SCRIPT_NAME=", zapros.getResourseName().c_str());
     _env[6] = ft_strjoin("SERVER_NAME=", zapros.getCurrentServer()._host.c_str());
     _env[7] = ft_strjoin("SERVER_PORT=", zapros.getCurrentServer()._port.c_str());
@@ -136,7 +130,6 @@ int Cgi::execute_cgi(Request & zapros, std::string& file_path)
         ssize_t bytes_read = read(fds[0], _buf, CGI_BUFSIZE);
         _answer = std::string(_buf);
         memset(_buf, 0, CGI_BUFSIZE);
-        std::cout << "Answer after cgi " << _answer << std::endl << "cgi bytes" << bytes_read << std::endl;
         close(fds[0]);
         if (bytes_read != 0)
             parseCGI(zapros);

@@ -20,10 +20,10 @@ int    check_for_limit_size_body(std::string &str_request, Server &server, Respo
 int main(int , char **argv) {
 
 
-	//  if (!argv[1] || strcmp(argv[1], "test.conf") != 0){
-	//  	std::cout << "Webserver requires a valid config" << std::endl;
-	//  	return 1;
-	//  }
+	 if (!argv[1] || strcmp(argv[1], "test.conf") != 0){
+	 	std::cout << "Webserver requires a valid config" << std::endl;
+	 	return 1;
+	 }
     Config config(argv[1]);
     config.parseConfig();
 
@@ -36,7 +36,6 @@ int main(int , char **argv) {
     fd_set writeset;
     std::map<int, Response> responses;
     std::set<int> need_to_close;
-//    std::map<int, Request> requests;
     FD_ZERO(&master);
     FD_ZERO(&readset);
     FD_ZERO(&writeset);
@@ -85,7 +84,6 @@ int main(int , char **argv) {
                         sockets.remove_connection(i);
                     }
                     else {
-                        std::cout << "|....Client request : " << buffer << std::endl << std::endl << std::endl;
                         Response resp;
                         if (check_for_limit_size_body(buffer, sockets.connection_sockets.find(i)->second, resp) == 1){
                             responses.insert(std::make_pair(i, resp));
@@ -114,7 +112,6 @@ int main(int , char **argv) {
                 std::map<int, Response>::iterator it = responses.find(i);
                 if (it != responses.end())
                 {
-					std::cout << "ТУТ ОТВЕТ -> " << it->second.getAnswer().c_str() << std::endl;
                     ssize_t res = send(i, it->second.getAnswer().c_str(), it->second.getAnswer().length(), 0);
                     if (res <= 0)
                     {
@@ -125,17 +122,10 @@ int main(int , char **argv) {
                     }
                     else
                     {
-//                        /* Logging */
-//                        std::ofstream log("log.txt", std::ios_base::trunc);
-//                        log << "Возвращаемое значение send = " << res << std::endl;
-//                        log << it->second.getAnswer() << std::endl;
-//                        log << it->second.getAnswer().length() << std::endl;
-//                        log.close();
-//                        /* End of Logging */
                         if (it->second.getAnswer().find("Connection: close\r\n") != std::string::npos ||
                             need_to_close.find(i) != need_to_close.end())
                         {
-                            std::cout << "Closing connection" << std::endl;
+                            // std::cout << "Closing connection" << std::endl;
                             close(i);
                             FD_CLR(i, &master);
                             sockets.remove_connection(i);

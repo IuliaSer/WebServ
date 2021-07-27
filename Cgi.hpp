@@ -23,7 +23,6 @@ class Cgi
         Cgi() {}
         ~Cgi() {}
 
-        // root
 };
 
 #endif

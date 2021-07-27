@@ -15,11 +15,6 @@ class Location;
 
 class Server {
 
-private:
-	// Coplien form
-//	Server(const Server& other);
-
-
 public:
 	std::string _host;  //ip
 	// int 		_hostInt; //ip
