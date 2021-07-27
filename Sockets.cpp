@@ -8,8 +8,6 @@ Sockets::Sockets(std::vector<Server> &servers)
         listen_socket_setup(*it);
         it++;
     }
-//    for (int i = 0; i < ports.size(); i++)
-//        listen_socket_setup(ports[i].c_str());
 }
 
 int Sockets::listen_all(fd_set &master){
@@ -80,7 +78,6 @@ void Sockets::listen_socket_setup(Server &server)
             close(listen_sock);
             continue;
         }
-        std::cout << "SOCKET CREATED SUCCESFULLY" << std::endl;
         listen_sockets.insert(std::make_pair(listen_sock, server));
         break;
     }
@@ -124,6 +121,6 @@ int Sockets::accept_connection(int i, fd_set &master, int &fdmax)
 void Sockets::remove_connection(int socket)
 {
     std::map<int, Server>::iterator  it = connection_sockets.find(socket);
-//    if (it != connection_sockets.end())
+    if (it != connection_sockets.end()) //проверить
         connection_sockets.erase(it);
 }

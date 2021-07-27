@@ -75,7 +75,7 @@ void file_read(std::string const &location, std::string &answer_body){
         in.open(location.c_str());
     }
     else
-        in.open(location.c_str()); // окрываем файл для чтения
+        in.open(location.c_str());
     if (in.is_open())
     {
         in.seekg(0, in.end);
@@ -84,10 +84,10 @@ void file_read(std::string const &location, std::string &answer_body){
 
         char *buffer = new char [length];
         in.read(buffer, length);
-        answer_body.append(buffer, in.gcount());//надо добавить проверки
+        answer_body.append(buffer, in.gcount());
         delete[] buffer;
     }
-    in.close();     // закрываем файл
+    in.close()
 }
 
 std::string Response::error_404(std::string const &key /* 127.0.0.1:8081*/){
@@ -158,7 +158,7 @@ std::string Response::error_404(std::string const &key /* 127.0.0.1:8081*/){
                         "</body>"
                         "</html>";
     }
-	std::cout << error_answer; // todo for debug
+//	std::cout << error_answer; // todo for debug
     return error_answer;
 }
 
@@ -194,7 +194,7 @@ std::string Response::error_400(std::string const &key){
             error_answer += current_date();
             error_answer += "Content-Type: text/html\r\n"
                             "Content-Length: " + ss.str() + "\r\n"
-                                                            "Connection: close\r\n" //надо закрыть соединение после такого ответа
+                                                            "Connection: close\r\n"
                                                             "\r\n" + file;
         }
         else
@@ -262,20 +262,20 @@ std::string Response::error_403(std::string const &key){
             ifs.close();
             ss << file.length();
 
-            error_answer = "HTTP/1.1 403 Forbidden\r\nServer: my_webserver\r\n"; // todo changed 400 to 403
+            error_answer = "HTTP/1.1 403 Forbidden\r\nServer: my_webserver\r\n";
             error_answer += current_date();
             error_answer += "Content-Type: text/html\r\n"
                             "Content-Length: " + ss.str() + "\r\n"
-                                                            "Connection: close\r\n" //надо закрыть соединение после такого ответа
+                                                            "Connection: close\r\n"
                                                             "\r\n" + file;
         }
         else
         {
 
-            error_answer = "HTTP/1.1 403 Forbidden\r\nServer: my_webserver\r\n"; // todo changed 400 to 403
+            error_answer = "HTTP/1.1 403 Forbidden\r\nServer: my_webserver\r\n";
             error_answer += current_date();
             error_answer += "Content-Type: text/html\r\n"
-                            "Content-Length: 139\r\n" //todo
+                            "Content-Length: 139\r\n"
                             "Connection: close\r\n"
                             "<html>"
                             "<head><title>403 Forbidden</title></head>"
@@ -289,10 +289,10 @@ std::string Response::error_403(std::string const &key){
     else
     {
 
-        error_answer = "HTTP/1.1 403 Forbidden\r\nServer: my_webserver\r\n"; // todo changed 400 to 403
+        error_answer = "HTTP/1.1 403 Forbidden\r\nServer: my_webserver\r\n";
         error_answer += current_date();
         error_answer += "Content-Type: text/html\r\n"
-                        "Content-Length: 139\r\n" //todo
+                        "Content-Length: 139\r\n"
                         "Connection: close\r\n"
                         "<html>"
                         "<head><title>403 Forbidden</title></head>"
@@ -327,7 +327,7 @@ std::string Response::error_405(std::string const &key){
     {
         if (!(s.st_mode & S_IFDIR))
             ifs.open(path);
-        if (ifs.is_open() && !(s.st_mode & S_IFDIR))
+        if (!(s.st_mode & S_IFDIR) && ifs.is_open())
         {
             std::getline(ifs, file, ifs.widen(EOF));
             ifs.close();
@@ -337,7 +337,7 @@ std::string Response::error_405(std::string const &key){
             error_answer += current_date();
             error_answer += "Content-Type: text/html\r\n"
                             "Content-Length: " + ss.str() + "\r\n"
-                                                            "Connection: close\r\n" //надо закрыть соединение после такого ответа
+                                                            "Connection: close\r\n"
                                                             "\r\n" + file;
         }
         else
@@ -345,7 +345,7 @@ std::string Response::error_405(std::string const &key){
             error_answer = "HTTP/1.1 405 Not Allowed\r\nServer: my_webserver\r\n";
             error_answer += current_date();
             error_answer += "Content-Type: text/html\r\n"
-                            "Content-Length: 143\r\n" //todo
+                            "Content-Length: 143\r\n"
                             "Connection: close\r\n"
                             "\r\n"
                             "<html>"
@@ -362,7 +362,7 @@ std::string Response::error_405(std::string const &key){
         error_answer = "HTTP/1.1 405 Not Allowed\r\nServer: my_webserver\r\n";
         error_answer += current_date();
         error_answer += "Content-Type: text/html\r\n"
-                        "Content-Length: 143\r\n" //todo
+                        "Content-Length: 143\r\n"
                         "Connection: close\r\n"
                         "\r\n"
                         "<html>"
@@ -400,10 +400,16 @@ std::string content_type(std::string const &file_path) {
         return ("text/html");
     else if (file_path.find(".jpg") != std::string::npos)
         return ("image/jpeg");
+    else if (file_path.find(".png") != std::string::npos)
+        return ("image/png");
+    else if (file_path.find(".gif") != std::string::npos)
+        return ("image/gif");
     else if (file_path.find(".ico") != std::string::npos)
         return ("image/jpeg");
     else if (file_path.find(".css") != std::string::npos)
         return ("text/css");
+    else if (file_path.find(".txt") != std::string::npos)
+        return ("text/plain");
     else if (file_path.rfind(".py") != std::string::npos)
 		return("python");
     else if (file_path.rfind(".cgi") != std::string::npos || file_path.rfind(".exe") != std::string::npos)

@@ -21,8 +21,8 @@ int check_if_file_already_exists(std::string filename){
 }
 
 void    error_on_file_upload(std::string check){
-    std::cout << "Status: 201\r\n"
-                 "Content-type: text/html\r\n\r\n"
+    std::cout << "Status: 200\r\n"
+                 "Content-Type: text/html\r\n\r\n"
                  "<!DOCTYPE html>\n"
                  " <head>\n"
                  "  <meta charset=\"utf-8\">\n"
