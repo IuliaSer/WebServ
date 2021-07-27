@@ -20,10 +20,10 @@ int    check_for_limit_size_body(std::string &str_request, Server &server, Respo
 int main(int , char **argv) {
 
 
-	 if (!argv[1] || strcmp(argv[1], "test.conf") != 0){
-	 	std::cout << "Webserver requires a valid config" << std::endl;
-	 	return 1;
-	 }
+	//  if (!argv[1] || strcmp(argv[1], "test.conf") != 0){
+	//  	std::cout << "Webserver requires a valid config" << std::endl;
+	//  	return 1;
+	//  }
     Config config(argv[1]);
     config.parseConfig();
 

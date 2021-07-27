@@ -1,4 +1,3 @@
-#include <iostream>
 #include "Request.hpp"
 #include <cstring>
 #include <string>

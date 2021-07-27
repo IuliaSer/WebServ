@@ -31,7 +31,7 @@ class Response
         void                        make_get_response(Request zapros, std::vector<Server>& servers);
         void                        make_delete_response(Request &zapros, std::vector<Server>& servers);
         void                        make_headers(Request &zapros);
-        void                        make_post_response(Request & zapros);
+        void                        make_post_response(Request & zapros, std::vector<Server>& servers);
         void                        resetValues(Request & zapros);
         void                        setValues(Request &zapros);
         void                        setAnswer(const std::string  &answer) {this->_answer = answer;}

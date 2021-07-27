@@ -489,24 +489,35 @@ void Response::resetValues(Request &zapros)
     _answer_body = zapros.getAnswerBody();
 }
 
+
 void Response::check_location(Request zapros, std::vector<Server>& servers)
 {
     Server serv;
     std::string port;
     int size = zapros.getHost().size();
     std::string dir_path;
-    int j = -1;
+    std::ifstream 	ifs;
+    struct stat s;
     int f = zapros.getHost().find(":", 0);
     port = zapros.getHost().substr(f + 1, size - (f + 1));
 
-    int i = zapros.getResourseName().rfind(".", zapros.getResourseName().size());
-    if(i > 0)
-        j = zapros.getResourseName().rfind("/", i); // '/' position
-    int pos = zapros.getResourseName().size() - (zapros.getResourseName().size() - j - 1);
-    if (j >= 0)
-        dir_path = zapros.getResourseName().substr(0, pos);
-    else 
-        dir_path = zapros.getResourseName();
+    if (stat(_file_path.c_str(), &s) == 0)
+    {
+        if (!(s.st_mode & S_IFDIR))
+            ifs.open(_file_path);
+        if (ifs.is_open() && !(s.st_mode & S_IFDIR))
+        {
+            int j = zapros.getResourseName().rfind("/", zapros.getResourseName().size());
+            if(j >= 0)
+            {
+                int pos = zapros.getResourseName().size() - (zapros.getResourseName().size() - j - 1);
+                dir_path = zapros.getResourseName().substr(0, pos);
+            }
+        }
+        else 
+            dir_path = zapros.getResourseName();  
+    }
+
     for (unsigned long i = 0; i < servers.size(); i++)
     { 
         if (servers[i]._port == port)
@@ -581,7 +592,7 @@ void Response::make_delete_response(Request &zapros, std::vector<Server>& server
     }
 }
 
-void Response::make_post_response(Request &zapros)
+void Response::make_post_response(Request &zapros, std::vector<Server>& servers)
 {
     Cgi c;
     if (check_file_location(_file_path) == 404)
@@ -590,10 +601,14 @@ void Response::make_post_response(Request &zapros)
         _code = 404;
         return;
     }
-    c.execute_cgi(zapros, _file_path);
-    resetValues(zapros);
-    _code = std::atoi(zapros.getStatus().c_str());
-    make_headers(zapros);
+    check_location(zapros, servers);
+    if (_code == 200)
+    {
+        c.execute_cgi(zapros, _file_path);
+        resetValues(zapros);
+        _code = std::atoi(zapros.getStatus().c_str());
+        make_headers(zapros);
+    }
 }
 
 void Response::choose_method(Request &zapros, std::vector<Server>& servers)
@@ -606,7 +621,7 @@ void Response::choose_method(Request &zapros, std::vector<Server>& servers)
     else if (zapros.getMethod() == "DELETE")
         make_delete_response(zapros, servers);
     else if (zapros.getMethod() == "POST")
-        make_post_response(zapros);
+        make_post_response(zapros, servers);
     else 
         _answer = error_400(zapros.getCurrentServer()._host + ":" + zapros.getCurrentServer().getPort());
 }
